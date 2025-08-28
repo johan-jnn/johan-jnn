@@ -11,3 +11,4 @@ content:
       - name: name
         label: Nom du projet
         required: true
+        type: text
