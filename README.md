@@ -12,7 +12,15 @@
 
 ###
 
-<h1 align="left">👋 Hi there ! Johan's here</h1>
+<!-- The following is used only to remove the line to the h1 -->
+<!-- https://github.com/orgs/community/discussions/132530#discussioncomment-10267871 -->
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>👋 Hi there ! Johan's here</h1>
+    </summary>
+  </ul>
+</div>
 
 ###
 
@@ -126,5 +134,3 @@
 </div>
 
 ###
-
-<style>h1{border:none;}</style>
