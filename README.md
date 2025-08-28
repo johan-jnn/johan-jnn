@@ -12,7 +12,15 @@
 
 ###
 
-<h1 align="center">👋 Hi there ! Johan's here</h1>
+<!-- The following is used only to remove the line to the h1 -->
+<!-- https://github.com/orgs/community/discussions/132530#discussioncomment-10267871 -->
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>👋 Hi there ! Johan's here</h1>
+    </summary>
+  </ul>
+</div>
 
 ###
 
@@ -80,7 +88,7 @@
 
 ###
 
-<p align="left">Currently, I'm working on the v2 of my programming language : Flylang.<br>I already created one partialy-full featured version, but using NodeJS. So the perfomances where not that great.<br>Recently I learned Rust and I though it was a really good opportunity to recreate my dream programming language.<br><br>More information about the language on my portfolio !</p>
+<p align="left">Currently, I'm working on the v2 of my programming language : Flylang.<br>I already created one partialy-full featured version, but using NodeJS. So the perfomances where not that great.<br>Recently I learned Rust and I though it was a really good opportunity to recreate my dream programming language.<br><br>More information about the language <a href="https://johan-janin.com/portfolio?open=flylang">on my portfolio</a> !</p>
 
 ###
 
@@ -96,7 +104,7 @@
 
 ###
 
-<p align="left">If you want to discover my work, feel free to visit my repositories, my portfolio or my social networks below :</p>
+<p align="left">If you want to discover my work, feel free to visit <a href="https://github.com/johan-jnn?tab=repositories">my repositories</a>, <a href="https://johan-janin.com/">my portfolio</a> or my social networks below :</p>
 
 ###
 
