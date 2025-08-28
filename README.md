@@ -12,7 +12,7 @@
 
 ###
 
-<h1 align="left" style="border:none;">👋 Hi there ! Johan's here</h1>
+<h1 align="left">👋 Hi there ! Johan's here</h1>
 
 ###
 
@@ -126,3 +126,5 @@
 </div>
 
 ###
+
+<style>h1{border:none;}</style>
