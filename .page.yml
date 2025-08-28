@@ -1,0 +1,13 @@
+media:
+  input: static/media
+  output: /media
+
+content:
+  - name: projects
+    label: Projets
+    type: collection
+    path: static/projects
+    fields:
+      - name: name
+        label: Nom du projet
+        required: true
