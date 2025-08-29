@@ -8,7 +8,7 @@
 
 ###
 
-<img align="left" height="200" src="https://johan-janin.com/logo.svg"  />
+<img align="center" height="200" src="https://johan-janin.com/logo.svg"  />
 
 ###
 
