@@ -26,8 +26,7 @@ export const GET: RequestHandler = async ({ url, setHeaders }) => {
   const secondary = url.searchParams.get("secondary") ?? "--black";
   const background = url.searchParams.get("background") ?? "transparent";
   const shield =
-    (shieldType === "shielded" ? url.searchParams.get("shield") : null) ??
-    "transparent";
+    shieldType === "shielded" ? url.searchParams.get("shield") ?? "--primary" : "transparent";
 
   const variables: { [key: string]: string } = {
     vb: viewBoxes[shieldType][borderType],

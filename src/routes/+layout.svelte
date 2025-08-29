@@ -13,10 +13,10 @@
   let scroll_wrapper = $state<HTMLDivElement>();
 
   onMount(() => {
-    ScrollSmoother.create({
-      wrapper: scroll_wrapper,
-      content: scroll_content,
-    });
+    // ScrollSmoother.create({
+    //   wrapper: scroll_wrapper,
+    //   content: scroll_content,
+    // });
   });
 </script>
 
