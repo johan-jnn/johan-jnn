@@ -1,6 +1,6 @@
 media:
   input: static/media
-  output: /media
+  output: /content/media
 
 content:
   - name: projects
