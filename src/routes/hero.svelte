@@ -1,55 +1,34 @@
 <script lang="ts">
-  import { gsap } from "gsap";
-  import { onMount } from "svelte";
-
-  let hero = $state<HTMLElement>();
-  onMount(async () => {
-    if (!hero) throw new Error("No hero element found.");
-
-    // Hero exit animation
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: hero,
-          start: "0 0",
-          end: "+=500",
-          scrub: 0.75,
-          pin: true,
-          fastScrollEnd: true,
-        },
-      })
-      .to(hero.querySelector("&>div"), {
-        borderRadius: 0,
-      })
-      .to(
-        hero,
-        {
-          padding: 0,
-        },
-        "<"
-      )
-      .to(
-        hero.querySelectorAll("&>div *"),
-        {
-          opacity: 0,
-        },
-        "<"
-      );
-
-    // What do I do
-  });
+  import Number from "$lib/components/showoff/number.svelte";
 </script>
 
-<section
-  class="h-svh grid place-content-center px-14 py-18 grid-cols-1 grid-rows-1"
-  bind:this={hero}
->
-  <div
-    class="rounded-[75px] bg-secondary h-full w-full flex justify-center flex-col p-[4vw]"
-  >
-    <h1 class="font-heading text-[5vw] font-medium">
-      Meet a full-stack developper
-    </h1>
-    <p class="text-[2vw]">And way more !</p>
+<section class="grid grid-cols-2 h-screen p-18 grid-rows-1">
+  <div class="flex flex-col justify-between">
+    <ul class="grid grid-cols-2 grid-rows-2 gap-18 w-full">
+      <li>
+        <Number number={35} context="projects" />
+      </li>
+      <li>
+        <Number number={20} context="known languages" />
+      </li>
+      <li>
+        <Number number={85} context="recommendations" />
+      </li>
+      <li>
+        <Number number={6} context="years as a dev" />
+      </li>
+    </ul>
+    <div>
+      <h1 class="font-heading font-semibold text-[8vw]">
+        Meet a <span class="block font-core text-[4vw] font-medium"
+          >Full-Stack developper</span
+        >
+      </h1>
+    </div>
   </div>
+  <img
+    src="/img/me.png"
+    alt="Myself"
+    class="h-full place-self-center object-contain"
+  />
 </section>

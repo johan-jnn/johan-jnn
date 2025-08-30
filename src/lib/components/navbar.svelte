@@ -11,11 +11,14 @@
   } = $props();
 </script>
 
-<header class="sticky top-0 left-0 w-full h-18 grid grid-cols-3">
-  <img
-    src="/api/logo/random?background=transparent&with-gap=no&with-shield=yes"
-    alt="Mon logo"
-  />
+<header class="fixed top-0 left-0 w-full h-18 grid grid-cols-3 grid-rows-1 p-4">
+  <a href="/">
+    <img
+      src="/api/logo/random?background=transparent&with-gap=no&with-shield=no"
+      alt="Mon logo"
+      class="h-full aspect-square"
+    />
+  </a>
   <nav>
     <ul>
       {#each Object.entries(navitems) as [label, location]}

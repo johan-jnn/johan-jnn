@@ -1,13 +1,26 @@
 <script lang="ts">
   import { gsap } from "gsap";
-  import { ScrollSmoother, ScrollTrigger } from "gsap/all";
+  import {
+    Draggable,
+    InertiaPlugin,
+    ScrollSmoother,
+    ScrollTrigger,
+    TextPlugin,
+  } from "gsap/all";
 
   import { onMount } from "svelte";
   import "../app.css";
+  import Navbar from "$lib/components/navbar.svelte";
 
   let { children } = $props();
 
-  gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
+  gsap.registerPlugin(
+    ScrollSmoother,
+    ScrollTrigger,
+    TextPlugin,
+    Draggable,
+    InertiaPlugin
+  );
 
   let scroll_content = $state<HTMLDivElement>();
   let scroll_wrapper = $state<HTMLDivElement>();
