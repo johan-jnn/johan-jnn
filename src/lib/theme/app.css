@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin '@tailwindcss/typography';
+@import "./components/_main.css";
 
 /* https://www.fontshare.com/fonts/synonym */
 @font-face {
@@ -19,7 +20,7 @@
   font-style: normal;
 }
 
-@theme {
+@theme static {
   --font-heading: "Chillax", "sans-serif";
   --font-core: "Synonym", "sans-serif";
 

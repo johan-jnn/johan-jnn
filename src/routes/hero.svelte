@@ -4,7 +4,7 @@
 
 <section class="grid grid-cols-2 h-screen p-18 grid-rows-1">
   <div class="flex flex-col justify-between">
-    <ul class="grid grid-cols-2 grid-rows-2 gap-18 w-full">
+    <ul class="grid grid-cols-2 grid-rows-2 gap-18 my-auto">
       <li>
         <Number number={35} context="projects" />
       </li>

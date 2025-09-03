@@ -24,11 +24,11 @@
 </script>
 
 <div
-  class="rounded-3xl p-6 pt-4 gap-4 grid grid-rows-[auto_1fr] size-full {validBackgrounds[
+  class="rounded-3xl p-6 pt-4 gap-4 grid grid-rows-[auto_1fr] size-full group {validBackgrounds[
     Math.floor(Math.random() * validBackgrounds.length)
   ]}"
 >
-  <h3 class="text-center font-heading font-semibold text-2xl text-white">
+  <h3 class="text-center font-heading font-semibold text-2xl group-hover:underline decoration-wavy text-white">
     {category.name}
   </h3>
   <div class="rounded-xl border-white border-1 p-4">
