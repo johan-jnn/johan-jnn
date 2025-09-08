@@ -24,14 +24,20 @@
 </script>
 
 <div
-  class="rounded-3xl p-6 pt-4 gap-4 grid grid-rows-[auto_1fr] size-full group {validBackgrounds[
-    Math.floor(Math.random() * validBackgrounds.length)
-  ]}"
+  class="rounded-3xl p-6 pt-4 gap-4 grid grid-rows-[auto_1fr] size-full group {category.color ??
+    validBackgrounds[
+      Math.floor(Math.random() * validBackgrounds.length)
+    ]} {revealChildren
+    ? 'bg-[url(https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGhmYzdoaGJ5ODR0d3FvaWQ3c25wZ3lkcnFsdzRkM2d2NmM5bHN5MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/57Y7JIqvH9okJCJYjp/giphy.gif)]'
+    : ''} bg-center bg-cover"
+  id={category.name}
 >
-  <h3 class="text-center font-heading font-semibold text-2xl group-hover:underline decoration-wavy text-white">
+  <h3
+    class="text-center font-heading font-semibold text-2xl group-hover:underline decoration-wavy text-white"
+  >
     {category.name}
   </h3>
-  <div class="rounded-xl border-white border-1 p-4">
+  <div class="rounded-xl border-white border-1 p-4 backdrop-blur-sm">
     {#if revealChildren && children}
       <div transition:fade>
         {@render children()}
@@ -56,7 +62,7 @@
               );
             }}
           >
-            <Icon {icon} height={24} />
+            <Icon {icon} height="clamp(12px, 1.5vw, 24px)" />
           </li>
         {/each}
       </ul>

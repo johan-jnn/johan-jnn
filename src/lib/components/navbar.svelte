@@ -14,7 +14,7 @@
 </script>
 
 <header
-  class="fixed top-0 left-0 w-full grid grid-cols-3 grid-rows-1 p-6 items-center backdrop-blur-xl z-60"
+  class="fixed top-0 left-0 w-full grid grid-cols-3 grid-rows-1 p-6 items-center backdrop-blur-xl z-60 [[data-scroll-dir='1']_*]:not-[[data-scroll-progress='0']_*]:not-hover:-translate-y-full transition-transform"
 >
   <a href="/" class="h-full">
     <img
@@ -30,7 +30,8 @@
           <a
             href={location.url}
             target={location.target}
-            class="uppercase font-medium text-xl hover:text-primary hover:underline decoration-wavy transition">{label}</a
+            class="uppercase font-medium text-xl hover:text-primary hover:underline decoration-wavy transition"
+            >{label}</a
           >
         </li>
       {/each}

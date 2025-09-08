@@ -36,11 +36,4 @@ export const SkillCategories: ComponentProps<typeof SkillCategory>[] = [
     revealChildren: false,
     stacks: ["devicon:docker", "devicon:githubactions", "devicon:git"],
   },
-  {
-    category: {
-      name: "Deployment & CI/CD",
-    },
-    revealChildren: false,
-    stacks: ["devicon:docker", "devicon:githubactions", "devicon:git"],
-  },
 ];

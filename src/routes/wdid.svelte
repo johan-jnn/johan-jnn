@@ -1,9 +1,21 @@
 <script lang="ts">
   import SkillCategory from "$lib/components/skillCategory.svelte";
   import { SkillCategories } from "$lib/data/skills";
-  import { onMount, type ComponentProps } from "svelte";
+  import { onMount } from "svelte";
 
   let puzzleContainer: HTMLUListElement;
+
+  const validBackgrounds = ["bg-primary", "bg-secondary", "bg-tercary"];
+  const displayedCategories = SkillCategories.map((props, index) => ({
+    ...props,
+    category: {
+      ...props.category,
+      color:
+        props.category.color ??
+        validBackgrounds[Math.floor(Math.random() * validBackgrounds.length)],
+    },
+    original_index: index,
+  })).sort(() => Math.random() - 0.5);
 
   onMount(async () => {
     const { Sortable, Plugins } = await import("@shopify/draggable");
@@ -12,14 +24,27 @@
       draggable: "[data-item]",
       sortAnimation: {
         duration: 200,
-        easingFunction: "ease-out",
+        easingFunction: "ease-in-out",
       },
       swapAnimation: {
-        duration: 100,
+        duration: 200,
         easingFunction: "ease-in-out",
         horizontal: true,
       },
       plugins: [Plugins.SwapAnimation, Plugins.SortAnimation],
+    });
+
+    sortable.on("sortable:stop", () => {
+      const children =
+        sortable.getDraggableElementsForContainer(puzzleContainer);
+
+      displayedCategories.forEach((category, i) => {
+        const { original_index } = category;
+
+        displayedCategories[i].revealChildren =
+          SkillCategories[original_index].category.name ===
+          children[original_index].children[0].id;
+      });
     });
   });
 </script>
@@ -31,14 +56,17 @@
   <h2 class="font-heading font-semibold text-center text-[4vw]">
     What do I do ?
   </h2>
-  <div class="border-black border-2 rounded-4xl p-4 grow">
+  <div class="border-black border-2 rounded-4xl p-4 groqw">
     <ul
-      class="grid grid-cols-4 gap-x-4 gap-y-8 content-start h-full"
+      class="grid grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 gap-x-4 gap-y-8 content-start h-full"
       bind:this={puzzleContainer}
     >
-      {#each SkillCategories as props}
-        <li data-item class="aspect-[3/2]">
-          <svelte:component this={SkillCategory} {...props}></svelte:component>
+      {#each displayedCategories as props (props.category.name)}
+        <li
+          data-item
+          class="min-lg:aspect-[3/2] min-md:max-lg:aspect-[2/3] cursor-grab"
+        >
+          <SkillCategory {...props} />
         </li>
       {/each}
     </ul>
@@ -51,7 +79,10 @@
       opacity: 0;
     }
     :global(.draggable-container--is-dragging) {
-      cursor: move;
+      cursor: grabbing;
+    }
+    :global(.draggable-source--is-dragging) {
+      cursor: grabbing !important;
       z-index: 1;
     }
   }
