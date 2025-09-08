@@ -1,5 +1,5 @@
 media:
-  input: static/media
+  input: static/content/media
   output: /content/media
 
 content:
