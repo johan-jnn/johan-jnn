@@ -8,7 +8,7 @@
 
 ###
 
-<img align="left" height="200" src="https://johan-janin.com/logo.svg"  />
+<img align="center" height="200" src="https://johan-janin.com/logo.svg"  />
 
 ###
 
@@ -17,14 +17,14 @@
 <div id="toc">
   <ul style="list-style: none">
     <summary>
-      <h1>👋 Hi there ! Johan's here</h1>
+      <h1>👋 Hi there ! I'm Johan</h1>
     </summary>
   </ul>
 </div>
 
 ###
 
-<p align="left">Full-stack developer based in Lyon with a love for clean architecture and scalable solutions.<br>I build code that’s not just functional, but understandable and as maintainable as possible.</p>
+<p align="left">Full-stack developer based in Lyon with a love for clean architecture and scalable solutions.<br>I build code that’s not just functional, but understandable and as maintainable as possible. And this for 5+ years !</p>
 
 ###
 
@@ -88,7 +88,7 @@
 
 ###
 
-<p align="left">Currently, I'm working on the v2 of my programming language : Flylang.<br>I already created one partialy-full featured version, but using NodeJS. So the perfomances where not that great.<br>Recently I learned Rust and I though it was a really good opportunity to recreate my dream programming language.<br><br>More information about the language <a href="https://johan-janin.com/portfolio?open=flylang">on my portfolio</a> !</p>
+<p align="left">Currently, I'm working on the <a href="https://github.com/johan-jnn/flylang/">v2 of my programming language : Flylang</a>.<br>I already created one partialy-full featured version, but using NodeJS. So the perfomances where not that great.<br>Recently I learned Rust and I though it was a really good opportunity to recreate my dream programming language.<br><br>More information about the language <a href="https://johan-janin.com/portfolio?open=flylang">on my portfolio</a> !</p>
 
 ###
 

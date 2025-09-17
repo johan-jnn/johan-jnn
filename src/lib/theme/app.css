@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@plugin '@tailwindcss/typography';
+@import "./components/_main.css";
+
+/* https://www.fontshare.com/fonts/synonym */
+@font-face {
+  font-family: "Synonym";
+  src: url("/fonts/Synonym-Variable.woff2") format("woff2");
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* https://www.fontshare.com/fonts/chillax */
+@font-face {
+  font-family: "Chillax";
+  src: url("../fonts/Chillax-Variable.woff2") format("woff2");
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@theme static {
+  --font-heading: "Chillax", "sans-serif";
+  --font-core: "Synonym", "sans-serif";
+
+  --color-primary: #f0b24e;
+  --color-secondary: #00acb4;
+  --color-tercary: #b963e1;
+
+  --color-black: #121212;
+  --color-white: #f5f7f8;
+}
