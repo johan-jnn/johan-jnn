@@ -2,7 +2,7 @@
   import type { IconifyIcon } from "@iconify/svelte";
   import Icon from "@iconify/svelte";
   import { gsap } from "gsap";
-  import type { Snippet } from "svelte";
+  import { type Component, type Snippet } from "svelte";
   import { fade } from "svelte/transition";
 
   const {
@@ -10,14 +10,16 @@
     stacks,
     revealChildren,
     children,
+    wellPlaced,
   }: {
     category: {
       name: string;
       color?: string;
     };
     revealChildren: boolean;
+    wellPlaced: boolean;
     stacks: (string | IconifyIcon)[];
-    children?: Snippet;
+    children?: Snippet | { component: Component };
   } = $props();
 
   const validBackgrounds = ["bg-primary", "bg-secondary", "bg-tercary"];
@@ -27,7 +29,7 @@
   class="rounded-3xl p-6 pt-4 gap-4 grid grid-rows-[auto_1fr] size-full group {category.color ??
     validBackgrounds[
       Math.floor(Math.random() * validBackgrounds.length)
-    ]} {revealChildren
+    ]} {wellPlaced
     ? 'bg-[url(https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGhmYzdoaGJ5ODR0d3FvaWQ3c25wZ3lkcnFsdzRkM2d2NmM5bHN5MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/57Y7JIqvH9okJCJYjp/giphy.gif)]'
     : ''} bg-center bg-cover"
   id={category.name}
@@ -40,7 +42,12 @@
   <div class="rounded-xl border-white border-1 p-4 backdrop-blur-sm">
     {#if revealChildren && children}
       <div transition:fade>
-        {@render children()}
+        {#if "component" in children}
+          {@const C = children.component}
+          <C />
+        {:else}
+          {@render children()}
+        {/if}
       </div>
     {:else}
       <ul class="flex flex-wrap gap-2" transition:fade>

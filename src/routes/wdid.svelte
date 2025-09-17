@@ -1,6 +1,7 @@
 <script lang="ts">
   import SkillCategory from "$lib/components/skillCategory.svelte";
   import { SkillCategories } from "$lib/data/skills";
+  import { gsap } from "gsap";
   import { onMount } from "svelte";
 
   let puzzleContainer: HTMLUListElement;
@@ -15,10 +16,21 @@
         validBackgrounds[Math.floor(Math.random() * validBackgrounds.length)],
     },
     original_index: index,
+    wellPlaced: false,
   })).sort(() => Math.random() - 0.5);
 
   onMount(async () => {
     const { Sortable, Plugins } = await import("@shopify/draggable");
+
+    gsap.from(puzzleContainer.children, {
+      opacity: 0,
+      y: 20,
+      stagger: 0.05,
+      scrollTrigger: {
+        trigger: puzzleContainer,
+        start: "top center",
+      },
+    });
 
     const sortable = new Sortable(puzzleContainer, {
       draggable: "[data-item]",
@@ -41,10 +53,16 @@
       displayedCategories.forEach((category, i) => {
         const { original_index } = category;
 
-        displayedCategories[i].revealChildren =
+        displayedCategories[i].wellPlaced =
           SkillCategories[original_index].category.name ===
           children[original_index].children[0].id;
       });
+
+      const reveal = !displayedCategories.find((cat) => !cat.wellPlaced);
+      displayedCategories.forEach(
+        (category) => (category.revealChildren = reveal)
+      );
+      if (reveal) sortable.destroy();
     });
   });
 </script>
@@ -58,14 +76,11 @@
   </h2>
   <div class="border-black border-2 rounded-4xl p-4 groqw">
     <ul
-      class="grid grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 gap-x-4 gap-y-8 content-start h-full"
+      class="grid grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-x-4 gap-y-8 content-start h-full"
       bind:this={puzzleContainer}
     >
       {#each displayedCategories as props (props.category.name)}
-        <li
-          data-item
-          class="min-lg:aspect-[3/2] min-md:max-lg:aspect-[2/3] cursor-grab"
-        >
+        <li data-item class=" min-md:max-lg:aspect-[2/3] cursor-grab">
           <SkillCategory {...props} />
         </li>
       {/each}

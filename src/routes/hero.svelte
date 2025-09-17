@@ -2,7 +2,9 @@
   import Number from "$lib/components/showoff/number.svelte";
 </script>
 
-<section class="grid grid-cols-2 h-screen p-18 grid-rows-1">
+<section
+  class="grid grid-cols-2 max-md:flex flex-col-reverse h-screen p-18 grid-rows-1"
+>
   <div class="flex flex-col justify-between">
     <ul class="grid grid-cols-2 grid-rows-2 gap-18 my-auto">
       <li>
@@ -18,7 +20,7 @@
         <Number number={6} context="years as a dev" />
       </li>
     </ul>
-    <div>
+    <div class="max-md:mt-4">
       <h1 class="font-heading font-semibold text-[8vw]">
         Meet a <span class="block font-core text-[4vw] font-medium"
           >Full-Stack developper</span
