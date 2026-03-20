@@ -1,5 +1,6 @@
 media:
   - name: projects-images
+    label: Media des projets
     input: public/content/projects
     output: /content/projects
 
@@ -26,6 +27,10 @@ content:
         label: Tags (l'ordre importe)
         required: false
         list: true
+        type: string
+        options:
+          minlength: 3
+          maxlength: 20
 
       - name: poster
         label: Image grand-format

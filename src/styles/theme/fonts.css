@@ -1,0 +1,18 @@
+@theme {
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: var(--font-body);
+
+  --default-font-family: var(--font-body);
+}
+
+@layer base {
+  :root {
+    /*
+    * MIN. : 1024px -> 16px;
+    * BASE : 1280px -> 20px;
+    * MAX. : 2304px -> 36px;
+    */
+    font-size: clamp(1rem, 0rem + 1.5625vw, 2.25rem);
+  }
+}
