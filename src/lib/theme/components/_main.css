@@ -1,7 +1,0 @@
-@utility theme-* {
-  --theme: --value(--color-*);
-}
-
-@layer components {
-  @import "./buttons.css";
-}

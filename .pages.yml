@@ -1,14 +1,38 @@
 media:
-  input: static/content/media
-  output: /content/media
+  - name: projects-images
+    input: public/content/projects
+    output: /content/projects
 
 content:
   - name: projects
     label: Projets
     type: collection
-    path: static/projects
+    path: src/data/content/projects
+    format: json-frontmatter
     fields:
-      - name: name
-        label: Nom du projet
+      - name: cover
+        label: Image illustrative
         required: true
-        type: text
+        type: image
+        options:
+          path: covers
+      - name: title
+        label: Nom
+        required: true
+      - name: description
+        label: Résumé
+        required: true
+      - name: tags
+        label: Tags (l'ordre importe)
+        required: false
+        list: true
+
+      - name: poster
+        label: Image grand-format
+        required: false
+        type: image
+        options:
+          path: posters
+      - name: body
+        label: Présentation
+        type: rich-text
