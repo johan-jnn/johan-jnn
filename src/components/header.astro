@@ -7,7 +7,6 @@ interface Props {
   title?: string
 }
 const {title} = Astro.props;
-const nav = new AstroSlot(Astro.slots, 'nav');
 ---
 
 <SvelteHeader {title}>

@@ -1,9 +1,4 @@
 <script module lang="ts">
-  export interface NavigationItem {
-    label: string;
-    url: string | URL;
-    target?: HTMLAttributeAnchorTarget;
-  }
   export function getDefaultNavItems(): NavigationItem[] {
     return [
       {
@@ -23,16 +18,19 @@
 </script>
 
 <script lang="ts">
-  import type { HTMLAttributeAnchorTarget } from "svelte/elements";
+  import type { NavigationItem } from "./nav-item.svelte";
+  import NavItem from "./nav-item.svelte";
 
   const {
     items = getDefaultNavItems(),
+    currentUrl,
   }: {
     /**
      * The items of the navbar.
      * Set this to `undefined` to retreive the default navigation items.
      */
     items?: NavigationItem[];
+    currentUrl?: URL;
   } = $props();
 </script>
 
@@ -40,7 +38,14 @@
   <ul class="flex items-center justify-center gap-2">
     {#each items as item (item.url)}
       <li>
-        <a target={item.target} href={item.url.toString()}>{item.label}</a>
+        <NavItem
+          {...item}
+          selected={item.selected ??
+            (currentUrl
+              ? new URL(item.url, currentUrl).toString() ===
+                currentUrl?.toString()
+              : undefined)}
+        />
       </li>
     {/each}
   </ul>

@@ -6,7 +6,7 @@
   .neo-shadow {
     @apply ring-black dark:ring-white rounded-none;
     box-shadow: calc(var(--neo-shadow-size, var(--spacing)) * 3) 0 0
-      var(--neo-shadow-size, var(--spacing)) white;
+      var(--neo-shadow-size, var(--spacing)) var(--tw-ring-color);
   }
 
   .neo-shadow--before,

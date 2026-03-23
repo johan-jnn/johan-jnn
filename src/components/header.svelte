@@ -10,12 +10,11 @@
     nav: Snippet;
     children?: Snippet;
   } = $props();
-  $inspect(children);
 </script>
 
 <header
-  class="neo-shadow fixed top-0 left-0 w-full px-4 py-2 z-50 bg-white dark:bg-black grid {children
-    ? 'grid-cols-3'
+  class="neo-shadow fixed top-0 left-0 w-full px-8 py-4 z-50 border-black border-b-2 bg-white dark:bg-black grid {children
+    ? 'grid-cols-[1fr_auto_1fr]'
     : 'grid-cols-2'}"
 >
   <p class="font-heading uppercase">{title}</p>
