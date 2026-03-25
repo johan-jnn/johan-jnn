@@ -1,20 +1,29 @@
 @utility neo-shadow-* {
-  --neo-shadow-size: calc(var(--spacing) * --value(integer));
+  --neo-shadow-size: --value(integer);
+  --neo-shadow-color: --value(--color-*);
 }
 
 @layer components {
+  .neo-shadow,
+  .neo-shadow--after,
+  .neo-shadow--before {
+    --neo-shadow-shift: calc(var(--neo-shadow-size, 1) * var(--spacing));
+  }
+
   .neo-shadow {
-    @apply ring-black dark:ring-white rounded-none;
-    box-shadow: calc(var(--neo-shadow-size, var(--spacing)) * 3) 0 0
-      var(--neo-shadow-size, var(--spacing)) var(--tw-ring-color);
+    @apply rounded-none;
+    box-shadow: var(--neo-shadow-shift) var(--neo-shadow-shift) 0 0
+      var(--neo-shadow-color, var(--tw-ring-color));
   }
 
   .neo-shadow--before,
   .neo-shadow--after {
-    @apply relative;
+    @apply relative rounded-none;
   }
   .neo-shadow--before::before,
   .neo-shadow--after::after {
-    @apply absolute top-5/100 left-5/100 size-full bg-black dark:bg-white;
+    @apply content-[''] -z-1;
+    @apply absolute size-full top-(--neo-shadow-shift) left-(--neo-shadow-shift);
+    @apply bg-(--neo-shadow-color);
   }
 }

@@ -13,7 +13,7 @@
 </script>
 
 <header
-  class="neo-shadow fixed top-0 left-0 w-full px-8 py-4 z-50 border-black border-b-2 bg-white dark:bg-black grid {children
+  class="neo-shadow neo-shadow-black fixed top-0 left-0 w-full px-8 py-4 z-50 border-black border-b-2 bg-white dark:bg-black grid {children
     ? 'grid-cols-[1fr_auto_1fr]'
     : 'grid-cols-2'}"
 >

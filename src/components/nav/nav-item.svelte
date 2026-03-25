@@ -15,7 +15,7 @@
 
 <a
   class={{
-    "px-2 text-sm uppercase": true,
+    "px-2 text-xs uppercase": true,
     "border-primary border-b-3 text-primary brightness-70": selected,
   }}
   {target}
