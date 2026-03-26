@@ -1,0 +1,11 @@
+@theme {
+  --color-primary-100: #fff5e6;
+  --color-primary-200: #ffe8cc;
+  --color-primary-300: #ffd199;
+  --color-primary-400: #ffb466;
+  --color-primary-500: #ff7f11; /* Base */
+  --color-primary-600: #cc660d;
+  --color-primary-700: #994c0a;
+  --color-primary-800: #663306;
+  --color-primary-900: #331903;
+}

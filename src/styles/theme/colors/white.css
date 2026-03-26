@@ -1,0 +1,11 @@
+@theme {
+  --color-white-100: #ffffff;
+  --color-white-200: #ffffff;
+  --color-white-300: #ffffff;
+  --color-white-400: #fefefe;
+  --color-white-500: #fcfcfc; /* Base */
+  --color-white-600: #e3e3e3;
+  --color-white-700: #c9c9c9;
+  --color-white-800: #b0b0b0;
+  --color-white-900: #969696;
+}

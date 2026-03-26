@@ -16,7 +16,7 @@
   class={[
     "neo-shadow neo-shadow-black dark:neo-shadow-white",
     "border-b-2 border-black dark:border-white bg-white dark:bg-black",
-    "fixed top-0 left-0 w-full px-8 py-4 z-50",
+    "sticky top-0 left-0 w-full px-8 py-4 z-50",
     "grid items-center grid-cols-[1fr_auto_1fr]",
   ]}
 >

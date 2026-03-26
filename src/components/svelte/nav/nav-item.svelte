@@ -15,9 +15,9 @@
 
 <a
   class={{
-    "px-2 py-1 uppercase ": true,
-    "border-primary border-b-3 text-primary": selected,
-    "border-transparent hover:border-primary border-b-2 transition-[border-color]":
+    "px-2 py-1 uppercase font-bold": true,
+    "border-primary-700 border-b-3 text-primary-700": selected,
+    "border-transparent hover:border-primary-600 border-b-2 transition-[border-color]":
       !selected,
   }}
   {target}
