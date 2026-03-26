@@ -9,10 +9,6 @@
         label: "Blog",
         url: "/blog",
       },
-      {
-        label: "Me contacter",
-        url: "/contact",
-      },
     ];
   }
 </script>

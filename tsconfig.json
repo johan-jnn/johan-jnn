@@ -1,5 +1,19 @@
 {
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "paths": {
+      "$src/*": ["./src/*"],
+
+      "$data/*": ["./src/data/*"],
+      "$utils/*": ["./src/utils/*"],
+
+      "$pages/*": ["./src/pages/*"],
+      "$layouts/*": ["./src/layouts/*"],
+
+      "$svelte/*": ["./src/components/svelte/*"],
+      "$astro/*": ["./src/components/astro/*"]
+    }
+  }
 }

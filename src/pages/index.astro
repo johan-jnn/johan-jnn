@@ -1,6 +1,29 @@
 ---
-import Page from "../layouts/pages/default.astro";
+import Page from "$layouts/pages/default.astro";
+import Button from "$svelte/button.svelte";
+
+import Hero from "$svelte/heros/index.svelte";
 ---
 
-<Page title="Johan JANIN - Développeur Full-Stack" description="Johan JANIN : développeur web Full-Stack basé à Lyon, France.">
+<Page
+  title="Johan JANIN - Développeur Full-Stack"
+  description="Johan JANIN : développeur web Full-Stack basé à Lyon, France."
+>
+  <ul class="flex items-center justify-end gap-2" slot="header-extra">
+    <li>
+      <Button
+        level="primary"
+        action={{
+          url: "/contact",
+        }}
+      >
+        Me contacter
+      </Button>
+    </li>
+  </ul>
+
+  <header>
+    <Hero />
+  </header>
+  <main></main>
 </Page>

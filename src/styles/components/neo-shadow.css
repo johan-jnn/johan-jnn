@@ -4,10 +4,12 @@
 }
 
 @layer components {
-  .neo-shadow,
+  .neo-shadow {
+    --neo-shadow-shift: calc(var(--neo-shadow-size, 1) * var(--spacing));
+  }
   .neo-shadow--after,
   .neo-shadow--before {
-    --neo-shadow-shift: calc(var(--neo-shadow-size, 1) * var(--spacing));
+    --neo-shadow-shift: calc(var(--neo-shadow-size, 1) * var(--spacing) * 1.25);
   }
 
   .neo-shadow {

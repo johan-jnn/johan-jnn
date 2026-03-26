@@ -9,14 +9,16 @@
   }
 </script>
 
-<script>
+<script lang="ts">
   const { target, url, label, selected }: NavigationItem = $props();
 </script>
 
 <a
   class={{
-    "px-2 text-xs uppercase": true,
-    "border-primary border-b-3 text-primary brightness-70": selected,
+    "px-2 py-1 uppercase ": true,
+    "border-primary border-b-3 text-primary": selected,
+    "border-transparent hover:border-primary border-b-2 transition-[border-color]":
+      !selected,
   }}
   {target}
   href={url.toString()}

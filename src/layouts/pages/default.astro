@@ -1,44 +1,56 @@
 ---
-import Header from "../../components/header.astro";
-import Style from "../../styles/style.astro";
-import Html from "../html.astro";
+import Header from "$astro/header.astro";
+import Html from "$layouts/html.astro";
+import Style from "$src/styles/style.astro";
 
 interface Props {
   title: string;
   description: string;
+  lang?: string;
 
-  lang?: string
+  without_defaults?: {
+    header?: boolean;
+    footer?: boolean;
+    head?: boolean;
+  };
 }
 
-const {props} = Astro;
+const { props } = Astro;
 ---
 
 <Html lang={props.lang}>
   <Fragment slot="head">
-    <Style/>
-    <title>{props.title}</title>
-    <meta name="description" content={props.description}/>
+    {!props.without_defaults?.head && (
+      <Style />
+      <title>{props.title}</title>
+      <meta name="description" content={props.description} />
+    )}
 
-    <slot name="head"/>
+    <slot name="head" />
   </Fragment>
 
   <Fragment slot="body-top">
-    <Header>
-      <slot name="header-nav" slot="nav"/>
-      <slot name="header-extra"/>
-    </Header>
+    {
+      props.without_defaults?.header
+      ? <slot name="header"/>
+      : (
+      <Header>
+        <slot name="header-nav" slot="nav" />
+        <slot name="header-extra" />
+      </Header>
+      )
+    }
 
-    <slot name="body-top"/>
+    <slot name="body-top" />
   </Fragment>
-  
-  
+
   <main>
-    <slot name="before-content"/>
-    <slot/>
-    <slot name="after-content"/>
+    <slot name="before-content" />
+    <slot />
+    <slot name="after-content" />
   </main>
 
   <Fragment slot="body-bottom">
-    <slot name="body-bottom"/>
+    <slot name="body-bottom" />
   </Fragment>
 </Html>
