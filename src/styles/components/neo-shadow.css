@@ -28,4 +28,8 @@
     @apply absolute size-full top-(--neo-shadow-shift) left-(--neo-shadow-shift);
     @apply bg-(--neo-shadow-color);
   }
+
+  .neo-shadow--push {
+    @apply -translate-(--neo-shadow-shift);
+  }
 }

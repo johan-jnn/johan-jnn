@@ -10,16 +10,8 @@ const { title } = Astro.props;
 ---
 
 <SvelteHeader {title}>
-  {
-    (await new AstroSlot(Astro.slots, "nav").filled()) ? (
-      <slot name="nav" slot="nav" />
-    ) : (
-      <Nav slot="nav" />
-    )
-  }
-  {
-    (await new AstroSlot(Astro.slots, "default").filled()) ? (
-      <slot />
-    ) : undefined
-  }
+  <slot name="nav" slot="nav">
+    <Nav />
+  </slot>
+  <slot slot={new AstroSlot(Astro.slots, "default").existTernary("default")} />
 </SvelteHeader>

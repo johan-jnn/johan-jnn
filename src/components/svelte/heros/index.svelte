@@ -1,10 +1,13 @@
 <script lang="ts">
   import Button from "$svelte/button.svelte";
+  import Music from "../spinners/music.svelte";
 
-  const title_parts = ["Johan JANIN //", "Architecture", "Digitale"];
+  const title_parts = ["Johan JANIN //", "Architecte", "Digital"];
 </script>
 
-<div class="h-full grid grid-cols-[auto_1fr] items-center px-12 py-18 border-b-black border-b-2">
+<div
+  class="h-full grid grid-cols-[60%_1fr] items-center px-12 py-18 border-b-black border-b-2"
+>
   <section class="grid tracking-wider gap-12">
     <p class="uppercase font-heading text-primary-700 text-xs" data-location>
       Lyon / 45.7640° N, 4.8357° E
@@ -52,7 +55,11 @@
       </Button>
     </div>
   </section>
-  <section></section>
+  <section class="flex justify-center items-center w-full h-full">
+    <div class="h-40/100">
+      <Music />
+    </div>
+  </section>
 </div>
 
 <style>

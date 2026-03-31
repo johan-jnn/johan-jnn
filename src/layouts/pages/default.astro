@@ -2,6 +2,7 @@
 import Header from "$astro/header.astro";
 import Html from "$layouts/html.astro";
 import Style from "$src/styles/style.astro";
+import { AstroSlot } from "$src/utils/astro/slots";
 
 interface Props {
   title: string;
@@ -15,15 +16,15 @@ interface Props {
   };
 }
 
-const { props } = Astro;
+const { lang, title, description, without_defaults } = Astro.props;
 ---
 
-<Html lang={props.lang}>
+<Html {lang}>
   <Fragment slot="head">
-    {!props.without_defaults?.head && (
+    {!without_defaults?.head && (
       <Style />
-      <title>{props.title}</title>
-      <meta name="description" content={props.description} />
+      <title>{title}</title>
+      <meta name="description" content={description} />
     )}
 
     <slot name="head" />
@@ -31,12 +32,12 @@ const { props } = Astro;
 
   <Fragment slot="body-top">
     {
-      props.without_defaults?.header
+      without_defaults?.header
       ? <slot name="header"/>
       : (
       <Header>
-        <slot name="header-nav" slot="nav" />
-        <slot name="header-extra" />
+        <slot name="header-nav" slot={new AstroSlot(Astro.slots, "header-nav").existTernary("nav")} />
+        <slot name="header-extra" slot={new AstroSlot(Astro.slots, "header-extra").existTernary("default")} />
       </Header>
       )
     }

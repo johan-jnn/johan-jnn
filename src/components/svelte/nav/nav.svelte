@@ -11,6 +11,12 @@
       },
     ];
   }
+
+  export enum JustifyNav {
+    Left = "justify-start",
+    Center = "justify-center",
+    Right = "justify-end",
+  }
 </script>
 
 <script lang="ts">
@@ -20,6 +26,7 @@
   const {
     items = getDefaultNavItems(),
     currentUrl,
+    justify = JustifyNav.Center,
   }: {
     /**
      * The items of the navbar.
@@ -27,11 +34,12 @@
      */
     items?: NavigationItem[];
     currentUrl?: URL;
+    justify?: JustifyNav;
   } = $props();
 </script>
 
 <nav>
-  <ul class="flex items-center justify-center gap-2">
+  <ul class="flex items-center {justify} gap-2">
     {#each items as item (item.url)}
       <li>
         <NavItem
