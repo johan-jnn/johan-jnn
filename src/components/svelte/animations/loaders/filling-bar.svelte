@@ -12,38 +12,50 @@
 
 <svg
   version="1.1"
-  viewBox="0 0 100 5"
+  viewBox="0 0 150 5"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
 >
   <defs>
+    <mask id="sizer" maskUnits="userSpaceOnUse">
+      <rect
+        width="{100 * fill}%"
+        height="100%"
+        fill={delimiters ? "url(#delimiter_gradient)" : "#fff"}
+      />
+    </mask>
+
     {#if delimiters}
-      {@const delimiters_offset =
-        typeof delimiters === "boolean" ? 10 : delimiters}
-      <mask id="delimiters" maskUnits="userSpaceOnUse">
-        <rect width="100" height="10" style="fill:url(#delimiter_gradient)" />
-      </mask>
+      {@const gradient_size_rate = (() => {
+        const amount = typeof delimiters === "number" ? delimiters : 10;
+
+        const step_size = 1 / amount;
+        const demi_step_size = step_size / 2;
+
+        // We shift by demi-step <amount> times
+        return step_size - demi_step_size / (amount + 1 / 2);
+      })()}
       <linearGradient
         id="delimiter_gradient"
         x1="0"
-        x2={delimiters_offset}
-        y1="5.7315"
-        y2="5.7315"
+        x2="{gradient_size_rate * 100}%"
+        y1="50%"
+        y2="50%"
         gradientUnits="userSpaceOnUse"
         spreadMethod="repeat"
       >
-        <stop style="stop-opacity:0" offset="0" />
-        <stop style="stop-opacity:0" offset=".5" />
         <stop style="stop-color:#fff" offset=".5" />
+        <stop style="stop-opacity:0" offset=".5" />
+        <stop style="stop-opacity:0" offset="0" />
       </linearGradient>
     {/if}
   </defs>
   <g>
     <rect
-      transform="scale({fill} .5)"
-      width="100"
-      height="10"
-      mask={delimiters ? "url(#delimiters)" : null}
+      transform="scale(1 .5)"
+      width="100%"
+      height="100%"
+      mask="url(#sizer)"
       style="fill:{fillColor}"
     />
   </g>

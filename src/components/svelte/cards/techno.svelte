@@ -31,7 +31,7 @@
   style="--theme:{color}"
 >
   <header
-    class="flex items-center justify-between relative after:content-[''] after:top-50/100 after:-translate-y-50/100 after:absolute after:right-0 after:h-80/100 after:aspect-square after:rounded-full after:bg-(--theme)"
+    class="flex items-center justify-between relative pr-8 after:content-[''] after:top-50/100 after:-translate-y-50/100 after:absolute after:right-0 after:h-80/100 after:aspect-square after:rounded-full after:bg-(--theme)"
   >
     <h3 class="text-2xl text-black-400">
       {name}
