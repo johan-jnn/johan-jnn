@@ -1,51 +1,71 @@
+<script lang="ts" module>
+  import type { Techno } from "$types/techno";
+  export interface TechnoProps extends Techno {
+    color: string;
+    children?: Snippet;
+  }
+</script>
+
 <script lang="ts">
+  import "devicon/devicon.min.css";
   import moment from "moment";
   import type { Snippet } from "svelte";
 
   const {
     name,
     color,
-    animation,
-    presentation,
+    icon,
+    children,
+    description,
     used_since,
-  }: {
-    name: string;
-    color: string;
-
-    presentation?: string;
-    used_since?: Date;
-
-    animation?: Snippet<
-      [
-        {
-          color: string;
-          state: number;
-        },
-      ]
-    >;
-  } = $props();
+    website,
+  }: TechnoProps = $props();
 </script>
 
 <article
-  class="border-3 border-black neo-shadow-black neo-shadow p-4 font-heading uppercase font-bold"
+  class="border-3 group border-black dark:border-white neo-shadow-black dark:neo-shadow-white neo-shadow p-4 font-heading uppercase font-bold min-w-[20svw]"
   style="--theme:{color}"
 >
-  <header
-    class="flex items-center justify-between relative pr-8 after:content-[''] after:top-50/100 after:-translate-y-50/100 after:absolute after:right-0 after:h-80/100 after:aspect-square after:rounded-full after:bg-(--theme)"
-  >
-    <h3 class="text-2xl text-black-400">
+  <!-- after:content-[''] after:top-50/100 after:-translate-y-50/100 after:absolute after:right-0 after:h-80/100 after:aspect-square after:rounded-full after:bg-(--theme) -->
+  <header class="flex items-center justify-between relative gap-8">
+    <h3 class="text-2xl text-black-400 dark:text-white-600">
       {name}
     </h3>
+
+    <i
+      aria-label="Logo/icon of {name}"
+      class={{
+        "relative bg-(--theme) text-xl flex p-1 h-full aspect-square text-transparent bg-clip-text": true,
+        "after:content-[''] after:transition-opacity after:duration-700 after:absolute after:top-0 after:left-0 after:rounded-full after:size-full after:bg-inherit group-hover:after:opacity-0": true,
+        // Icon
+        [`devicon-${icon}`]: true,
+      }}
+    >
+    </i>
   </header>
   <main>
-    <p>{presentation}</p>
-    {#if animation}
+    <p
+      class="font-sans normal-case italic text-black-300 dark:text-white-700 text-sm mb-8"
+    >
+      {description}
+    </p>
+    {#if children}
       <div>
-        {@render animation({ color, state: 0 })}
+        {@render children()}
       </div>
     {/if}
   </main>
-  <footer>
+  <footer class="text-xs mt-4 flex items-center justify-between">
     <p>Depuis {moment(used_since).locale("fr").fromNow(true)}</p>
+
+    {#if website}
+      <a
+        class="font-sans text-xs lowercase italic font-normal link not-hover:text-black-400 dark:not-hover:text-white-600"
+        href={website}
+        target="_blank"
+      >
+        Site officiel
+      </a>
+    {/if}
   </footer>
 </article>

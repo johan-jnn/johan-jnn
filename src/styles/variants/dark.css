@@ -1,0 +1,10 @@
+@custom-variant dark {
+  &:where([theme="dark"], [theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    & {
+      @slot;
+    }
+  }
+}

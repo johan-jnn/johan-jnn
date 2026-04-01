@@ -1,11 +1,8 @@
 ---
 import Page from "$layouts/pages/default.astro";
-import Button from "$svelte/button.svelte";
-
-import Techno from "$svelte/cards/techno.svelte";
-
 import FillingBar from "$svelte/animations/loaders/filling-bar.svelte";
-
+import Button from "$svelte/button.svelte";
+import Techno from "$svelte/cards/techno.svelte";
 import Hero from "$svelte/heros/index.svelte";
 ---
 
@@ -37,22 +34,50 @@ import Hero from "$svelte/heros/index.svelte";
         <h2 class="text-black-400 text-4xl">Stack</h2>
         <p class="text-xs text-primary-700">Catégorie: préférées</p>
       </div>
-      <ul class="flex items-center">
+      <ul class="flex items-center justify-center py-4 gap-8">
         <li>
           <Techno
             name="Laravel"
+            description="PHP backend framework"
             color="var(--color-secondary)"
             used_since={new Date("2020-02-02")}
+            icon="laravel-original"
+            website="https://laravel.com"
           >
             <FillingBar
-              fill={1}
-              fillColor="blue"
-              slot="animation"
-              delimiters={2}
+              fill={0.75}
+              fillColor="var(--theme)"
+              delimiters={true}
             />
+          </Techno>
+        </li>
+
+        <li>
+          <Techno
+            name="Svelte"
+            description="Javascript full-stack framework"
+            color="var(--color-primary)"
+            used_since={new Date("2018-08-04")}
+            icon="svelte-plain"
+            website="https://svelte.dev"
+          >
+            <FillingBar fill={0.95} fillColor="var(--theme)" />
+          </Techno>
+        </li>
+
+        <li>
+          <Techno
+            name="Rust"
+            description="Pretty easy and fast low-level language"
+            color="var(--color-primary-800)"
+            used_since={new Date("2024-02-02")}
+            icon="rust-original"
+            website="https://rust-lang.org"
+          >
+            <FillingBar fill={0.38} fillColor="var(--theme)" delimiters={25} />
           </Techno>
         </li>
       </ul>
     </section>
-  </main></Page
->
+  </main>
+</Page>
