@@ -8,7 +8,7 @@
 </script>
 
 <div
-  class="h-full grid grid-cols-[60%_1fr] items-center px-12 py-18 border-b-black border-b-2"
+  class="h-full grid grid-cols-[60%_1fr] items-center px-12 py-18"
 >
   <section class="grid tracking-wider gap-12">
     <p class="uppercase font-heading text-primary-700 text-xs" data-location>

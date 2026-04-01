@@ -5,9 +5,12 @@
 @import "./theme/_theme.css";
 @import "./components/_components.css";
 
-
 @layer base {
   body {
     @apply text-black bg-white dark:bg-black dark:text-white font-medium;
+  }
+
+  hr {
+    @apply w-full border border-black dark:border-white my-16;
   }
 }

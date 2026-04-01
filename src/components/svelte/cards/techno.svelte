@@ -1,6 +1,6 @@
 <script lang="ts" module>
   import type { Techno } from "$types/techno";
-  export interface TechnoProps extends Techno {
+  export interface TechnoCardProps extends Techno {
     color: string;
     children?: Snippet;
   }
@@ -19,7 +19,7 @@
     description,
     used_since,
     website,
-  }: TechnoProps = $props();
+  }: TechnoCardProps = $props();
 </script>
 
 <article
