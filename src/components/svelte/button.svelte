@@ -51,7 +51,8 @@
       [additionnalClasses ?? ""]: true,
       "bg-primary text-black/90": level === ButtonLevel.Primary,
       "bg-secondary text-black": level === ButtonLevel.Secondary,
-      "bg-white text-black": level === ButtonLevel.Neutral,
+      "bg-white text-black dark:bg-black dark:text-white":
+        level === ButtonLevel.Neutral,
     }}
   >
     {@render children()}

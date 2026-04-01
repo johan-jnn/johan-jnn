@@ -46,56 +46,14 @@
     />
   </defs>
   <g transform="translate(-.28795 2.7766)">
-    <g style="fill:#dedede" class="levels">
-      <rect
-        x="26.762"
-        y="27.178"
-        width="6.4765"
-        height="2.8222"
-        style="fill:#dedede"
-      />
-      <rect
-        x="18.762"
-        y="22.167"
-        width="6.4765"
-        height="7.8327"
-        style="fill:#dedede"
-      />
-      <rect
-        x="10.762"
-        y="26.084"
-        width="6.4765"
-        height="3.9163"
-        style="fill:#dedede"
-      />
-      <rect
-        x="2.7617"
-        y="24.356"
-        width="6.4765"
-        height="5.6445"
-        style="fill:#dedede"
-      />
-      <rect
-        x="34.762"
-        y="26.084"
-        width="6.4765"
-        height="3.9163"
-        style="fill:#dedede"
-      />
-      <rect
-        x="42.762"
-        y="26.084"
-        width="6.4765"
-        height="3.9163"
-        style="fill:#dedede"
-      />
-      <rect
-        x="50.762"
-        y="28.371"
-        width="6.4765"
-        height="1.6287"
-        style="fill:#dedede"
-      />
+    <g class="levels fill-white-700">
+      <rect x="26.762" y="27.178" width="6.4765" height="2.8222" />
+      <rect x="18.762" y="22.167" width="6.4765" height="7.8327" />
+      <rect x="10.762" y="26.084" width="6.4765" height="3.9163" />
+      <rect x="2.7617" y="24.356" width="6.4765" height="5.6445" />
+      <rect x="34.762" y="26.084" width="6.4765" height="3.9163" />
+      <rect x="42.762" y="26.084" width="6.4765" height="3.9163" />
+      <rect x="50.762" y="28.371" width="6.4765" height="1.6287" />
     </g>
   </g>
   <g>
@@ -103,55 +61,64 @@
       cx="29.998"
       cy="29.997"
       r="22.793"
-      style="fill:none;stroke-dasharray:1.15, 1.2;stroke-width:.4;stroke:#000"
-      class="dashed-circle"
+      style="fill:none;stroke-dasharray:1.15, 1.2;stroke-width:.4"
+      class="dashed-circle stroke-black dark:stroke-white"
     />
     <circle
       cx="30"
       cy="30"
       r="29.739"
-      style="fill:none;stroke-width:.5219;stroke:#000"
+      style="fill:none;stroke-width:.5219;"
+      class="stroke-black dark:stroke-white"
     />
     <circle
       cx="30"
       cy="30"
       r="13.975"
-      style="fill:none;stroke-width:1.7626;stroke:#f38b00"
+      style="fill:none;stroke-width:1.7626"
+      class="stroke-primary"
     />
   </g>
   <g class="radar">
     <g transform="matrix(1.1593 0 0 1.1593 -4.7777 -4.7788)">
-      <circle cx="30" cy="30" r="1.2209" />
+      <circle
+        cx="30"
+        cy="30"
+        r="1.2209"
+        class="fill-black dark:fill-secondary"
+      />
       <g
         transform="matrix(.71835 0 0 .71835 8.4474 8.4494)"
         style="fill-opacity:0;stroke-width:1.0324;stroke:url(#linearGradient8)"
       >
         <g
           transform="rotate(225 30.376 30.435)"
-          style="fill-opacity:0;stroke-width:1.0324;stroke:url(#linearGradient8)"
+          style="fill-opacity:0;stroke-width:1.0324"
+          class="stroke-black dark:stroke-white"
         >
           <path
             d="m31.06 27.171a3.1969 3.1969 0 0 1 3.1969 3.1969"
-            style="fill-opacity:0;stroke-width:1.0324;stroke:url(#linearGradient8)"
+            style="fill-opacity:0;stroke-width:1.0324"
           />
           <path
             transform="rotate(180 30.955 30.472)"
             d="m31.06 27.171a3.1969 3.1969 0 0 1 3.1969 3.1969"
-            style="fill-opacity:0;stroke-width:1.0324;stroke:url(#linearGradient8)"
+            style="fill-opacity:0;stroke-width:1.0324"
           />
         </g>
         <g
           transform="matrix(1.0429 1.0429 -1.0429 1.0429 29.488 -34.064)"
-          style="fill-opacity:0;stroke-width:.69995;stroke:url(#linearGradient8)"
+          style="fill-opacity:0;stroke-width:.69995"
+          class="stroke-black dark:stroke-white"
         >
           <path
             transform="rotate(180 30.955 30.472)"
             d="m31.06 27.171a3.1969 3.1969 0 0 1 3.1969 3.1969"
-            style="fill-opacity:0;stroke-width:.69995;stroke:url(#linearGradient8)"
+            style="fill-opacity:0;stroke-width:.69995"
           />
           <path
             d="m31.06 27.171a3.1969 3.1969 0 0 1 3.1969 3.1969"
-            style="fill-opacity:0;stroke-width:.69995;stroke:url(#linearGradient8)"
+            style="fill-opacity:0;stroke-width:.69995"
           />
         </g>
       </g>
@@ -167,7 +134,7 @@
   $level-steps: (0.35, 0.2, 0.75, 0.7, 1.5, 0.25, 0.5);
   $level-amount: list.length($level-steps);
   $level-randomness: 8;
-  $level-rate-modifier-bounds: (0.15, 1.75);
+  $level-rate-modifier-bounds: (0.45, 1.5);
   $level-speed: calc($duration / 6);
 
   @keyframes rotate {

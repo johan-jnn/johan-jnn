@@ -2,6 +2,10 @@
 import Page from "$layouts/pages/default.astro";
 import Button from "$svelte/button.svelte";
 
+import Techno from "$svelte/cards/techno.svelte";
+
+import FillingBar from "$svelte/animations/loaders/filling-bar.svelte";
+
 import Hero from "$svelte/heros/index.svelte";
 ---
 
@@ -25,5 +29,30 @@ import Hero from "$svelte/heros/index.svelte";
   <header>
     <Hero client:load />
   </header>
-  <main></main>
-</Page>
+  <main class="px-8">
+    <section>
+      <div
+        class="mt-8 mb-4 flex items-center justify-between font-bold font-heading uppercase"
+      >
+        <h2 class="text-black-400 text-4xl">Stack</h2>
+        <p class="text-xs text-primary-700">Catégorie: préférées</p>
+      </div>
+      <ul class="flex items-center">
+        <li>
+          <Techno
+            name="Laravel"
+            color="var(--color-secondary)"
+            used_since={new Date("2020-02-02")}
+          >
+            <FillingBar
+              fill={0.5}
+              fillColor="blue"
+              slot="animation"
+              delimiters={10}
+            />
+          </Techno>
+        </li>
+      </ul>
+    </section>
+  </main></Page
+>

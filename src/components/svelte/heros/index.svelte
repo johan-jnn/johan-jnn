@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { CLOCK_SPEED_INTERVAL } from "$src/stores/clock";
   import Button from "$svelte/button.svelte";
-  import Music from "../spinners/music.svelte";
+  import { get } from "svelte/store";
+  import Music from "../animations/spinners/music.svelte";
 
   const title_parts = ["Johan JANIN //", "Architecte", "Digital"];
 </script>
@@ -57,7 +59,11 @@
   </section>
   <section class="flex justify-center items-center w-full h-full">
     <div class="h-40/100">
-      <Music />
+      <Music
+        animation={{
+          speed: get(CLOCK_SPEED_INTERVAL).ms,
+        }}
+      />
     </div>
   </section>
 </div>
