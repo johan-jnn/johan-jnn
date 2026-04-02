@@ -1,5 +1,6 @@
 ---
 import Page from "$layouts/pages/default.astro";
+import Project from "$src/components/svelte/cards/project.svelte";
 import FillingBar from "$svelte/animations/loaders/filling-bar.svelte";
 import Button from "$svelte/button.svelte";
 import Techno from "$svelte/cards/techno.svelte";
@@ -77,7 +78,29 @@ import Section from "$svelte/sections/simple.svelte";
     </Section>
 
     <Section title="Modules_deployés" important={true}>
-      <ul></ul>
+      <ul class="flex items-stretch justify-center h-[50svh] gap-6 flex-wrap">
+        <li class="h-full">
+          <Project
+            name="Lasido"
+            description="Robot discord musical"
+            category="robot"
+            slug="lasido"
+            tags={["discord", "nodejs", "robot", "automatisation", "musique"]}
+            cover=`https://picsum.photos/700/400?${Math.random()}`
+          />
+        </li>
+
+        <li class="h-full">
+          <Project
+            name="Flylang"
+            description="Mon propre langage de programmation 'Turing complete'"
+            category="algorythmie"
+            slug="lasido"
+            tags={["rust", "low-level", "fs"]}
+            cover=`https://picsum.photos/700/400?${Math.random()}`
+          />
+        </li>
+      </ul>
     </Section>
   </main>
 </Page>

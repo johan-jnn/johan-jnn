@@ -36,7 +36,7 @@
       aria-label="Logo/icon of {name}"
       class={{
         "relative bg-(--theme) text-xl flex p-1 h-full aspect-square text-transparent bg-clip-text": true,
-        "after:content-[''] after:transition-opacity after:duration-700 after:absolute after:top-0 after:left-0 after:rounded-full after:size-full after:bg-inherit group-hover:after:opacity-0": true,
+        "after:content-[''] after:transition-opacity after:duration-400 after:ease-in-out after:absolute after:top-0 after:left-0 after:rounded-full after:size-full after:bg-inherit group-hover:after:opacity-0": true,
         // Icon
         [`devicon-${icon}`]: true,
       }}

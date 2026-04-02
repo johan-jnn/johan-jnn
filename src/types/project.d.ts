@@ -4,6 +4,7 @@ export interface ProjectOverview {
   category: string;
   tags: string[];
   cover: string;
+  slug: string;
 }
 
 export interface Project extends ProjectOverview {

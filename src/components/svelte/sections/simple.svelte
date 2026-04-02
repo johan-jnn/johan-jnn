@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type { Snippet } from "@astrojs/svelte/svelte-shims.d.ts";
+  import H from "$svelte/heading.svelte";
+  import type { Snippet } from "svelte";
 
   const {
     title,
@@ -22,17 +23,17 @@
 
 <section class="px-8">
   <header
-    class="mt-8 mb-4 flex items-center justify-between font-bold font-heading uppercase"
+    class="my-8 flex items-center justify-between font-bold font-heading uppercase"
   >
-    {@html `<h${h}>`}
-    <span
-      class={{
-        "text-4xl": true,
-        "text-black-400 dark:text-white-600": !important,
-        "border-l-primary border-l-8 pl-4": important,
-      }}>{title}</span
-    >
-    {@html `</h${h}>`}
+    <H {h}>
+      <span
+        class={{
+          "text-4xl": true,
+          "text-black-400 dark:text-white-600": !important,
+          "border-l-primary border-l-8 pl-4": important,
+        }}>{title}</span
+      >
+    </H>
 
     {#if subtitle}
       <p class="text-xs text-primary-700 dark:text-primary">{subtitle}</p>
