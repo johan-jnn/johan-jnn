@@ -6,6 +6,7 @@ import Button from "$svelte/button.svelte";
 import Techno from "$svelte/cards/techno.svelte";
 import Hero from "$svelte/heros/index.svelte";
 
+import Contact from "$svelte/sections/contact.svelte";
 import Section from "$svelte/sections/simple.svelte";
 ---
 
@@ -102,5 +103,11 @@ import Section from "$svelte/sections/simple.svelte";
         </li>
       </ul>
     </Section>
+
+    <Contact
+      title="Ready to sync ?"
+      subtitle="Initiate ping // démarrer la collaboration"
+      client:visible
+    />
   </main>
 </Page>
