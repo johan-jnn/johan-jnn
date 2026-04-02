@@ -7,9 +7,7 @@
   const title_parts = ["Johan JANIN //", "Architecte", "Digital"];
 </script>
 
-<div
-  class="h-full grid grid-cols-[60%_1fr] items-center px-12 py-18"
->
+<div class="h-full grid grid-cols-[60%_1fr] items-center px-12 py-18">
   <section class="grid tracking-wider gap-12">
     <p class="uppercase font-heading text-primary-700 text-xs" data-location>
       Lyon / 45.7640° N, 4.8357° E
@@ -49,7 +47,7 @@
       <Button
         level="neutral"
         action={{
-          url: "/contact",
+          url: "#contact",
         }}
         class="py-4 px-5"
       >

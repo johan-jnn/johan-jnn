@@ -7,11 +7,14 @@
     subtitle,
     important = false,
     children,
+    id,
     h = 2,
   }: {
     title: string;
     subtitle?: string;
     important?: boolean;
+
+    id?: string;
 
     h?: number;
 
@@ -21,7 +24,7 @@
 
 <hr />
 
-<section class="px-8">
+<section {id} class="px-8">
   <header
     class="my-8 flex items-center justify-between font-bold font-heading uppercase"
   >
