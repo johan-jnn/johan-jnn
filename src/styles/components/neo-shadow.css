@@ -6,16 +6,15 @@
 @layer components {
   .neo-shadow {
     --neo-shadow-shift: calc(var(--neo-shadow-size, 1) * var(--spacing));
+    box-shadow: var(--neo-shadow-shift) var(--neo-shadow-shift) 0 0
+      var(--neo-shadow-color, var(--tw-ring-color));
+
+    @apply rounded-none;
   }
+
   .neo-shadow--after,
   .neo-shadow--before {
     --neo-shadow-shift: calc(var(--neo-shadow-size, 1) * var(--spacing) * 1.25);
-  }
-
-  .neo-shadow {
-    @apply rounded-none;
-    box-shadow: var(--neo-shadow-shift) var(--neo-shadow-shift) 0 0
-      var(--neo-shadow-color, var(--tw-ring-color));
   }
 
   .neo-shadow--before,

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { CSSAnimationDurationSmoother } from "$src/actions/css/animationDurationSmoother";
+
   const {
     animation,
   }: {
@@ -26,7 +28,7 @@
   viewBox="0 0 60 60"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
-  style={animation_speed && `--animation-speed:${animation_speed}`}
+  style={animation_speed && `--animation-speed:${animation_speed};`}
   class={{
     animated: animation !== false,
   }}
@@ -47,13 +49,55 @@
   </defs>
   <g transform="translate(-.28795 2.7766)">
     <g class="levels fill-white-700">
-      <rect x="26.762" y="27.178" width="6.4765" height="2.8222" />
-      <rect x="18.762" y="22.167" width="6.4765" height="7.8327" />
-      <rect x="10.762" y="26.084" width="6.4765" height="3.9163" />
-      <rect x="2.7617" y="24.356" width="6.4765" height="5.6445" />
-      <rect x="34.762" y="26.084" width="6.4765" height="3.9163" />
-      <rect x="42.762" y="26.084" width="6.4765" height="3.9163" />
-      <rect x="50.762" y="28.371" width="6.4765" height="1.6287" />
+      <rect
+        x="26.762"
+        y="27.178"
+        width="6.4765"
+        height="2.8222"
+        use:CSSAnimationDurationSmoother
+      />
+      <rect
+        x="18.762"
+        y="22.167"
+        width="6.4765"
+        height="7.8327"
+        use:CSSAnimationDurationSmoother
+      />
+      <rect
+        x="10.762"
+        y="26.084"
+        width="6.4765"
+        height="3.9163"
+        use:CSSAnimationDurationSmoother
+      />
+      <rect
+        x="2.7617"
+        y="24.356"
+        width="6.4765"
+        height="5.6445"
+        use:CSSAnimationDurationSmoother
+      />
+      <rect
+        x="34.762"
+        y="26.084"
+        width="6.4765"
+        height="3.9163"
+        use:CSSAnimationDurationSmoother
+      />
+      <rect
+        x="42.762"
+        y="26.084"
+        width="6.4765"
+        height="3.9163"
+        use:CSSAnimationDurationSmoother
+      />
+      <rect
+        x="50.762"
+        y="28.371"
+        width="6.4765"
+        height="1.6287"
+        use:CSSAnimationDurationSmoother
+      />
     </g>
   </g>
   <g>
@@ -63,6 +107,7 @@
       r="22.793"
       style="fill:none;stroke-dasharray:1.15, 1.2;stroke-width:.4"
       class="dashed-circle stroke-black dark:stroke-white"
+      use:CSSAnimationDurationSmoother
     />
     <circle
       cx="30"
@@ -79,7 +124,7 @@
       class="stroke-primary"
     />
   </g>
-  <g class="radar">
+  <g class="radar" use:CSSAnimationDurationSmoother>
     <g transform="matrix(1.1593 0 0 1.1593 -4.7777 -4.7788)">
       <circle
         cx="30"
