@@ -21,7 +21,7 @@
 
 <svg
   version="1.1"
-  viewBox="0 0 150 5"
+  viewBox="0 0 150 2"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
 >
@@ -68,7 +68,6 @@
   </defs>
   <g>
     <rect
-      transform="scale(1 .5)"
       width="100%"
       height="100%"
       mask="url(#sizer-{svg_id})"
