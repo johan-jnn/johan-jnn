@@ -172,6 +172,7 @@ content:
       - name: icon
         label: Iconne
         required: true
+        type: string
         description: |
           Nom de l'icônne basé sur https://devicon.dev/.
           Mettre le nom de l'icônne sans le préfix "devicon-".
