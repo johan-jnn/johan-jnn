@@ -3,7 +3,8 @@ export interface Techno {
   description: string;
 
   icon: string;
-
+  
+  color?: string;
   used_since?: Date;
   website?: string;
 }

@@ -12,19 +12,201 @@ components:
     required: true
     options:
       editable: false
+  simple-section-meta:
+    type: object
+    name: section_metadata
+    label: Section
+    fields:
+      - name: title
+        label: Titre de la section
+        required: true
+        type: string
+      - name: subtitle
+        label: Contexte de la section
+        type: string
+      - name: important
+        label: Section à mettre en avant
+        type: boolean
+        default: false
+  link:
+    type: object
+    fields:
+      - name: label
+        label: Label
+        type: string
+        required: true
+      - name: url
+        label: URL
+        type: string
+        required: true
+      - name: target
+        label: Comportement au click
+        type: select
+        options:
+          placeholder: "Par défaut"
+          values:
+            - name: Fenêtre actuelle
+              value: _self
+            - name: Nouvelle fenêtre
+              value: _blank
+            - name: Plus haut contexte de navigation
+              value: _top
 
 content:
+  - name: pages
+    label: Pages
+    description: Contenu des différentes pages du site
+    type: group
+    path: src/data/content/pages
+    items:
+      - name: homepage
+        label: Page d'accueil
+        type: file
+        format: json
+        filename: home.json
+        fields:
+          - name: hero
+            label: Héro-header
+            type: object
+            required: true
+            fields:
+              - name: localisation
+                label: Localisation
+                description: Texte affiché en haut du header
+                type: string
+                options:
+                  maxlength: 300
+              - name: titles
+                label: Titre (h1)
+                description: |
+                  Titre de la page.
+                  Chaque items est sur 1 lignes.
+                  Les items sont choisis aléatoirement au chargement de la page
+                type: object
+                required: true
+                list:
+                  collapsible: true
+                fields:
+                  - name: line
+                    label: Ligne du titre
+                    description: "Note: les lignes impaires sont colorées avec la couleur primaire"
+                    list: true
+                    required: true
+                    type: string
+              - name: description
+                label: Description
+                description: Description présente en dessous du titre
+                type: text
+                required: true
+                options:
+                  minlength: 70
+                  maxlength: 600
+              - name: ctas
+                label: Call-to-actions
+                list:
+                  collapsible: true
+                component: link
+
+          - name: sections
+            label: Sections
+            type: object
+            fields:
+              - name: technos
+                label: technos technique mise en avant
+                type: object
+                fields:
+                  - name: section
+                    component: section_metadata
+                  - name: technos
+                    label: technos misent en avant
+                    type: reference
+                    options:
+                      collection: technos
+                      multiple: true
+                      max: 4
+                      value: "{id}"
+
+              - name: projects
+                label: Projets mis en avant
+                type: object
+                fields:
+                  - name: section
+                    component: section_metadata
+                  - name: projects
+                    label: Projets mis en avant
+                    type: reference
+                    options:
+                      multiple: true
+                      collection: projects.list
+                      value: "{id}"
+                      max: 5
+
+  - name: technos
+    label: Technos
+    description: Liste des technos maîtrisées
+    type: collection
+    format: json
+    path: src/data/content/technos
+    filename: "{id}.json"
+    view:
+      primary: "name"
+      fields:
+        - name
+        - description
+        - website
+      search:
+        - name
+        - website
+      sort:
+        - name
+        - used_since
+    fields:
+      - name: id
+        component: uuid
+      - name: name
+        type: string
+        label: Nom
+        required: true
+      - name: description
+        label: Description
+        required: true
+      - name: icon
+        label: Iconne
+        required: true
+        description: |
+          Nom de l'icônne basé sur https://devicon.dev/.
+          Mettre le nom de l'icônne sans le préfix "devicon-".
+          Ex: "devicon-svelte-plain" -> "svelte-plain"
+      - name: used_since
+        label: Date de début d'utilisation
+        type: date
+      - name: website
+        label: Site internet
+        type: string
+      - name: color
+        label: Couleur primaire
+        type: string
+
   - name: projects
     type: group
     label: Projets
+    path: src/data/content/projects
     items:
       - name: categories
         label: Catégories
-        type: file
-        path: src/data/content/projects
-        list: true
+        type: collection
         format: json
-        filename: "_categories.json"
+        path: categories
+        filename: "{id}.json"
+        view:
+          primary: title
+          fields:
+            - title
+          sort:
+            - title
+          search:
+            - title
+            - description
         fields:
           - name: id
             component: uuid
@@ -38,7 +220,6 @@ content:
       - name: list
         label: Liste des projets
         type: collection
-        path: src/data/content/projects
         filename: "{slug}.md"
         view:
           primary: overview.name
