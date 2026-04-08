@@ -62,7 +62,7 @@ content:
         label: Page d'accueil
         type: file
         format: json
-        filename: src/data/content/pages/home.json
+        path: src/data/content/pages/home.json
         fields:
           - name: hero
             label: Héro-header
@@ -243,8 +243,9 @@ content:
             fields:
               - name: cover
                 type: image
-                rename: true
-                media: projects-assets
+                options:
+                  rename: true
+                  media: projects-assets
               - name: slug
                 type: string
               - name: name
@@ -288,11 +289,12 @@ content:
               - name: body
                 label: Détails
                 type: rich-text
-                format: markdown
-                rename: true
-                media: projects-assets
-                path: body
                 required: true
+                options:
+                  format: markdown
+                  path: body
+                  rename: true
+                  media: projects-assets
 
           - name: gallery
             label: Gallerie
