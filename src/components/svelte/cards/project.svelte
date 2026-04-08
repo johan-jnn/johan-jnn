@@ -7,7 +7,7 @@
 </script>
 
 <script lang="ts">
-  import Heading from "../heading.svelte";
+  import Heading from "../headings/tag.svelte";
 
   const {
     name,

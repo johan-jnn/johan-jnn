@@ -3,6 +3,7 @@
   import Button from "$svelte/button.svelte";
   import Music from "../animations/spinners/music.svelte";
   import ClockForm from "../forms/clock.svelte";
+  import SplittedHeading from "../headings/splitted.svelte";
 
   const title_parts = ["Johan JANIN //", "Architecte", "Digital"];
 </script>
@@ -15,20 +16,7 @@
       Lyon / 45.7640° N, 4.8357° E
     </p>
 
-    <h1
-      class="text-[10svw] max-sm:text-center sm:text-[6svw]/25 tracking-tighter font-heading uppercase font-bold"
-    >
-      {#each title_parts as part, index}
-        <span
-          class={{
-            block: true,
-            "text-primary tracking-tight": index % 2,
-          }}
-        >
-          {part}
-        </span>
-      {/each}
-    </h1>
+    <SplittedHeading parts={title_parts} h={1} />
 
     <p class="sm:max-w-[40svw] text-black-400">
       Développeur Full-Stack & explorateur de code. Je transforme les idées en
