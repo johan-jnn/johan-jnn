@@ -57,13 +57,12 @@ content:
     label: Pages
     description: Contenu des différentes pages du site
     type: group
-    path: src/data/content/pages
     items:
       - name: homepage
         label: Page d'accueil
         type: file
         format: json
-        filename: home.json
+        filename: src/data/content/pages/home.json
         fields:
           - name: hero
             label: Héro-header
@@ -190,13 +189,12 @@ content:
   - name: projects
     type: group
     label: Projets
-    path: src/data/content/projects
     items:
       - name: categories
         label: Catégories
         type: collection
         format: json
-        path: categories
+        path: src/data/content/projects/categories
         filename: "{id}.json"
         view:
           primary: title
@@ -219,6 +217,7 @@ content:
 
       - name: list
         label: Liste des projets
+        path: src/data/content/projects
         type: collection
         filename: "{slug}.md"
         view:
