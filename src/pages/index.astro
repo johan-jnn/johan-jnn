@@ -1,8 +1,123 @@
 ---
-import Counter from "../components/Counter.svelte";
-import Page from "../layouts/page.astro";
+import Page from "$layouts/pages/default.astro";
+import Project from "$src/components/svelte/cards/project.svelte";
+import FillingBar from "$svelte/animations/loaders/filling-bar.svelte";
+import Button from "$svelte/button.svelte";
+import Techno from "$svelte/cards/techno.svelte";
+import Hero from "$svelte/heros/index.svelte";
+
+import Contact from "$svelte/sections/contact.svelte";
+import Section from "$svelte/sections/simple.svelte";
 ---
 
-<Page title="Welcome on my website" description="This is my website">
-	<Counter client:visible/>
+<Page
+  title="Johan JANIN - Développeur Full-Stack"
+  description="Johan JANIN : développeur web Full-Stack basé à Lyon, France."
+>
+  <ul class="flex items-center justify-end gap-2" slot="header-extra">
+    <li>
+      <Button
+        level="primary"
+        action={{
+          url: "/contact",
+        }}
+      >
+        Me contacter
+      </Button>
+    </li>
+  </ul>
+
+  <header>
+    <Hero client:load />
+  </header>
+  <main>
+    <Section title="Stack" subtitle="Catégorie: préférées">
+      <ul class="flex items-center justify-center py-4 gap-8">
+        <li>
+          <Techno
+            name="Laravel"
+            description="PHP backend framework"
+            color="var(--color-secondary)"
+            used_since={new Date("2020-02-02")}
+            icon="laravel-original"
+            website="https://laravel.com"
+          >
+            <FillingBar
+              fill={0.75}
+              fillColor="var(--theme)"
+              delimiters={true}
+            />
+          </Techno>
+        </li>
+
+        <li>
+          <Techno
+            name="Svelte"
+            description="Javascript full-stack framework"
+            color="var(--color-primary)"
+            used_since={new Date("2018-08-04")}
+            icon="svelte-plain"
+            website="https://svelte.dev"
+          >
+            <FillingBar fill={0.95} fillColor="var(--theme)" />
+          </Techno>
+        </li>
+
+        <li>
+          <Techno
+            name="Rust"
+            description="Pretty easy and fast low-level language"
+            color="var(--color-primary-800)"
+            used_since={new Date("2024-02-02")}
+            icon="rust-original"
+            website="https://rust-lang.org"
+          >
+            <FillingBar fill={0.38} fillColor="var(--theme)" delimiters={25} />
+          </Techno>
+        </li>
+      </ul>
+    </Section>
+
+    <Section title="Modules_deployés" important={true}>
+      <ul class="flex items-stretch justify-center h-[50svh] gap-6 flex-wrap">
+        <li class="h-full">
+          <Project
+            name="Lasido"
+            description="Robot discord musical"
+            category="robot"
+            slug="lasido"
+            tags={["discord", "nodejs", "robot", "automatisation", "musique"]}
+            cover=`https://picsum.photos/700/400?${Math.random()}`
+          />
+        </li>
+
+        <li class="h-full">
+          <Project
+            name="Flylang"
+            description="Mon propre langage de programmation 'Turing complete'"
+            category="algorythmie"
+            slug="lasido"
+            tags={["rust", "low-level", "fs"]}
+            cover=`https://picsum.photos/700/400?${Math.random()}`
+          />
+        </li>
+      </ul>
+      <Button
+        action={{
+          url: "/portfolio",
+        }}
+        level="secondary"
+        class="mx-auto w-fit mt-12 py-4"
+      >
+        Voir tous mes projets
+      </Button>
+    </Section>
+
+    <Contact
+      id="contact"
+      title="Ready to sync ?"
+      subtitle="Initiate ping // démarrer la collaboration"
+      client:visible
+    />
+  </main>
 </Page>

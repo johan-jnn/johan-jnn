@@ -1,0 +1,11 @@
+---
+import SvelteNav from "$svelte/nav/nav.svelte";
+
+type NavParameters = Parameters<typeof SvelteNav>[0];
+interface Props {
+  items?: NavParameters["items"];
+  justify?: NavParameters["justify"];
+}
+---
+
+<SvelteNav {...Astro.props} currentUrl={Astro.url} />

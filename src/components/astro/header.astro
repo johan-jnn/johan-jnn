@@ -1,0 +1,17 @@
+---
+import SvelteHeader from "$svelte/header.svelte";
+import { AstroSlot } from "$utils/astro/slots";
+import Nav from "./nav/nav.astro";
+
+interface Props {
+  title?: string;
+}
+const { title } = Astro.props;
+---
+
+<SvelteHeader {title}>
+  <slot name="nav" slot="nav">
+    <Nav />
+  </slot>
+  <slot slot={new AstroSlot(Astro.slots, "default").existTernary("default")} />
+</SvelteHeader>

@@ -1,0 +1,15 @@
+@import "./primary.css";
+@import "./secondary.css";
+@import "./tertiary.css";
+
+@import "./white.css";
+@import "./black.css";
+
+@theme {
+  --color-primary: var(--color-primary-500);
+  --color-secondary: var(--color-secondary-500);
+  --color-tertiary: var(--color-tertiary-500);
+
+  --color-white: var(--color-white-500);
+  --color-black: var(--color-black-500);
+}

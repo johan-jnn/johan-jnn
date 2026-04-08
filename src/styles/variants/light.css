@@ -1,0 +1,10 @@
+@custom-variant light {
+  &:where([theme="light"], [theme="light"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: light) {
+    & {
+      @slot;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+@theme {
+  --color-tertiary-100: #e6f2ff;
+  --color-tertiary-200: #cce5ff;
+  --color-tertiary-300: #99d1ff;
+  --color-tertiary-400: #66b8ff;
+  --color-tertiary-500: #00adf8; /* Base */
+  --color-tertiary-600: #008ac6;
+  --color-tertiary-700: #006795;
+  --color-tertiary-800: #004563;
+  --color-tertiary-900: #002232;
+}

@@ -1,0 +1,10 @@
+@utility link-* {
+  --link-color: --value(--color-*);
+}
+
+@layer components {
+  .link {
+    @apply border-transparent border-b-2 hover:text-(--link-color) transition-[border_color];
+    @apply hover:border-(--link-color) hover:text-(--link-color);
+  }
+}
