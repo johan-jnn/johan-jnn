@@ -1,43 +1,134 @@
 media:
-  - name: projects-images
+  - name: projects-assets
     label: Media des projets
     input: public/content/projects
     output: /content/projects
 
+components:
+  uuid:
+    name: id
+    type: uuid
+    hidden: true
+    required: true
+    options:
+      editable: false
+
 content:
   - name: projects
+    type: group
     label: Projets
-    type: collection
-    path: src/data/content/projects
-    format: json-frontmatter
-    fields:
-      - name: cover
-        label: Image illustrative
-        required: true
-        type: image
-        options:
-          path: covers
-      - name: title
-        label: Nom
-        required: true
-      - name: description
-        label: Résumé
-        required: true
-      - name: tags
-        label: Tags (l'ordre importe)
-        required: false
+    items:
+      - name: categories
+        label: Catégories
+        type: file
+        path: src/data/content/projects
         list: true
-        type: string
-        options:
-          minlength: 3
-          maxlength: 20
+        format: json
+        filename: "_categories.json"
+        fields:
+          - name: id
+            component: uuid
+          - name: title
+            label: Titre
+            required: true
+          - name: description
+            label: Description
+            required: false
 
-      - name: poster
-        label: Image grand-format
-        required: false
-        type: image
-        options:
-          path: posters
-      - name: body
-        label: Présentation
-        type: rich-text
+      - name: list
+        label: Liste des projets
+        type: collection
+        path: src/data/content/projects
+        filename: "{slug}.md"
+        view:
+          primary: overview.name
+          fields:
+            - overview.name
+            - overview.description
+            - overview.category
+          search:
+            - overview.name
+            - overview.tags
+            - overview.category
+          sort:
+            - overview.date
+            - overview.name
+        fields:
+          - name: id
+            component: uuid
+          - name: overview
+            label: Informations du projet
+            required: true
+            type: object
+            fields:
+              - name: cover
+                type: image
+                rename: true
+                media: projects-assets
+              - name: slug
+                type: string
+              - name: name
+                type: string
+                label: Nom
+              - name: description
+                type: string
+                label: Description
+              - name: date
+                type: date
+                label: Date de la réalisation
+                required: false
+                options:
+                  format: "yyyy-MM-dd"
+              - name: category
+                type: reference
+                options:
+                  collection: projects.categories
+                  search: "title"
+                  label: "{title}"
+                  value: "{id}"
+              - name: tags
+                label: Tags
+                type: string
+                list: true
+                options:
+                  minlength: 3
+                  maxlength: 18
+          - name: presentation
+            label: Présentation
+            type: object
+            fields:
+              - name: title
+                label: Titre
+                description: Titre long du projet (si non défini, le nom du projet sera utilisé)
+                type: string
+              - name: subtitle
+                label: Sous-titre
+                description: Sous-titre/description du projet (si non défini, le nom du projet sera utilisé)
+                type: text
+              - name: body
+                label: Détails
+                type: rich-text
+                format: markdown
+                rename: true
+                media: projects-assets
+                path: body
+                required: true
+
+          - name: gallery
+            label: Gallerie
+            type: file
+            options:
+              multiple: true
+              categories: [image, video]
+              unique: true
+              rename: true
+              media: projects-assets
+              path: gallery
+
+          - name: related_projects
+            label: Projets référençables
+            type: reference
+            options:
+              collection: projects.list
+              multiple: true
+              value: "{id}"

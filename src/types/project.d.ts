@@ -5,6 +5,7 @@ export interface ProjectOverview {
   tags: string[];
   cover: string;
   slug: string;
+  date?: Date
 }
 
 export interface Project extends ProjectOverview {
