@@ -25,7 +25,7 @@
     class={[
       "group border-4 border-black dark:border-white",
       "font-heading uppercase",
-      "grid grid-rows-[55%_auto_1fr] aspect-[1.95/2] h-full",
+      "grid grid-rows-[55%_auto_1fr] h-full",
 
       "neo-shadow neo-shadow--push neo-shadow-black dark:neo-shadow-white transition-[translate_shadow]",
       "not-hover:neo-shadow-0",

@@ -9,7 +9,7 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<SvelteHeader {title}>
+<SvelteHeader {title} client:load>
   <slot name="nav" slot="nav">
     <Nav />
   </slot>

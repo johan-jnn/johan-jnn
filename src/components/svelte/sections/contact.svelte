@@ -31,11 +31,13 @@
 </script>
 
 <section
-  class="my-[20svh] grid content-center font-bold uppercase font-heading"
+  class="my-[20svh] grid content-center font-bold uppercase font-heading px-8"
   {id}
 >
   <header class="text-center">
-    <h2 class="text-8xl tracking-tighter text-black-400 dark:text-white-600">
+    <h2
+      class="text-6xl sm:text-8xl tracking-tighter text-black-400 dark:text-white-600"
+    >
       {title}
     </h2>
     {#if subtitle}
@@ -45,11 +47,13 @@
   <main>
     <form
       method="post"
-      class={{
-        "flex group items-stretch w-fit mx-auto my-12": true,
-        "children:px-6 children:py-4 children:transition-[shadow_translate] children:neo-shadow-black dark:children:neo-shadow-white": true,
-        "children:border-black children:dark:border-white children:border-2 children:outline-none": true,
-      }}
+      class={[
+        "flex group items-stretch w-fit mx-auto my-12",
+        "children:px-6 children:py-4 children:transition-[shadow_translate] children:neo-shadow-black dark:children:neo-shadow-white",
+        "children:border-black children:dark:border-white children:border-2 children:outline-none",
+
+        "max-sm:flex-col max-sm:w-full",
+      ]}
     >
       <input
         oninput={typed}
@@ -57,6 +61,7 @@
         name="email"
         id="email"
         placeholder="email"
+        required
         class={{
           "neo-shadow neo-shadow--push": true,
           "placeholder:uppercase": true,
