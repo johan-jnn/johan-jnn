@@ -111,13 +111,13 @@ content:
             type: object
             fields:
               - name: technos
-                label: technos technique mise en avant
+                label: Technos misent en avant
                 type: object
                 fields:
                   - name: section
-                    component: section_metadata
+                    component: simple-section-meta
                   - name: technos
-                    label: technos misent en avant
+                    label: Technos misent en avant
                     type: reference
                     options:
                       collection: technos
@@ -130,13 +130,13 @@ content:
                 type: object
                 fields:
                   - name: section
-                    component: section_metadata
+                    component: simple-section-meta
                   - name: projects
                     label: Projets mis en avant
                     type: reference
                     options:
                       multiple: true
-                      collection: projects.list
+                      collection: projects
                       value: "{id}"
                       max: 5
 
@@ -191,7 +191,7 @@ content:
     type: group
     label: Projets
     items:
-      - name: categories
+      - name: project-categories
         label: Catégories
         type: collection
         format: json
@@ -216,7 +216,7 @@ content:
             label: Description
             required: false
 
-      - name: list
+      - name: projects
         label: Liste des projets
         path: src/data/content/projects
         type: collection
@@ -264,7 +264,7 @@ content:
               - name: category
                 type: reference
                 options:
-                  collection: projects.categories
+                  collection: project-categories
                   search: "title"
                   label: "{title}"
                   value: "{id}"
@@ -312,6 +312,6 @@ content:
             label: Projets référençables
             type: reference
             options:
-              collection: projects.list
+              collection: projects
               multiple: true
               value: "{id}"
