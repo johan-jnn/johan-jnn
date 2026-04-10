@@ -48,14 +48,16 @@
       />
     </header>
     <hr class="border-2 m-0" />
-    <main class="p-4 h-full flex flex-col justify-between">
+    <main
+      class="p-4 h-full flex flex-col justify-between bg-white dark:bg-black"
+    >
       <header class="flex items-center justify-between gap-2">
         <Heading h={name_h}>
           <span aria-label="Project's name" class="text-2xl">{name}</span>
         </Heading>
 
         <svg
-          viewBox="0 0 13 13"
+          viewBox="-1 0 14 13"
           fill="none"
           class={[
             "h-4 aspect-square transition-[opacity_translate]",

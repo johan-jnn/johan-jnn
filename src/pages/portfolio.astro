@@ -17,6 +17,16 @@ const projects: ProjectOverview[] = [
     date: new Date("2019-03-24"),
     stack: [],
   },
+  {
+    name: "Flylang",
+    description: "Mon langage de programmation",
+    category: "algo",
+    slug: "flylang",
+    tags: ["rust", "tools", "low-level"],
+    cover: `https://picsum.photos/700/400?${Math.random()}`,
+    date: new Date("2022-03-24"),
+    stack: [],
+  },
 ];
 
 const min_date = projects.reduce(
@@ -38,9 +48,9 @@ const min_date = projects.reduce(
       </ul>
     </Hero>
   </header>
-  <hr />
+  <hr class:list={{ "mb-0": projects.length }} />
   <main>
-    <section class="px-8">
+    <section class:list={{ "px-8": !projects.length }}>
       {
         projects.length ? (
           <Listing client:visible {projects} />
@@ -57,7 +67,8 @@ const min_date = projects.reduce(
       }
     </section>
   </main>
-  <hr />
+  <hr class:list={{ "mt-0": projects.length }} />
+
   <footer>
     <Contact title="Work with me ?" />
   </footer>

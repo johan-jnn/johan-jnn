@@ -1,5 +1,8 @@
 <script lang="ts">
-  import type { ClassValue } from "svelte/elements";
+  import {
+    merge_classes,
+    type SvelteClassAttribute,
+  } from "$src/utils/svelte/classes";
   import Heading from "./tag.svelte";
 
   const {
@@ -9,25 +12,17 @@
   }: {
     parts: string[];
     h?: number;
-    class?: ClassValue;
+    class?: SvelteClassAttribute;
     unstyled?: boolean;
   } = $props();
-
-  const class_object = $derived(
-    className instanceof Array
-      ? { [className.join(" ")]: true }
-      : typeof className === "string"
-        ? { [className]: true }
-        : className,
-  );
 </script>
 
 <Heading
   {h}
-  class={{
-    "text-[10svw] max-sm:text-center sm:text-[6svw]/25 tracking-tighter font-heading uppercase font-bold": true,
-    ...class_object,
-  }}
+  class={merge_classes(
+    "text-[10svw] max-sm:text-center sm:text-[6svw]/25 tracking-tighter font-heading uppercase font-bold",
+    className,
+  )}
 >
   {#each parts as part, index}
     <span
