@@ -71,7 +71,7 @@
           />
         </svg>
       </header>
-      <main class="font-sans normal-case">
+      <main class="font-sans normal-case grow">
         <p>{description}</p>
       </main>
       <footer>

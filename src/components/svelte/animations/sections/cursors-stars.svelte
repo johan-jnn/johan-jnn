@@ -17,22 +17,21 @@
 </script>
 
 <div
-  style="--cursor-x:{cursor_positions[0] *
-    100}%;--cursor-y:{cursor_positions[1] * 100}%"
+  style="--cursor-x:{cursor_positions[0]}px;--cursor-y:{cursor_positions[1]}px;--cursor-size:calc(var(--spacing) * 120)"
   class={merge_classes(
     `
-  relative
-  p-8 overflow-hidden
-  bg-white dark:bg-black
-  bg-radial bg-position-[12%] bg-size-[40px_40px] from-black dark:from-white from-5% to-transparent to-0%
+    relative
 
-  before:content-[''] not-has-hover:content-none
-  before:absolute before:top-(--cursor-y) before:left-(--cursor-x)
-  before:aspect-square before:h-[50svw] before:-translate-1/2
-  before:bg-radial before:from-white before:dark:from-black before:to-transparent before:to-50%
-  before:bg-blend-substract before:opacity-80 not-hover:before:opacity-0 before:transition-opacity
+    before:content-[''] before:absolute before:left-0 before:top-0 before:size-full before:-z-1
+    before:bg-white dark:before:bg-black
+    before:bg-radial before:bg-position-[12%] before:bg-size-[40px_40px]  before:bg-fixed
+    before:from-black-400 before:dark:from-secondary before:from-5% before:to-transparent before:to-0%
 
-  children:relative children:z-1
+    bg-radial bg-size-[var(--cursor-size)_var(--cursor-size)] from-white/80 dark:from-black/80 to-transparent to-50% bg-no-repeat
+    bg-position-[calc(var(--cursor-x)-var(--cursor-size)/2)_calc(var(--cursor-y)-var(--cursor-size)/2)]
+    bg-blend-difference
+
+    not-hover:from-transparent transition-colors
   `,
     className,
   )}
@@ -43,8 +42,8 @@
     pageY,
   }) => {
     cursor_positions = [
-      (pageX - offsetLeft) / clientWidth,
-      (pageY - offsetTop) / clientHeight,
+      pageX - offsetLeft, // / clientWidth,
+      pageY - offsetTop, // / clientHeight,
     ];
   }}
 >
