@@ -1,0 +1,75 @@
+---
+import Page from "$layouts/pages/default.astro";
+import Contact from "$src/components/svelte/sections/contact.svelte";
+import type { ProjectOverview } from "$src/types/project";
+import Hero from "$svelte/heros/simple.svelte";
+import Listing from "$svelte/listing/projects.svelte";
+import moment from "moment";
+
+const projects: ProjectOverview[] = [
+  {
+    name: "Lasido",
+    description: "Robot discord musical",
+    category: "robot",
+    slug: "lasido",
+    tags: ["discord", "nodejs", "robot", "automatisation", "musique"],
+    cover: `https://picsum.photos/700/400?${Math.random()}`,
+    date: new Date("2019-03-24"),
+    stack: [],
+  },
+  {
+    name: "Flylang",
+    description: "Mon langage de programmation",
+    category: "algo",
+    slug: "flylang",
+    tags: ["rust", "tools", "low-level", "nodejs"],
+    cover: `https://picsum.photos/700/400?${Math.random()}`,
+    date: new Date("2022-03-24"),
+    stack: [],
+  },
+];
+
+const min_date = projects.reduce(
+  (current, { date }) => (date && date < current ? date : current),
+  new Date(),
+);
+---
+
+<Page
+  title="Johan JANIN - Mes projets"
+  description="Découvrez les projets réalisés par Johan JANIN : développeur Full-Stack basé à Lyon."
+>
+  <header>
+    <Hero title={["Deployed_modules //", "mes projets"]} subtitle="lorem ipsum">
+      <ul>
+        <li>Catégories: {new Set(projects.map((p) => p.category)).size}</li>
+        <li>Projets: {projects.length}</li>
+        <li>Depuis: {moment(min_date).locale("fr").fromNow(true)}</li>
+      </ul>
+    </Hero>
+  </header>
+  <hr class:list={{ "mb-0": projects.length }} />
+  <main>
+    <section class:list={{ "px-8": !projects.length }}>
+      {
+        projects.length ? (
+          <Listing client:visible {projects} />
+        ) : (
+          <Fragment>
+            <h2 class="uppercase font-heading text-4xl before:content-['<'] after:content-['_/>'] font-bold">
+              EMPTY
+            </h2>
+            <p class="italic mt-2">
+              Il n'y a pas de projets pour le moment. Revenez plus tard !
+            </p>
+          </Fragment>
+        )
+      }
+    </section>
+  </main>
+  <hr class:list={{ "mt-0": projects.length }} />
+
+  <footer>
+    <Contact title="Work with me ?" client:visible />
+  </footer>
+</Page>
