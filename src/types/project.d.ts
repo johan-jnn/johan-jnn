@@ -15,8 +15,8 @@ export interface Project extends ProjectOverview {
   presentation: {
     title?: string; // If undefined -> take the project's name
     subtitle?: string; // If undefined -> take the project's description
-    content: string;
   };
+  body: string;
   gallery?: string[];
   related_projects?: ProjectOverview[];
 }

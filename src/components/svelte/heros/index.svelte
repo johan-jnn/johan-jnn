@@ -5,44 +5,40 @@
   import ClockForm from "../forms/clock.svelte";
   import SplittedHeading from "../headings/splitted.svelte";
 
-  const title_parts = ["Johan JANIN //", "Architecte", "Digital"];
+  import { HOMEPAGE } from "$content/homepage";
+
+  const { titles, ctas, description, localistation } = HOMEPAGE.props.hero;
+
+  const title_parts = titles[Math.floor(Math.random() * titles.length)].lines;
 </script>
 
 <div
   class="h-full grid sm:grid-cols-[60%_1fr] gap-y-8 items-center px-12 py-18"
 >
   <section class="grid tracking-wider gap-12">
-    <p class="uppercase font-heading text-primary-700 dark:text-secondary-600 text-xs" data-location>
-      Lyon / 45.7640° N, 4.8357° E
+    <p
+      class="uppercase font-heading text-primary-700 dark:text-secondary-600 text-xs"
+      data-location
+    >
+      {localistation}
     </p>
 
     <SplittedHeading parts={title_parts} h={1} />
 
     <p class="sm:max-w-[40svw] text-black-400">
-      Développeur Full-Stack & explorateur de code. Je transforme les idées en
-      solutions digitales efficaces, innovantes et collaboratives.
+      {description}
     </p>
 
     <div class="flex items-center gap-4 max-sm:justify-center">
-      <Button
-        level="primary"
-        action={{
-          url: "/portfolio",
-        }}
-        class="py-4 px-5"
-      >
-        Voir mes projets
-      </Button>
-
-      <Button
-        level="neutral"
-        action={{
-          url: "#contact",
-        }}
-        class="py-4 px-5"
-      >
-        Me recruter
-      </Button>
+      {#each ctas as cta, index}
+        <Button
+          level={index ? "neutral" : "primary"}
+          action={cta}
+          class="py-4 px-5"
+        >
+          {cta.label}
+        </Button>
+      {/each}
     </div>
   </section>
   <section

@@ -86,7 +86,7 @@ content:
                 list:
                   collapsible: true
                 fields:
-                  - name: line
+                  - name: lines
                     label: Ligne du titre
                     description: "Note: les lignes impaires sont colorées avec la couleur primaire"
                     list: true
