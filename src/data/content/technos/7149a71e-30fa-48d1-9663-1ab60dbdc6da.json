@@ -1,0 +1,9 @@
+{
+  "id": "7149a71e-30fa-48d1-9663-1ab60dbdc6da",
+  "name": "Svelte",
+  "description": "Javascript full-stack framework",
+  "icon": "svelte-plain",
+  "used_since": "2018-05-21",
+  "website": "https://svelte.dev",
+  "color": "var(--color-primary)"
+}
