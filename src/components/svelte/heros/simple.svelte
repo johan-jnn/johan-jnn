@@ -13,8 +13,14 @@
   } = $props();
 </script>
 
-<div class="h-full py-20 px-8 relative flex flex-col-reverse gap-2">
-  <SplittedHeading parts={title instanceof Array ? title : [title]} h={1} />
+<div
+  class="h-full justify-end py-20 px-8 relative flex flex-col-reverse gap-2 max-md:pb-25"
+>
+  <SplittedHeading
+    parts={title instanceof Array ? title : [title]}
+    h={1}
+    class="max-md:text-[9svw]!"
+  />
 
   {#if subtitle}
     <p

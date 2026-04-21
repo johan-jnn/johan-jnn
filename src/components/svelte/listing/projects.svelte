@@ -54,7 +54,7 @@
     method="dialog"
     class="
       px-8 overflow-visible bg-white dark:bg-black
-      py-2 sticky top-20 h-fit grid gap-4
+      py-2 md:sticky top-20 h-fit grid gap-4
     "
   >
     <section class="grid gap-2">
