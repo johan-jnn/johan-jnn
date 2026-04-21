@@ -7,7 +7,7 @@
 </script>
 
 <script lang="ts">
-  import Heading from "../heading.svelte";
+  import Heading from "../headings/tag.svelte";
 
   const {
     name,
@@ -25,7 +25,7 @@
     class={[
       "group border-4 border-black dark:border-white",
       "font-heading uppercase",
-      "grid grid-rows-[55%_auto_1fr] aspect-[1.95/2] h-full",
+      "grid grid-rows-[55%_auto_1fr] h-full",
 
       "neo-shadow neo-shadow--push neo-shadow-black dark:neo-shadow-white transition-[translate_shadow]",
       "not-hover:neo-shadow-0",
@@ -48,14 +48,16 @@
       />
     </header>
     <hr class="border-2 m-0" />
-    <main class="p-4 h-full flex flex-col justify-between">
+    <main
+      class="p-4 h-full flex flex-col justify-between bg-white dark:bg-black"
+    >
       <header class="flex items-center justify-between gap-2">
         <Heading h={name_h}>
           <span aria-label="Project's name" class="text-2xl">{name}</span>
         </Heading>
 
         <svg
-          viewBox="0 0 13 13"
+          viewBox="-1 0 14 13"
           fill="none"
           class={[
             "h-4 aspect-square transition-[opacity_translate]",
@@ -69,7 +71,7 @@
           />
         </svg>
       </header>
-      <main class="font-sans normal-case">
+      <main class="font-sans normal-case grow">
         <p>{description}</p>
       </main>
       <footer>

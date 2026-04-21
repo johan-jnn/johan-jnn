@@ -1,5 +1,5 @@
 <script lang="ts">
-  import H from "$svelte/heading.svelte";
+  import H from "$src/components/svelte/headings/tag.svelte";
   import type { Snippet } from "svelte";
 
   const {

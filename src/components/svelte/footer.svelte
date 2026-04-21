@@ -8,8 +8,10 @@
 <footer
   class={[
     "mt-18 border-t-2 border-black dark:border-white py-12 px-8",
-    "flex items-end justify-between",
+    "flex sm:items-end justify-between",
     "font-heading uppercase",
+
+    "max-sm:flex-col-reverse max-sm:gap-8",
   ]}
 >
   <section>
@@ -18,7 +20,7 @@
   </section>
   <section>
     <nav>
-      <ul class="flex gap-8 items-end font-medium">
+      <ul class="flex gap-8 items-end font-medium max-sm:justify-center">
         {#each Object.entries(SOCIALS) as [network, link]}
           <li>
             <a class="not-hover:underline" href={link} target="_blank"
@@ -31,7 +33,7 @@
   </section>
   <section
     aria-hidden="true"
-    class="flex items-center gap-4 text-black-300 dark:text-white-700 text-xs"
+    class="flex items-center gap-4 text-black-300 dark:text-white-700 text-xs max-sm:justify-end"
   >
     <p>Packet_loss: 0%</p>
     <hr
