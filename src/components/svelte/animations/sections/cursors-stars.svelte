@@ -17,7 +17,7 @@
 </script>
 
 <div
-  style="--cursor-x:{cursor_positions[0]}px;--cursor-y:{cursor_positions[1]}px;--cursor-size:calc(var(--spacing) * 120)"
+  style="--cursor-x:{cursor_positions[0]}px;--cursor-y:{cursor_positions[1]}px;--cursor-size:calc(var(--spacing) * 200)"
   class={merge_classes(
     `
     relative

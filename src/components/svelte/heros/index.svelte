@@ -12,7 +12,7 @@
   class="h-full grid sm:grid-cols-[60%_1fr] gap-y-8 items-center px-12 py-18"
 >
   <section class="grid tracking-wider gap-12">
-    <p class="uppercase font-heading text-primary-700 text-xs" data-location>
+    <p class="uppercase font-heading text-primary-700 dark:text-secondary-600 text-xs" data-location>
       Lyon / 45.7640° N, 4.8357° E
     </p>
 
