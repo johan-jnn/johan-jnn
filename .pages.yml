@@ -239,21 +239,26 @@ content:
             component: uuid
           - name: overview
             label: Informations du projet
-            required: true
             type: object
             fields:
               - name: cover
+                label: Image de couverture
                 type: image
+                required: true
                 options:
                   rename: true
                   media: projects-assets
               - name: slug
                 type: string
+                required: true
+                label: Slug
               - name: name
                 type: string
+                required: true
                 label: Nom
               - name: description
                 type: string
+                required: true
                 label: Description
               - name: date
                 type: date
@@ -263,6 +268,8 @@ content:
                   format: "yyyy-MM-dd"
               - name: category
                 type: reference
+                required: true
+                label: Catégorie
                 options:
                   collection: project-categories
                   search: "title"
@@ -271,6 +278,7 @@ content:
               - name: tags
                 label: Tags
                 type: string
+                required: true
                 list: true
                 options:
                   minlength: 3
@@ -278,6 +286,9 @@ content:
           - name: presentation
             label: Présentation
             type: object
+            description: |
+              Chaque champ ci-dessous permet de redéfinir l'élément du projet présent dans ses informations sur sa page détail. 
+              Si non définie, l'information sera pris depuis la section "Information du projet".
             fields:
               - name: title
                 label: Titre
@@ -287,15 +298,16 @@ content:
                 label: Sous-titre
                 description: Sous-titre/description du projet (si non défini, le nom du projet sera utilisé)
                 type: text
-              - name: body
-                label: Détails
-                type: rich-text
-                required: true
-                options:
-                  format: markdown
-                  path: body
-                  rename: true
-                  media: projects-assets
+
+          - name: body
+            label: Détails
+            type: rich-text
+            required: true
+            options:
+              format: markdown
+              path: body
+              rename: true
+              media: projects-assets
 
           - name: gallery
             label: Gallerie
