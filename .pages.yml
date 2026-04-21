@@ -218,7 +218,7 @@ content:
 
       - name: projects
         label: Liste des projets
-        path: src/data/content/projects
+        path: src/data/content/projects/list
         type: collection
         filename: "{slug}.md"
         view:
