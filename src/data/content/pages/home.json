@@ -1,1 +1,47 @@
-{}
+{
+  "hero": {
+    "localisation": "Lyon / 45.7640° N, 4.8357° E",
+    "titles": [
+      {
+        "line": [
+          "Johan JANIN //",
+          "Architecte",
+          "Digital"
+        ]
+      },
+      {
+        "line": [
+          "Johan JANIN //",
+          "Développeur",
+          "Full-Stack"
+        ]
+      }
+    ],
+    "description": "Développeur Full-Stack & explorateur de code. Je transforme les idées en solutions digitales efficaces, innovantes et collaboratives.",
+    "ctas": [
+      {
+        "label": "Voir mes projets",
+        "url": "/portfolio"
+      },
+      {
+        "label": "Me recruter",
+        "url": "#contact"
+      }
+    ]
+  },
+  "sections": {
+    "technos": {
+      "section": {
+        "title": "Stack",
+        "subtitle": "Catégorie: préférées",
+        "important": false
+      }
+    },
+    "projects": {
+      "section": {
+        "title": "Modules_deployés",
+        "important": true
+      }
+    }
+  }
+}
