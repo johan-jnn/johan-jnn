@@ -15,8 +15,6 @@ overview:
 presentation:
   title: Lasido - Mon propre robot musical
 ---
-# Lasido: Un robot discord musical
-
 ## Description
 
 Ce projet consiste en la création d'un robot Discord entièrement codé à la main en Node.js, en utilisant l'API Discord.js ainsi que Discord Voice. L'objectif principal est de permettre aux utilisateurs de Discord d'écouter leur musique préférée à partir de différentes plateformes de streaming, le tout intégré de manière transparente dans l'environnement Discord.
