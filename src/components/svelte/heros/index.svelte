@@ -5,9 +5,8 @@
   import ClockForm from "../forms/clock.svelte";
   import SplittedHeading from "../headings/splitted.svelte";
 
-  import { HOMEPAGE } from "$content/homepage";
-
-  const { titles, ctas, description, localistation } = HOMEPAGE.props.hero;
+  import { hero } from "$data/content/pages/home.json";
+  const { titles, ctas, description, localisation } = hero;
 
   const title_parts = titles[Math.floor(Math.random() * titles.length)].lines;
 </script>
@@ -20,7 +19,7 @@
       class="uppercase font-heading text-primary-700 dark:text-secondary-600 text-xs"
       data-location
     >
-      {localistation}
+      {localisation}
     </p>
 
     <SplittedHeading parts={title_parts} h={1} />

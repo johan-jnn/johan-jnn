@@ -1,5 +1,12 @@
-import path_utils from "node:path";
+import { default as path } from "node:path";
 
-export function getContentPath(path: string) {
-  return path_utils.join(import.meta.dirname, "../../data/content", path);
+export class ContentPaths {
+  static #root = path.join(import.meta.dirname, "../../data/content");
+
+  static root(...append: string[]) {
+    return path.join(ContentPaths.#root, ...append);
+  }
+  static pages(...append: string[]) {
+    return this.root("pages", ...append);
+  }
 }

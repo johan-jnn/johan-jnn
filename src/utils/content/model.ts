@@ -1,27 +1,37 @@
 import fs, { type PathLike } from "node:fs";
 import path from "node:path";
+import { MarkdownBased } from "./mdBased";
 
-export class ModelableContent<Model extends object> {
-  public static loadFromFile<Model extends object>(
-    file: PathLike,
-  ): ModelableContent<Model> {
-    if (!fs.existsSync(file)) {
-      throw new Error(`File at ${file} does not exists.`);
-    }
+export class Model {
+  public static loadSync<Type extends Model>(
+    this: new (attributes?: object) => Type,
+    filePath: PathLike,
+  ): Type {
+    const raw = fs.readFileSync(filePath, "utf-8");
+    const ext = path.extname(filePath.toString());
 
-    const { ext } = path.parse(file.toString());
-    switch (ext) {
-      case ".json":
+    const model = new this();
+
+    switch (ext.slice(1)) {
       case "json": {
-        return new this(JSON.parse(fs.readFileSync(file, "utf-8")));
+        Object.assign(model, JSON.parse(raw));
+        break;
+      }
+      case "md": {
+        if (!(this instanceof MarkdownBased)) {
+          throw new Error(
+            `Cannot parse markdown files without specify the model (${this}) to be markdown-based.`,
+          );
+        }
+        break;
       }
       default:
-        throw new Error(`Format ${ext} is not modelable.`);
+        throw new Error(`Cannot parse model (${this}) from .${ext} files.`);
     }
+    return model;
   }
 
-  constructor(protected readonly model: Model) {}
-  public get props() {
-    return Object.freeze(this.model);
+  constructor(attributes?: object) {
+    Object.assign(this, attributes);
   }
 }

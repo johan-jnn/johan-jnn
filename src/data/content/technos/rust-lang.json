@@ -1,6 +1,6 @@
 {
   "id": "8d741635-62ed-4ba8-819d-74c07630ae51",
-  "name": "Rust",
+  "_name": "Rust",
   "description": "Pretty easy and fast low-level language",
   "icon": "rust-original",
   "used_since": "2024-11-21",

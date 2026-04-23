@@ -162,7 +162,7 @@ content:
     fields:
       - name: id
         component: uuid
-      - name: name
+      - name: _name
         type: string
         label: Nom
         required: true
