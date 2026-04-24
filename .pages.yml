@@ -138,7 +138,6 @@ content:
                       multiple: true
                       collection: "projects-list"
                       value: "{id}"
-                      label: "{primary}"
                       max: 5
 
   - name: technos
