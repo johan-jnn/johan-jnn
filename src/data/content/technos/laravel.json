@@ -1,6 +1,6 @@
 {
   "id": "df984391-f274-46bb-ad3a-22174213e664",
-  "_name": "Laravel",
+  "name": "Laravel",
   "description": "PHP backend framework",
   "icon": "laravel-original",
   "used_since": "2023-10-21",

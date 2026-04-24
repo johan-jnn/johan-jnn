@@ -1,5 +1,4 @@
-import fs, { type PathLike } from "node:fs";
-import path from "node:path";
+import fs from "node:fs";
 import { Model } from "./model";
 
 export class Collection<
@@ -16,12 +15,12 @@ export class Collection<
     PkAttribute extends keyof Instance = keyof Instance,
   >(
     model: Type,
-    directory: PathLike,
+    pattern: string | string[],
     pk_attribute: PkAttribute,
   ): Collection<Type, Instance, PkAttribute> {
-    const instances: Instance[] = fs.readdirSync(directory).map((file) => {
+    const instances: Instance[] = fs.globSync(pattern).map((file) => {
       //@ts-ignore
-      return model.loadSync<Instance>(path.join(directory.toString(), file));
+      return model.loadSync<Instance>(file);
     });
 
     return new this(model, instances, pk_attribute);

@@ -1,7 +1,8 @@
 <script lang="ts" module>
   import type { ProjectOverview } from "$content/project";
+  import type { Attributes } from "$src/utils/types/class/properties";
 
-  export interface ProjectCardProps extends ProjectOverview {
+  export interface ProjectCardProps extends Attributes<ProjectOverview> {
     name_h?: number;
   }
 </script>

@@ -1,6 +1,10 @@
+import MarkdownIt from "markdown-it";
+import markdownItYamlPlugin, {
+  type Options as YamlPluginOptions,
+} from "markdown-it-meta-yaml";
 import fs, { type PathLike } from "node:fs";
 import path from "node:path";
-import { MarkdownBased } from "./mdBased";
+import { isMarkdownable } from "./markdownBased";
 
 export class Model {
   public static loadSync<Type extends Model>(
@@ -18,18 +22,30 @@ export class Model {
         break;
       }
       case "md": {
-        if (!(this instanceof MarkdownBased)) {
-          throw new Error(
-            `Cannot parse markdown files without specify the model (${this}) to be markdown-based.`,
-          );
+        const render = isMarkdownable(this);
+        const parser = new MarkdownIt().use(markdownItYamlPlugin, {
+          cb(yamlJSON) {
+            Object.assign(model, yamlJSON);
+          },
+        } satisfies YamlPluginOptions);
+
+        if (render) {
+          Object.assign(model, {
+            [this.MARKDOWN_KEY]: parser.render(raw),
+          });
+        } else {
+          parser.parse(raw, {});
         }
         break;
       }
       default:
         throw new Error(`Cannot parse model (${this}) from .${ext} files.`);
     }
+
+    model.loaded();
     return model;
   }
+  public loaded() {}
 
   constructor(attributes?: object) {
     Object.assign(this, attributes);

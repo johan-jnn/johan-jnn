@@ -3,23 +3,19 @@ import { Model } from "$src/utils/content/model";
 import { ContentPaths } from "$src/utils/content/path";
 
 export class Techno extends Model {
-  public id!: string;
+  declare id: string;
 
-  public _name!: string;
-  public description!: string;
-  public icon!: string;
+  declare name: string;
+  declare description: string;
+  declare icon: string;
 
-  public color?: string;
-  public used_since?: Date;
-  public website?: string;
-
-  get name() {
-    return this._name;
-  }
+  declare color?: string;
+  declare used_since?: Date;
+  declare website?: string;
 }
 
 export const Technos = Collection.load(
   Techno,
-  ContentPaths.root("technos"),
+  ContentPaths.root("technos/*.json"),
   "id",
 );

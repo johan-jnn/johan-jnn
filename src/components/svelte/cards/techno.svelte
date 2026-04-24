@@ -1,6 +1,7 @@
 <script lang="ts" module>
   import { type Techno } from "$content/techno";
-  export interface TechnoCardProps extends Omit<Techno, "_name"> {
+  import type { Attributes } from "$src/utils/types/class/properties";
+  export interface TechnoCardProps extends Attributes<Techno> {
     color: string;
     children?: Snippet;
   }

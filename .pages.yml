@@ -136,7 +136,7 @@ content:
                     type: reference
                     options:
                       multiple: true
-                      collection: projects
+                      collection: projects-list
                       value: "{id}"
                       max: 5
 
@@ -162,7 +162,7 @@ content:
     fields:
       - name: id
         component: uuid
-      - name: _name
+      - name: name
         type: string
         label: Nom
         required: true
@@ -216,7 +216,7 @@ content:
             label: Description
             required: false
 
-      - name: projects
+      - name: projects-list
         label: Liste des projets
         path: src/data/content/projects/list
         type: collection

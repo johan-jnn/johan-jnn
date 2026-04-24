@@ -1,13 +1,15 @@
 ---
 import Page from "$layouts/pages/default.astro";
 import Project from "$src/components/svelte/cards/project.svelte";
-import FillingBar from "$svelte/animations/loaders/filling-bar.svelte";
 import Button from "$svelte/button.svelte";
 import Techno from "$svelte/cards/techno.svelte";
 import Hero from "$svelte/heros/index.svelte";
 
 import Contact from "$svelte/sections/contact.svelte";
 import Section from "$svelte/sections/simple.svelte";
+
+import { Homepage } from "$content/pages/home";
+import FillingBar from "$src/components/svelte/animations/loaders/filling-bar.svelte";
 ---
 
 <Page
@@ -35,51 +37,26 @@ import Section from "$svelte/sections/simple.svelte";
       <ul
         class="flex max-md:flex-wrap max-md:max-w-120 max-md:mx-auto items-center justify-stretch py-4 gap-8"
       >
-        <li class="w-full">
-          <Techno
-            id=""
-            name="Laravel"
-            description="PHP backend framework"
-            color="var(--color-secondary)"
-            used_since={new Date("2020-02-02")}
-            icon="laravel-original"
-            website="https://laravel.com"
-          >
-            <FillingBar
-              fill={0.75}
-              fillColor="var(--theme)"
-              delimiters={true}
-            />
-          </Techno>
-        </li>
-
-        <li class="w-full">
-          <Techno
-            id=""
-            name="Svelte"
-            description="Javascript full-stack framework"
-            color="var(--color-primary)"
-            used_since={new Date("2018-08-04")}
-            icon="svelte-plain"
-            website="https://svelte.dev"
-          >
-            <FillingBar fill={0.95} fillColor="var(--theme)" />
-          </Techno>
-        </li>
-
-        <li class="w-full">
-          <Techno
-            id=""
-            name="Rust"
-            description="Pretty easy and fast low-level language"
-            color="var(--color-primary-800)"
-            used_since={new Date("2024-02-02")}
-            icon="rust-original"
-            website="https://rust-lang.org"
-          >
-            <FillingBar fill={0.38} fillColor="var(--theme)" delimiters={25} />
-          </Techno>
-        </li>
+        {
+          Homepage.promoted_technos.firsts(3).map((props) => {
+            return (
+              <li class="w-full">
+                <Techno
+                  {...props}
+                  color={props.color ?? "var(--color-primary)"}
+                >
+                  <FillingBar
+                    fill={Math.random()}
+                    fillColor="var(--theme)"
+                    delimiters={
+                      Math.random() > 0.5 && Math.floor(Math.random() * 25) + 10
+                    }
+                  />
+                </Techno>
+              </li>
+            );
+          })
+        }
       </ul>
     </Section>
 
@@ -87,31 +64,15 @@ import Section from "$svelte/sections/simple.svelte";
       <ul
         class="flex max-sm:flex-col max-sm:children:aspect-9/10 max-sm:max-w-120 mx-auto items-stretch justify-stretch sm:justify-center sm:h-[50svh] gap-6"
       >
-        <li class="sm:h-full max-sm:w-full">
-          <Project
-            id=""
-            name="Lasido"
-            description="Robot discord musical"
-            category="robot"
-            slug="lasido"
-            stack={[]}
-            tags={["discord", "nodejs", "robot", "automatisation", "musique"]}
-            cover=`https://picsum.photos/700/400?${Math.random()}`
-          />
-        </li>
-
-        <li class="sm:h-full max-sm:w-full">
-          <Project
-            id=""
-            name="Flylang"
-            description="Mon propre langage de programmation 'Turing complete'"
-            category="algorythmie"
-            stack={[]}
-            slug="lasido"
-            tags={["rust", "low-level", "fs"]}
-            cover=`https://picsum.photos/700/400?${Math.random()}`
-          />
-        </li>
+        {
+          Homepage.promoted_projects.firsts(5).map((props) => {
+            return (
+              <li class="sm:h-full max-sm:w-full">
+                <Project {...props} />
+              </li>
+            );
+          })
+        }
       </ul>
       <Button
         action={{
