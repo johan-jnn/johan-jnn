@@ -1,33 +1,20 @@
 ---
 import Page from "$layouts/pages/default.astro";
 import Contact from "$src/components/svelte/sections/contact.svelte";
-import type { ProjectOverview } from "$src/content/project";
 import Hero from "$svelte/heros/simple.svelte";
 import Listing from "$svelte/listing/projects.svelte";
+import { getCollection, getEntry } from "astro:content";
 import moment from "moment";
 
-const projects: ProjectOverview[] = [
-  {
-    name: "Lasido",
-    description: "Robot discord musical",
-    category: "robot",
-    slug: "lasido",
-    tags: ["discord", "nodejs", "robot", "automatisation", "musique"],
-    cover: `https://picsum.photos/700/400?${Math.random()}`,
-    date: new Date("2019-03-24"),
-    stack: [],
-  },
-  {
-    name: "Flylang",
-    description: "Mon langage de programmation",
-    category: "algo",
-    slug: "flylang",
-    tags: ["rust", "tools", "low-level", "nodejs"],
-    cover: `https://picsum.photos/700/400?${Math.random()}`,
-    date: new Date("2022-03-24"),
-    stack: [],
-  },
-];
+const projects = await Promise.all(
+  await getCollection("projects").then((entries) =>
+    entries.map(async ({ data }) => ({
+      ...data.overview,
+      category: (await getEntry(data.overview.category)).data,
+      id: data.id,
+    })),
+  ),
+);
 
 const min_date = projects.reduce(
   (current, { date }) => (date && date < current ? date : current),

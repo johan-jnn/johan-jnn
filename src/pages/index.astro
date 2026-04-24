@@ -5,11 +5,16 @@ import Button from "$svelte/button.svelte";
 import Techno from "$svelte/cards/techno.svelte";
 import Hero from "$svelte/heros/index.svelte";
 
+import FillingBar from "$src/components/svelte/animations/loaders/filling-bar.svelte";
 import Contact from "$svelte/sections/contact.svelte";
 import Section from "$svelte/sections/simple.svelte";
 
-import { Homepage } from "$content/pages/home";
-import FillingBar from "$src/components/svelte/animations/loaders/filling-bar.svelte";
+import { getSingleton } from "$src/utils/content/singleton";
+import { getEntries, getEntry } from "astro:content";
+const { data: Homepage } = await getSingleton("home")!;
+
+const technos = await getEntries(Homepage.sections.technos.technos ?? []);
+const projects = await getEntries(Homepage.sections.projects.projects ?? []);
 ---
 
 <Page
@@ -30,60 +35,64 @@ import FillingBar from "$src/components/svelte/animations/loaders/filling-bar.sv
   </ul>
 
   <header>
-    <Hero client:load />
+    <Hero client:load {...Homepage.hero} />
   </header>
   <main>
-    <Section title="Stack" subtitle="Catégorie: préférées">
-      <ul
-        class="flex max-md:flex-wrap max-md:max-w-120 max-md:mx-auto items-center justify-stretch py-4 gap-8"
-      >
-        {
-          Homepage.promoted_technos.firsts(3).map((props) => {
-            return (
-              <li class="w-full">
-                <Techno
-                  {...props}
-                  color={props.color ?? "var(--color-primary)"}
-                >
-                  <FillingBar
-                    fill={Math.random()}
-                    fillColor="var(--theme)"
-                    delimiters={
-                      Math.random() > 0.5 && Math.floor(Math.random() * 25) + 10
-                    }
-                  />
-                </Techno>
-              </li>
-            );
-          })
-        }
-      </ul>
-    </Section>
+    {
+      technos.length && (
+        <Section {...Homepage.sections.technos.section}>
+          <ul class="flex max-md:flex-wrap max-md:max-w-120 max-md:mx-auto items-center justify-stretch py-4 gap-8">
+            {technos.map(({ data }) => {
+              return (
+                <li class="w-full">
+                  <Techno
+                    {...data}
+                    color={data.color ?? "var(--color-primary)"}
+                  >
+                    <FillingBar
+                      fill={Math.random()}
+                      fillColor="var(--theme)"
+                      delimiters={
+                        Math.random() > 0.5 &&
+                        Math.floor(Math.random() * 25) + 10
+                      }
+                    />
+                  </Techno>
+                </li>
+              );
+            })}
+          </ul>
+        </Section>
+      )
+    }
 
-    <Section title="Modules_deployés" important={true}>
-      <ul
-        class="flex max-sm:flex-col max-sm:children:aspect-9/10 max-sm:max-w-120 mx-auto items-stretch justify-stretch sm:justify-center sm:h-[50svh] gap-6"
-      >
-        {
-          Homepage.promoted_projects.firsts(5).map((props) => {
-            return (
-              <li class="sm:h-full max-sm:w-full">
-                <Project {...props} />
-              </li>
-            );
-          })
-        }
-      </ul>
-      <Button
-        action={{
-          url: "/portfolio",
-        }}
-        level="secondary"
-        class="mx-auto w-fit mt-12 py-4"
-      >
-        Voir tous mes projets
-      </Button>
-    </Section>
+    {
+      projects.length && (
+        <Section {...Homepage.sections.projects.section}>
+          <ul class="flex max-sm:flex-col max-sm:children:aspect-9/10 max-sm:max-w-120 mx-auto items-stretch justify-stretch sm:justify-center sm:h-[50svh] gap-6">
+            {projects.map(async ({ data }) => {
+              return (
+                <li class="sm:h-full max-sm:w-full">
+                  <Project
+                    {...data.overview}
+                    category={(await getEntry(data.overview.category)).data}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+          <Button
+            action={{
+              url: "/portfolio",
+            }}
+            level="secondary"
+            class="mx-auto w-fit mt-12 py-4"
+          >
+            Voir tous mes projets
+          </Button>
+        </Section>
+      )
+    }
 
     <Contact
       id="contact"

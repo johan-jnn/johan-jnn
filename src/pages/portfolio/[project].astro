@@ -1,6 +1,15 @@
 ---
 import type { GetStaticPaths } from "astro";
-export const getStaticPaths = (() => {
-  return [];
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection("projects");
+
+  return projects.map(({ data: project }) => ({
+    params: { project: project.overview.slug },
+    props: { project },
+  }));
 }) satisfies GetStaticPaths;
 ---
+
+{Astro.props.project.id}

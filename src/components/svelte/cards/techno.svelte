@@ -1,7 +1,6 @@
 <script lang="ts" module>
-  import { type Techno } from "$content/techno";
-  import type { Attributes } from "$src/utils/types/class/properties";
-  export interface TechnoCardProps extends Attributes<Techno> {
+  import type { EntryData } from "$src/utils/content/entry";
+  export interface TechnoCardProps extends EntryData<"technos"> {
     color: string;
     children?: Snippet;
   }

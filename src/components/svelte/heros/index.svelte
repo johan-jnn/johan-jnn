@@ -1,14 +1,17 @@
 <script lang="ts">
   import { CLOCK_TIMINGS } from "$src/stores/clock";
+  import type { EntryData } from "$src/utils/content/entry";
   import Button from "$svelte/button.svelte";
   import Music from "../animations/spinners/music.svelte";
   import ClockForm from "../forms/clock.svelte";
   import SplittedHeading from "../headings/splitted.svelte";
 
-  import { hero } from "$data/content/pages/home.json";
-  const { titles, ctas, description, localisation } = hero;
+  const { titles, ctas, description, localisation }: EntryData<"home">["hero"] =
+    $props();
 
-  const title_parts = titles[Math.floor(Math.random() * titles.length)].lines;
+  const title_parts = $derived(
+    titles[Math.floor(Math.random() * titles.length)].lines,
+  );
 </script>
 
 <div
