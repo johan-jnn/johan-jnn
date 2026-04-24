@@ -136,7 +136,7 @@ content:
                     type: reference
                     options:
                       multiple: true
-                      collection: projects-list
+                      collection: projects.projects-list
                       value: "{id}"
                       max: 5
 
