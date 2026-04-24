@@ -136,7 +136,7 @@ content:
                     type: reference
                     options:
                       multiple: true
-                      collection: projects-list
+                      collection: "projects-list"
                       value: "{id}"
                       label: "{primary}"
                       max: 5
