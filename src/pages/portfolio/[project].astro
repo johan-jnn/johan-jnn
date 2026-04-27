@@ -2,6 +2,9 @@
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 
+import Article from "$layouts/pages/article.astro";
+import { getEntry, render } from "astro:content";
+
 export const getStaticPaths = (async () => {
   const projects = await getCollection("projects");
 
@@ -10,6 +13,19 @@ export const getStaticPaths = (async () => {
     props: { project },
   }));
 }) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+
+const title = project.presentation?.title ?? project.overview.name;
+const description =
+  project.presentation?.subtitle ?? project.overview.description;
+
+const rendered = await render(await getEntry("projects", project.id)!);
 ---
 
-{Astro.props.project.id}
+<Article
+  {title}
+  {description}
+  cover={project.overview.cover}
+  content={rendered}
+/>

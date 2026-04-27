@@ -1,0 +1,42 @@
+---
+import Toc from "$src/components/svelte/nav/toc.svelte";
+import Hero from "$svelte/heros/simple.svelte";
+import { type RenderResult } from "astro:content";
+import Page from "./default.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  cover: string;
+
+  content?: RenderResult;
+}
+
+const { title, description, cover, content } = Astro.props;
+---
+
+<Page {title} {description}>
+  <header class="relative py-8">
+    <img
+      class="absolute top-0 left-0 size-full object-cover object-center opacity-10"
+      src={cover}
+      alt={description}
+    />
+    <Hero {title}>
+      {description}
+    </Hero>
+  </header>
+  <main class="p-4 gap-12 mt-12 grid grid-cols-[1fr_auto_1fr]">
+    {
+      content?.headings && (
+        <aside class="sticky top-10/100 h-fit">
+          <Toc headings={content.headings} />
+        </aside>
+      )
+    }
+
+    <main class="max-w-250">
+      {content ? <content.Content /> : <slot />}
+    </main>
+  </main>
+</Page>

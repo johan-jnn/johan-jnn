@@ -53,6 +53,32 @@ components:
               value: _top
 
 content:
+  - name: settings
+    label: Paramètres
+    type: group
+    items:
+      - name: nav
+        path: src/data/content/settings/navigation.json
+        label: Navigation
+        type: file
+        format: json
+        fields:
+          - name: header
+            type: object
+            label: Header
+            fields:
+              - name: title
+                label: Titre
+                component: link
+              - name: nav
+                label: Navigations
+                component: link
+                array: true
+              - name: ctas
+                label: Call-to-actions
+                component: link
+                array: true
+
   - name: pages
     label: Pages
     description: Contenu des différentes pages du site
@@ -296,7 +322,7 @@ content:
                 type: string
               - name: subtitle
                 label: Sous-titre
-                description: Sous-titre/description du projet (si non défini, le nom du projet sera utilisé)
+                description: Sous-titre/description du projet (si non défini, la description du projet sera utilisé)
                 type: text
 
           - name: body

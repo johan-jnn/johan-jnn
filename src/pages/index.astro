@@ -62,6 +62,15 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
               );
             })}
           </ul>
+          <Button
+            action={{
+              url: "/stack",
+            }}
+            level="neutral"
+            class="mt-12 w-fit mx-auto"
+          >
+            Voir toute ma boite à outils
+          </Button>
         </Section>
       )
     }

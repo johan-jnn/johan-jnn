@@ -6,10 +6,13 @@
     title,
     subtitle,
     children,
+    h,
   }: {
     title: string | string[];
     subtitle?: string;
     children?: Snippet;
+
+    h?: number;
   } = $props();
 </script>
 
@@ -18,7 +21,7 @@
 >
   <SplittedHeading
     parts={title instanceof Array ? title : [title]}
-    h={1}
+    h={h ?? 1}
     class="max-md:text-[9svw]!"
   />
 
