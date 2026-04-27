@@ -13,7 +13,7 @@ overview:
     - musique
     - bdd
 presentation:
-  title: Lasido - Mon propre robot musical
+  title: Lasido - Mon robot musical
 ---
 ## Description
 
