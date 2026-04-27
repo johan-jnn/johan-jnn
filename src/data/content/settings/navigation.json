@@ -1,0 +1,21 @@
+{
+  "header": {
+    "title": "Johan Janin",
+    "nav": [
+      {
+        "label": "Projets",
+        "url": "/portfolio"
+      },
+      {
+        "label": "Blog",
+        "url": "/blog"
+      }
+    ],
+    "ctas": [
+      {
+        "label": "Me contacter",
+        "url": "/contact"
+      }
+    ]
+  }
+}
