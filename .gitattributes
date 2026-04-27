@@ -1,2 +1,2 @@
-src/data/content merge=theirs
-public/content merge=theirs
+src/data/content/**  merge=ours
+public/content/**    merge=ours
