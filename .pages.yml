@@ -73,11 +73,11 @@ content:
               - name: nav
                 label: Navigations
                 component: link
-                array: true
+                list: true
               - name: ctas
                 label: Call-to-actions
                 component: link
-                array: true
+                list: true
 
   - name: pages
     label: Pages
