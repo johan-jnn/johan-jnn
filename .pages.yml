@@ -53,6 +53,29 @@ components:
               value: _top
 
 content:
+  - name: settings
+    label: Paramètres
+    type: group
+    items:
+      - name: nav
+        path: src/data/content/settings/navigation.json
+        label: Navigation
+        type: file
+        format: json
+        fields:
+          - name: header
+            type: object
+            label: Header
+            fields:
+              - name: title
+                label: Titre
+                type: string
+                required: true
+              - name: nav
+                label: Navigations
+                component: link
+                list: true
+
   - name: pages
     label: Pages
     description: Contenu des différentes pages du site
@@ -86,7 +109,7 @@ content:
                 list:
                   collapsible: true
                 fields:
-                  - name: line
+                  - name: lines
                     label: Ligne du titre
                     description: "Note: les lignes impaires sont colorées avec la couleur primaire"
                     list: true
@@ -136,7 +159,7 @@ content:
                     type: reference
                     options:
                       multiple: true
-                      collection: projects
+                      collection: projects-list
                       value: "{id}"
                       max: 5
 
@@ -216,7 +239,7 @@ content:
             label: Description
             required: false
 
-      - name: projects
+      - name: projects-list
         label: Liste des projets
         path: src/data/content/projects/list
         type: collection
@@ -296,7 +319,7 @@ content:
                 type: string
               - name: subtitle
                 label: Sous-titre
-                description: Sous-titre/description du projet (si non défini, le nom du projet sera utilisé)
+                description: Sous-titre/description du projet (si non défini, la description du projet sera utilisé)
                 type: text
 
           - name: body

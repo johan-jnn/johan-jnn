@@ -1,6 +1,31 @@
 ---
 import type { GetStaticPaths } from "astro";
-export const getStaticPaths = (() => {
-  return [];
+import { getCollection } from "astro:content";
+
+import Article from "$layouts/pages/article.astro";
+import { getEntry, render } from "astro:content";
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection("projects");
+
+  return projects.map(({ data: project }) => ({
+    params: { project: project.overview.slug },
+    props: { project },
+  }));
 }) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+
+const title = project.presentation?.title ?? project.overview.name;
+const description =
+  project.presentation?.subtitle ?? project.overview.description;
+
+const rendered = await render(await getEntry("projects", project.id)!);
 ---
+
+<Article
+  {title}
+  {description}
+  cover={project.overview.cover}
+  content={rendered}
+/>

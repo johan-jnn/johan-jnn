@@ -1,5 +1,5 @@
 <script lang="ts" module>
-  import type { ProjectOverview } from "$types/project";
+  import type { ProjectOverview } from "$src/utils/content/types/projectOverview";
 
   export interface ProjectCardProps extends ProjectOverview {
     name_h?: number;
@@ -38,7 +38,7 @@
         ]}
         aria-label="Project's category"
       >
-        {category}
+        {category.title}
       </p>
 
       <img

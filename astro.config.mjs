@@ -6,7 +6,15 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [svelte()],
+  integrations: [
+    svelte({
+      compilerOptions: {
+        experimental: {
+          async: true,
+        },
+      },
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

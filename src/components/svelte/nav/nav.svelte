@@ -6,10 +6,6 @@
         url: "/portfolio",
       },
       {
-        label: "Outils",
-        url: "/my-stack",
-      },
-      {
         label: "Blog",
         url: "/blog",
       },

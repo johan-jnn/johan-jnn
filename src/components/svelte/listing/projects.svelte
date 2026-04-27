@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ProjectOverview } from "$src/types/project";
+  import type { ProjectOverview } from "$src/utils/content/types/projectOverview";
   import CursorsStars from "../animations/sections/cursors-stars.svelte";
   import Project from "../cards/project.svelte";
   import Toggler from "../forms/inputs/toggler.svelte";
@@ -15,7 +15,7 @@
 
   const displayed_projects = $derived(
     projects.filter((project) => {
-      if (selected_category && selected_category !== project.category)
+      if (selected_category && selected_category !== project.category.id)
         return false;
       if (
         selected_tags.length &&
@@ -36,7 +36,7 @@
     if (displayed_projects.length || !projects.length) return;
 
     const projects_in_category = selected_category
-      ? projects.filter((p) => p.category === selected_category)
+      ? projects.filter((p) => p.category.id === selected_category)
       : projects;
     selected_tags = selected_tags.filter((tag) => {
       projects_in_category.find((p) => p.tags.includes(tag));
@@ -60,15 +60,15 @@
     <section class="grid gap-2">
       <p class="uppercase font-heading font-bold">Catégories</p>
       <div class="grid sm:grid-cols-2 gap-4 text-sm">
-        {#each allowed_categories as name (name)}
+        {#each allowed_categories as category (category.id)}
           <Toggler
             name="p-category"
-            id="cat-{name}"
-            value={name}
+            id="cat-{category.id}"
+            value={category.id}
             type="resetable-radio"
             bind:group={selected_category}
           >
-            {name}
+            {category.title}
           </Toggler>
         {/each}
       </div>
