@@ -4,10 +4,12 @@
 @import "./variants/_variants.css";
 @import "./theme/_theme.css";
 @import "./components/_components.css";
+@plugin "@tailwindcss/typography";
 
 @layer base {
   :root {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
   body {

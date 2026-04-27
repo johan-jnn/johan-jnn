@@ -1,5 +1,6 @@
 ---
 import Toc from "$src/components/svelte/nav/toc.svelte";
+import Prose from "$src/components/svelte/prose.svelte";
 import Hero from "$svelte/heros/simple.svelte";
 import { type RenderResult } from "astro:content";
 import Page from "./default.astro";
@@ -35,8 +36,18 @@ const { title, description, cover, content } = Astro.props;
       )
     }
 
-    <main class="max-w-250">
-      {content ? <content.Content /> : <slot />}
+    <main
+      class="max-w-250"
+    >
+      {
+        content ? (
+          <Prose>
+            <content.Content />
+          </Prose>
+        ) : (
+          <slot />
+        )
+      }
     </main>
   </main>
 </Page>
