@@ -10,4 +10,7 @@ export class ContentPaths {
   static pages(...append: string[]) {
     return this.root("pages", ...append);
   }
+  static settings(...append: string[]) {
+    return this.root("settings", ...append);
+  }
 }

@@ -68,8 +68,8 @@ content:
             label: Header
             fields:
               - name: title
-                label: Titre
-                component: link
+                type: string
+                required: true
               - name: nav
                 label: Navigations
                 component: link

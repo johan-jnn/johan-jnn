@@ -5,7 +5,7 @@ import { reference } from "astro:content";
 import { ContentPaths } from "./utils/content/path";
 
 export const components = {
-  cta: z.object({
+  link: z.object({
     label: z.string(),
     url: z.string(),
     target: z.string().optional(),
@@ -75,6 +75,21 @@ export const collections = {
     }),
   }),
 
+  // Settings
+  navigation: defineCollection({
+    loader: glob({
+      pattern: "navigation.json",
+      base: ContentPaths.settings(),
+    }),
+    schema: z.object({
+      header: z.object({
+        title: z.string(),
+        nav: z.array(components.link),
+        ctas: z.array(components.link),
+      }),
+    }),
+  }),
+
   // Singletons
   home: defineCollection({
     loader: glob({
@@ -90,7 +105,7 @@ export const collections = {
           }),
         ),
         description: z.string(),
-        ctas: z.array(components.cta),
+        links: z.array(components.link),
       }),
       sections: z.object({
         technos: z.object({
