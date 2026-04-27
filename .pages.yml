@@ -68,6 +68,7 @@ content:
             label: Header
             fields:
               - name: title
+                label: Titre
                 type: string
                 required: true
               - name: nav
