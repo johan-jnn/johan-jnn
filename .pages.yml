@@ -75,10 +75,6 @@ content:
                 label: Navigations
                 component: link
                 list: true
-              - name: ctas
-                label: Call-to-actions
-                component: link
-                list: true
 
   - name: pages
     label: Pages

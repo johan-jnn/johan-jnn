@@ -85,7 +85,6 @@ export const collections = {
       header: z.object({
         title: z.string(),
         nav: z.array(components.link),
-        ctas: z.array(components.link),
       }),
     }),
   }),
@@ -105,7 +104,7 @@ export const collections = {
           }),
         ),
         description: z.string(),
-        links: z.array(components.link),
+        ctas: z.array(components.link),
       }),
       sections: z.object({
         technos: z.object({
