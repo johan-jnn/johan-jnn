@@ -1,6 +1,7 @@
 ---
 import Toc from "$src/components/svelte/nav/toc.svelte";
 import Prose from "$src/components/svelte/prose.svelte";
+import { AstroSlot } from "$src/utils/astro/slots";
 import Hero from "$svelte/heros/simple.svelte";
 import { type RenderResult } from "astro:content";
 import Page from "./default.astro";
@@ -14,10 +15,13 @@ interface Props {
 }
 
 const { title, description, cover, content } = Astro.props;
+
+const header = new AstroSlot(Astro.slots, "header");
+const footer = new AstroSlot(Astro.slots, "footer");
 ---
 
 <Page {title} {description}>
-  <header class="relative py-8">
+  <header id="article-header" class="relative py-8 grid min-h-[70svh]">
     <img
       class="absolute top-0 left-0 size-full object-cover object-center opacity-10"
       src={cover}
@@ -27,18 +31,24 @@ const { title, description, cover, content } = Astro.props;
       {description}
     </Hero>
   </header>
-  <main class="p-4 gap-12 mt-12 grid grid-cols-[1fr_auto_1fr]">
+  <main class="p-4 gap-12 mt-12 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr]">
     {
       content?.headings && (
-        <aside class="sticky top-10/100 h-fit">
+        <aside class="lg:sticky top-10/100 h-fit">
           <Toc headings={content.headings} />
         </aside>
       )
     }
 
-    <main
-      class="max-w-250"
-    >
+    <main>
+      {
+        header.exists && (
+          <header>
+            <slot name="header" />
+          </header>
+        )
+      }
+
       {
         content ? (
           <Prose>
@@ -46,6 +56,14 @@ const { title, description, cover, content } = Astro.props;
           </Prose>
         ) : (
           <slot />
+        )
+      }
+
+      {
+        footer.exists && (
+          <footer>
+            <slot name="footer" />
+          </footer>
         )
       }
     </main>

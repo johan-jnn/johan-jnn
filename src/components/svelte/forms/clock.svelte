@@ -1,5 +1,6 @@
 <script lang="ts">
   import { CLOCK_SPEED } from "$src/stores/clock";
+  import Arrow from "../vectors/arrow.svelte";
   import Range from "./inputs/range.svelte";
 
   const id = $props.id();
@@ -13,10 +14,9 @@
     <p class="text-sm sm:text-xs max-sm:after:content-[':']">
       Modifies la cadence du portfolio
     </p>
-    <img
+
+    <Arrow
       class="h-18 absolute top-full left-1/2 -translate-x-1/2 -rotate-12 max-sm:hidden"
-      src="/ui/arrow.svg"
-      alt="Flêche"
     />
   </label>
 
