@@ -2,6 +2,7 @@
 import { getSingleton } from "$src/utils/content/singleton";
 import SvelteHeader from "$svelte/header.svelte";
 import { AstroSlot } from "$utils/astro/slots";
+import { JustifyNav } from "../svelte/nav/nav.svelte";
 import Nav from "./nav/nav.astro";
 
 interface Props {
@@ -12,11 +13,16 @@ const { title } = Astro.props;
 const {
   data: { header },
 } = await getSingleton("navigation")!;
+
+const extraSlot = new AstroSlot(Astro.slots, "default");
 ---
 
 <SvelteHeader title={title ?? header.title} client:load>
   <slot name="nav" slot="nav">
-    <Nav items={header.nav} />
+    <Nav
+      items={header.nav}
+      justify={extraSlot.exists ? JustifyNav.Center : JustifyNav.Right}
+    />
   </slot>
-  <slot slot={new AstroSlot(Astro.slots, "default").existTernary("default")} />
+  <slot slot={extraSlot.existTernary("default")} />
 </SvelteHeader>

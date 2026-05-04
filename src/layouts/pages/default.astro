@@ -1,6 +1,7 @@
 ---
 import Header from "$astro/header.astro";
 import Html from "$layouts/html.astro";
+import Smoother from "$src/components/svelte/animations/scroll/smoother.svelte";
 import Footer from "$src/components/svelte/footer.svelte";
 import Style from "$src/styles/style.astro";
 import { AstroSlot } from "$src/utils/astro/slots";
@@ -27,7 +28,6 @@ const { lang, title, description, without_defaults } = Astro.props;
       <title>{title}</title>
       <meta name="description" content={description} />
     )}
-
     <slot name="head" />
   </Fragment>
 
@@ -42,19 +42,17 @@ const { lang, title, description, without_defaults } = Astro.props;
       </Header>
       )
     }
-
     <slot name="body-top" />
   </Fragment>
 
   <main>
-    <slot name="before-content" />
-    <slot />
-    <slot name="after-content" />
+      <slot name="before-content" />
+      <slot />
+      <slot name="after-content" />
   </main>
 
   <Fragment slot="body-bottom">
     <slot name="body-bottom" />
-
     {
       without_defaults?.footer
       ? <slot name="footer" />

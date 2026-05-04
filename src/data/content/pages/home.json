@@ -3,14 +3,14 @@
     "localisation": "Lyon / 45.7640° N, 4.8357° E",
     "titles": [
       {
-        "line": [
+        "lines": [
           "Johan JANIN //",
           "Architecte",
           "Digital"
         ]
       },
       {
-        "line": [
+        "lines": [
           "Johan JANIN //",
           "Développeur",
           "Full-Stack"
@@ -46,7 +46,10 @@
       "section": {
         "title": "Modules_deployés",
         "important": true
-      }
+      },
+      "projects": [
+        "1b35a217-2bf9-42c6-a165-76684cd1bce6"
+      ]
     }
   }
 }

@@ -17,7 +17,7 @@
 </script>
 
 <div
-  class="h-full justify-end py-20 px-8 relative flex flex-col-reverse gap-2 max-md:pb-25"
+  class="h-full justify-center py-20 px-8 relative flex flex-col-reverse gap-2 max-md:pb-25"
 >
   <SplittedHeading
     parts={title instanceof Array ? title : [title]}
