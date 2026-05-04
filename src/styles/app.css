@@ -13,10 +13,16 @@
   }
 
   body {
-    @apply text-black bg-white dark:bg-black dark:text-white font-medium;
+    @apply text-black dark:text-white font-medium;
   }
 
   hr {
     @apply w-full border border-black dark:border-white my-16;
+  }
+}
+
+@layer components {
+  .app-background {
+    @apply bg-white dark:bg-black;
   }
 }

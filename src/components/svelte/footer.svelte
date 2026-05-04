@@ -3,16 +3,24 @@
     Github: "https://github.com/johan-jnn",
     LinkedIn: "https://linkedin.com/in/johan-janin/",
   };
+
+  let height = $state(0);
+  $effect(() => {
+    height && document.body.style.setProperty("--footer-height", height + "px");
+  });
 </script>
 
 <footer
   class={[
-    "mt-18 border-t-2 border-black dark:border-white py-12 px-8",
+    "py-12 px-8",
     "flex sm:items-end justify-between",
     "font-heading uppercase",
 
+    "fixed bottom-0 left-0 w-full",
+
     "max-sm:flex-col-reverse max-sm:gap-8",
   ]}
+  bind:clientHeight={height}
 >
   <section>
     <p class="font-bold text-xl">Johan JANIN</p>
