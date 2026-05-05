@@ -35,7 +35,11 @@ const rendered = await render(await getEntry("projects", project.id)!);
     <li>
       Type: {category.data.title}
     </li>
-    <li>Date: {project.overview.date.toLocaleDateString()}</li>
+    <li>
+      Date: {
+        project.overview.date.toLocaleDateString("fr-FR", { dateStyle: "long" })
+      }
+    </li>
   </ul>
 
   <Fragment slot="footer">
