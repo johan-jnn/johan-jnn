@@ -22,13 +22,19 @@
       );
     }
 
+    const { scrollPaddingTop } = getComputedStyle(document.documentElement);
+
     const fakeSmoothScrollHandler = (e: Event) => {
       const { currentTarget } = e;
       if (!(currentTarget instanceof HTMLAnchorElement)) return;
 
       const scroll = (scroller: ScrollSmoother) => {
         e.preventDefault();
-        scroller.scrollTo(currentTarget.getAttribute("href"), true, "top 8%");
+        scroller.scrollTo(
+          currentTarget.getAttribute("href"),
+          true,
+          `top ${scrollPaddingTop}`,
+        );
       };
 
       if (data.scroller) scroll(data.scroller);
