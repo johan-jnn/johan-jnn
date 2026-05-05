@@ -1,4 +1,5 @@
 <script module lang="ts">
+  import { gsapSmoothScroll } from "$svelte/actions/gsap-smoothScroll.svelte";
   import type { Snippet } from "svelte";
   import type {
     HTMLAttributeAnchorTarget,
@@ -66,7 +67,11 @@
 {#if "url" in action}
   {@const { url, target } = action}
 
-  <a href={url} target={target ?? "_self"}>
+  <a
+    href={url}
+    target={target ?? "_self"}
+    use:gsapSmoothScroll={{ onlyIfScrollSmoothed: true }}
+  >
     {@render button()}
   </a>
 {:else}

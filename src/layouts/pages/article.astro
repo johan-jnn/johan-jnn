@@ -1,4 +1,5 @@
 ---
+import GsapSticky from "$src/components/svelte/actions/gsap-sticky.svelte";
 import Toc from "$src/components/svelte/nav/toc.svelte";
 import Prose from "$src/components/svelte/prose.svelte";
 import { AstroSlot } from "$src/utils/astro/slots";
@@ -34,9 +35,14 @@ const footer = new AstroSlot(Astro.slots, "footer");
   <main class="p-4 gap-12 mt-12 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr]">
     {
       content?.headings && (
-        <aside class="lg:sticky top-10/100 h-fit">
+        <GsapSticky
+          element="aside"
+          class="lg:sticky top-8/100 h-fit"
+          onlyIfScrollSmoother
+          client:visible
+        >
           <Toc headings={content.headings} client:visible />
-        </aside>
+        </GsapSticky>
       )
     }
 

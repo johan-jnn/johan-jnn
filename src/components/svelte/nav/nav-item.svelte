@@ -1,4 +1,5 @@
 <script module lang="ts">
+  import { gsapSmoothScroll } from "$svelte/actions/gsap-smoothScroll.svelte";
   import type { HTMLAttributeAnchorTarget } from "svelte/elements";
 
   export interface NavigationItem {
@@ -23,6 +24,7 @@
   }}
   {target}
   href={url.toString()}
+  use:gsapSmoothScroll={{ onlyIfScrollSmoothed: true }}
 >
   <span>
     {label}

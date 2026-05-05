@@ -1,8 +1,14 @@
 <script lang="ts" module>
-  export function ifSmoothed(then: (smoother: ScrollSmoother) => any) {
+  /**
+   * Execute a function if the page use ScrollSmoother
+   * @param then The function to execute. If ScrollSmoother if used, the return of `ifSmoothed` is the return of this given function
+   */
+  export function ifSmoothed<T = any>(
+    then: (smoother: ScrollSmoother) => T,
+  ): T | undefined {
     const smoother = ScrollSmoother.get();
-    if (smoother) {
-      then(smoother);
+    if (smoother?.smooth()) {
+      return then(smoother);
     }
   }
 </script>
@@ -45,62 +51,16 @@
   let wrapper: HTMLElement | undefined = $state();
   let content: HTMLElement | undefined = $state();
 
-  $effect(() => {
-    vars ??= {};
-
+  onMount(() => {
     scroller = ScrollSmoother.create({
-      ...vars,
+      ...(vars ?? {}),
       wrapper,
       content,
     });
 
     return () => {
       scroller?.kill();
-    };
-  });
-
-  onMount(() => {
-    // --- Smooth anchors
-    const scrollAnchors = document.querySelectorAll("a[href^='#']");
-    const fakeSmoothScrollHandler = (e: Event) => {
-      const { currentTarget } = e;
-      if (!(currentTarget instanceof HTMLAnchorElement)) return;
-
-      e.preventDefault();
-      scroller?.scrollTo(currentTarget.getAttribute("href"), true, "top 8%");
-    };
-
-    scrollAnchors.forEach((anchor) =>
-      anchor.addEventListener("click", fakeSmoothScrollHandler),
-    );
-
-    // --- Faking sticky elements
-    /**
-     * As I use tailwindcss, I can find sticky elements by their classnames
-     */
-    Array.from(document.querySelectorAll('[class*="sticky"]')).forEach(
-      (node) => {
-        if (getComputedStyle(node).position !== "sticky") {
-          return;
-        }
-
-        ScrollTrigger.create({
-          trigger: node,
-          start: "top top",
-          end: "bottom bottom",
-          endTrigger: node.parentElement,
-          pin: true,
-          pinSpacing: false,
-        });
-      },
-    );
-
-    return () => {
-      scrollAnchors.forEach((anchor) =>
-        anchor.removeEventListener("click", fakeSmoothScrollHandler),
-      );
-
-      scroller?.kill();
+      scroller = undefined;
     };
   });
 </script>
