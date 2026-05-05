@@ -60,10 +60,6 @@
   </div>
 {/snippet}
 
-<svelte:head>
-  <meta name="test" content="fesse" />
-</svelte:head>
-
 {#if "url" in action}
   {@const { url, target } = action}
 
