@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { merge_classes } from "$src/utils/svelte/classes";
   import type { Snippet } from "svelte";
 
   const {
@@ -31,25 +32,32 @@
 
 <header
   style="--scroll:{scrollRate}"
-  class={[
-    "neo-shadow neo-shadow-black dark:neo-shadow-white",
-    "border-b-2 border-black dark:border-white bg-white dark:bg-black",
-    "sm:fixed top-0 left-0 w-full px-8 py-4 z-50",
-    "grid items-center grid-cols-2",
-    "sm:has-[:nth-child(3)]:grid-cols-[1fr_auto_1fr]",
-  ]}
+  class={merge_classes(
+    [
+      "fixed bottom-0 left-0 w-full py-6 px-4 z-50",
+      "grid items-center grid-cols-2",
+
+      "neo-shadow neo-shadow-black dark:neo-shadow-white",
+      "sm:border-b-2 border-black dark:border-white bg-white dark:bg-black",
+      "sm:top-0 sm:bottom-auto sm:px-8 sm:py-4",
+      "sm:has-[:nth-child(3)]:grid-cols-[1fr_auto_1fr]",
+
+      "before:absolute before:top-0 before:left-0 before:h-1 before:-translate-y-full",
+      "before:w-[calc(var(--scroll)*100%)] before:bg-primary",
+
+      "max-sm:before:content-['']",
+      "max-sm:neo-shadow-0 max-sm:transition-[transform_shadow]",
+      "max-sm:children:nth-[n+3]:hidden!",
+    ],
+    {
+      "max-sm:translate-y-full": scrollDirection === 1,
+      "max-sm:shadow-[0_5px_20px_rgba(0,0,0,0.15)]": scrollDirection !== 1,
+    },
+  )}
 >
   <a href="/" class="font-heading uppercase w-fit text-2xl">{title}</a>
 
-  <div
-    class={{
-      "max-sm:fixed bottom-0 left-0 z-50 max-sm:w-full max-sm:bg-white max-sm:py-6 max-sm:transition-[transform_shadow]": true,
-      "max-sm:before:content-[''] before:absolute before:top-0 before:left-0 before:h-1 before:-translate-y-full": true,
-      "before:w-[calc(var(--scroll)*100%)] before:bg-primary": true,
-      "max-sm:translate-y-full": scrollDirection === 1,
-      "max-sm:shadow-[0_5px_20px_rgba(0,0,0,0.15)]": scrollDirection !== 1,
-    }}
-  >
+  <div>
     {@render nav()}
   </div>
 
