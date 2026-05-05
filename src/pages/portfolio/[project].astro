@@ -38,13 +38,16 @@ const rendered = await render(await getEntry("projects", project.id)!);
     <li>Date: {project.overview.date.toLocaleDateString()}</li>
   </ul>
 
-  <Fragment slot="header">
+  <Fragment slot="footer">
     <hr />
 
-    <Share
-      title={project.overview.name}
-      description={project.overview.description}
-      url={Astro.url.toString()}
-    />
+    <div class="pb-12">
+      <Share
+        title={project.overview.name}
+        description={project.overview.description}
+        url={Astro.url.toString()}
+        client:visible
+      />
+    </div>
   </Fragment>
 </Article>

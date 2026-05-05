@@ -57,7 +57,7 @@
     },
     "Copier dans le presse-papier": {
       url: () => {
-        const text = `${description}\n${url}`;
+        const text = `${title}: ${description}\n${url}`;
         navigator.clipboard
           .writeText(text)
           .then(() => alert("Merci! L'article vient d'être copié."))
@@ -76,11 +76,12 @@
 >
   {heading ?? "Partage mon travail sur tes réseau favoris"}
 </H>
-<ul class="flex items-center justify-center gap-4">
+<ul class="flex items-center justify-center gap-2 mt-4">
   {#each Object.entries(sharables) as [network, info] (network)}
     {@const label = (info.key_prefix ?? "Partage sur ") + network}
     {@const classStyles: string[] = [
-      "size-8 grid cursor-pointer"
+      "size-8 grid cursor-pointer",
+      "hover:text-(--theme) transition-colors"
     ]}
     <li style:--theme={info.theme}>
       {#if typeof info.url === "string"}
