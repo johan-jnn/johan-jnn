@@ -27,7 +27,7 @@
     };
   } = $derived({
     LinkedIn: {
-      url: `https://www.linkedin.com/shareArticle/?mini=true&url=${encodeURIComponent(
+      url: `https://www.linkedin.com/sharing/share-offsite/?mini=true&url=${encodeURIComponent(
         url,
       )}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(description)}&source=${encodeURIComponent(url)}"`,
       icon: "icon-[fa7-brands--linkedin-in]",
@@ -81,7 +81,7 @@
     {@const label = (info.key_prefix ?? "Partage sur ") + network}
     {@const classStyles: string[] = [
       "size-8 grid cursor-pointer",
-      "hover:text-(--theme) transition-colors"
+      "hover:text-(--theme) pointer-coarse:text-(--theme) transition-colors"
     ]}
     <li style:--theme={info.theme}>
       {#if typeof info.url === "string"}

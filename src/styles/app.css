@@ -11,8 +11,7 @@
 
 @layer base {
   :root {
-    scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    @apply scroll-smooth scroll-pt-5 lg:scroll-pt-20;
   }
 
   body {

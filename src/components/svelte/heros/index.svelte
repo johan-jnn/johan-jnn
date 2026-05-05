@@ -15,7 +15,7 @@
 </script>
 
 <div
-  class="h-full grid sm:grid-cols-[60%_1fr] gap-y-8 items-center px-12 py-18"
+  class="h-full grid sm:grid-cols-[60%_1fr] gap-y-8 items-center px-8 md:px-12 py-18"
 >
   <section class="grid tracking-wider gap-12">
     <p

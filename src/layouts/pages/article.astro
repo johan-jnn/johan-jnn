@@ -29,13 +29,37 @@ const footer = new AstroSlot(Astro.slots, "footer");
     />
     <!-- Note: keep the slot without a new line to allow the empty:hidden to work -->
     <Hero {title} subtitle={description}>{(<slot name="header-extra" />)}</Hero>
+
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollSmoother } from "gsap/ScrollSmoother";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+      gsap.registerPlugin(ScrollTrigger);
+
+      const header = document.getElementById("article-header")!;
+      const shift = "100%";
+      gsap.to(header, {
+        opacity: 0,
+        translateY: shift,
+        ease: "none",
+        scrollTrigger: {
+          start: "0",
+          trigger: header,
+          end: `bottom+=${shift} top`,
+          scrub: ScrollSmoother.get()?.smooth() ?? true,
+          toggleActions: "play complete reverse reset",
+        },
+      });
+    </script>
   </header>
-  <main class="p-4 gap-12 mt-12 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr]">
+  <main
+    class="p-4 pt-12 gap-12 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] app-background z-1 relative will-change-transform"
+  >
     {
       content?.headings && (
         <GsapSticky
           element="aside"
-          class="lg:sticky top-[5vw] h-fit"
+          class="lg:sticky top-[5vw] h-fit max-lg:text-xl"
           onlyIfScrollSmoother
           client:visible
         >

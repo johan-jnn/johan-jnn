@@ -43,7 +43,7 @@
       "sm:has-[:nth-child(3)]:grid-cols-[1fr_auto_1fr]",
 
       "before:absolute before:top-0 before:left-0 before:h-1 before:-translate-y-full",
-      "before:w-[calc(var(--scroll)*100%)] before:bg-primary",
+      "before:w-[calc(var(--scroll)*100%)] before:bg-primary dark:before:bg-secondary",
 
       "max-sm:before:content-['']",
       "max-sm:neo-shadow-0 max-sm:transition-[transform_shadow]",

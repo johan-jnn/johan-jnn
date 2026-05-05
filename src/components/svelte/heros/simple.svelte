@@ -20,7 +20,7 @@
 
 {#snippet extraTitle(content: string)}
   <p
-    class="font-heading uppercase tracking-wider text-primary dark:text-secondary"
+    class="font-heading uppercase tracking-wider text-primary dark:text-secondary max-sm:text-center"
   >
     {content}
   </p>
