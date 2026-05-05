@@ -1,6 +1,6 @@
 {
   "header": {
-    "title": "Johan Janin",
+    "title": "Je suis un vrai dev",
     "nav": [
       {
         "label": "Projets",
@@ -9,12 +9,6 @@
       {
         "label": "Blog",
         "url": "/blog"
-      }
-    ],
-    "ctas": [
-      {
-        "label": "Me contacter",
-        "url": "/contact"
       }
     ]
   }
