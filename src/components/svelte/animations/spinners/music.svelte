@@ -2,7 +2,7 @@
   import { CSSAnimationDurationSmoother } from "$src/actions/css/animationDurationSmoother";
 
   const {
-    animation,
+    animation = {},
   }: {
     animation?:
       | {
@@ -30,7 +30,7 @@
   xmlns:xlink="http://www.w3.org/1999/xlink"
   style={animation_speed && `--animation-speed:${animation_speed};`}
   class={{
-    animated: animation !== false,
+    animated: animation,
   }}
 >
   <defs>
