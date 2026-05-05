@@ -3,6 +3,11 @@ media:
     label: Media des projets
     input: public/content/projects
     output: /content/projects
+  - name: background-musics
+    label: Musiques d'ambiance
+    input: public/content/audio/background
+    ouput: /content/audio/background
+    categories: [audio]
 
 components:
   uuid:
