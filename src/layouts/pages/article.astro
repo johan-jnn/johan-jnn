@@ -11,7 +11,6 @@ interface Props {
   title: string;
   description: string;
   cover: string;
-
   content?: RenderResult;
 }
 
@@ -28,16 +27,15 @@ const footer = new AstroSlot(Astro.slots, "footer");
       src={cover}
       alt={description}
     />
-    <Hero {title}>
-      {description}
-    </Hero>
+    <!-- Note: keep the slot without a new line to allow the empty:hidden to work -->
+    <Hero {title} subtitle={description}>{(<slot name="header-extra" />)}</Hero>
   </header>
   <main class="p-4 gap-12 mt-12 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr]">
     {
       content?.headings && (
         <GsapSticky
           element="aside"
-          class="lg:sticky top-8/100 h-fit"
+          class="lg:sticky top-[5vw] h-fit"
           onlyIfScrollSmoother
           client:visible
         >

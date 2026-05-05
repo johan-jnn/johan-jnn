@@ -4,7 +4,10 @@
 @import "./variants/_variants.css";
 @import "./theme/_theme.css";
 @import "./components/_components.css";
+
+/* Plugins */
 @plugin "@tailwindcss/typography";
+@plugin "@iconify/tailwind4";
 
 @layer base {
   :root {

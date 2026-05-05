@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 
 import Article from "$layouts/pages/article.astro";
+import Share from "$src/components/svelte/sections/share.svelte";
 import { getEntry, render } from "astro:content";
 
 export const getStaticPaths = (async () => {
@@ -19,6 +20,7 @@ const { project } = Astro.props;
 const title = project.presentation?.title ?? project.overview.name;
 const description =
   project.presentation?.subtitle ?? project.overview.description;
+const category = await getEntry(project.overview.category);
 
 const rendered = await render(await getEntry("projects", project.id)!);
 ---
@@ -28,4 +30,21 @@ const rendered = await render(await getEntry("projects", project.id)!);
   {description}
   cover={project.overview.cover}
   content={rendered}
-/>
+>
+  <ul slot="header-extra">
+    <li>
+      Type: {category.data.title}
+    </li>
+    <li>Date: {project.overview.date.toLocaleDateString()}</li>
+  </ul>
+
+  <Fragment slot="header">
+    <hr />
+
+    <Share
+      title={project.overview.name}
+      description={project.overview.description}
+      url={Astro.url.toString()}
+    />
+  </Fragment>
+</Article>
