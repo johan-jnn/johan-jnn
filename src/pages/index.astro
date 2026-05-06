@@ -19,19 +19,25 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
 
 <script>
   import { ambiancePlayer } from "$src/stores/ambiance";
+  import { CLOCK_SPEED } from "$src/stores/clock";
   import { AudioPlayer } from "$src/utils/audio/player";
 
   const player = new AudioPlayer(
     new Audio("/content/audio/background/flypack.mp3"),
   );
+  player.audio.volume = 0.5;
   ambiancePlayer.set(player);
-  document.addEventListener("click", () => {
-    if (player.active) {
-      player.audio.pause();
-    } else {
-      player.audio.play();
-    }
+
+  CLOCK_SPEED.subscribe((speed) => {
+    player.audio.playbackRate = speed / 100;
   });
+  document.addEventListener(
+    "click",
+    () => {
+      player.audio.play();
+    },
+    { once: true },
+  );
 </script>
 
 <Page
@@ -59,7 +65,7 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
       technos.length && (
         <Section {...Homepage.sections.technos.section}>
           <ul class="flex max-md:flex-wrap max-md:max-w-120 max-md:mx-auto items-center justify-stretch py-4 gap-8">
-            {technos.map(({ data }) => {
+            {technos.map(({ data }, index) => {
               return (
                 <li class="w-full">
                   <Techno
@@ -67,12 +73,13 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
                     color={data.color ?? "var(--color-primary)"}
                   >
                     <FillingBar
-                      fill={Math.random()}
+                      fill={{ frequency: index % 3 }}
                       fillColor="var(--theme)"
                       delimiters={
                         Math.random() > 0.5 &&
                         Math.floor(Math.random() * 25) + 10
                       }
+                      client:visible
                     />
                   </Techno>
                 </li>

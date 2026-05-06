@@ -16,7 +16,7 @@ interface AudioAnalyserOptions {
   };
   /**
    * @range [0; 1]
-   * @default 1
+   * @default 0.8
    */
   smoothing?: number;
 }
@@ -31,7 +31,7 @@ export class AudioAnalyser {
     this.meter.fftSize = options?.size ?? 32;
     this.meter.maxDecibels = options?.decibels?.max ?? 1;
     this.meter.minDecibels = options?.decibels?.min ?? 0;
-    this.meter.smoothingTimeConstant = options?.smoothing ?? 1;
+    this.meter.smoothingTimeConstant = options?.smoothing ?? 0.8;
 
     const source = context.createMediaElementSource(audio);
     source.connect(this.meter);

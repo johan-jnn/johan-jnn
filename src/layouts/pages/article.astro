@@ -32,7 +32,6 @@ const footer = new AstroSlot(Astro.slots, "footer");
 
     <script>
       import { gsap } from "gsap";
-      import { ScrollSmoother } from "gsap/ScrollSmoother";
       import { ScrollTrigger } from "gsap/ScrollTrigger";
       gsap.registerPlugin(ScrollTrigger);
 
@@ -46,7 +45,7 @@ const footer = new AstroSlot(Astro.slots, "footer");
           start: "0",
           trigger: header,
           end: `bottom+=${shift} top`,
-          scrub: ScrollSmoother.get()?.smooth() ?? true,
+          scrub: 0,
           toggleActions: "play complete reverse reset",
         },
       });

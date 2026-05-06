@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { CLOCK_TIMINGS } from "$src/stores/clock";
   import type { EntryData } from "$src/utils/content/entry";
   import Button from "$svelte/button.svelte";
   import Music from "../animations/spinners/music.svelte";
@@ -47,11 +46,7 @@
     class="flex sm:flex-col align-middle justify-center gap-12 items-center w-full sm:h-full"
   >
     <div class="h-[10vh] sm:h-90">
-      <Music
-        animation={{
-          speed: $CLOCK_TIMINGS.ms,
-        }}
-      />
+      <Music animation />
     </div>
 
     <ClockForm />

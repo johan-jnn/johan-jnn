@@ -2,25 +2,36 @@
   import { CSSAnimationDurationSmoother } from "$src/actions/css/animationDurationSmoother";
 
   const {
-    animation = {},
+    animation = { sync: true },
+    levels = 7,
   }: {
     animation?:
       | {
           /**
            * If the value is a number, it represents milliseconds
            */
-          speed?: number | string;
+          speed: number | string;
         }
-      | false;
+      | {
+          sync: true;
+        }
+      | boolean;
+    levels?: number;
   } = $props();
 
-  const animation_speed = $derived(
-    animation && animation?.speed
-      ? typeof animation.speed === "number"
+  const cssAnimation = $derived.by(() => {
+    if (typeof animation === "boolean") {
+      return animation ? "10s" : false;
+    }
+    if ("speed" in animation) {
+      return typeof animation.speed === "number"
         ? `${animation.speed}ms`
-        : animation.speed
-      : null,
-  );
+        : animation.speed;
+    }
+    if ("sync" in animation) {
+      return animation.sync;
+    }
+  });
 </script>
 
 <svg
@@ -28,9 +39,9 @@
   viewBox="0 0 60 60"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
-  style={animation_speed && `--animation-speed:${animation_speed};`}
+  style="--animation-speed:{cssAnimation};"
   class={{
-    animated: animation,
+    animated: typeof cssAnimation === "string",
   }}
 >
   <defs>
@@ -47,8 +58,8 @@
       xlink:href="#swatch8"
     />
   </defs>
-  <g transform="translate(-.28795 2.7766)">
-    <g class="levels fill-white-700">
+  <g>
+    <g class="levels fill-white-700" transform="translate(0 2)">
       <rect
         x="26.762"
         y="27.178"
@@ -175,7 +186,7 @@
   @use "sass:math";
   @use "sass:list";
 
-  $duration: var(--animation-speed, 10s);
+  $duration: var(--animation-speed);
   $level-steps: (0.35, 0.2, 0.75, 0.7, 1.5, 0.25, 0.5);
   $level-amount: list.length($level-steps);
   $level-randomness: 8;
