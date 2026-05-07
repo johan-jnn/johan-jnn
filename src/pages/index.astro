@@ -102,10 +102,10 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
     {
       projects.length && (
         <Section {...Homepage.sections.projects.section}>
-          <ul class="flex max-sm:flex-col max-sm:children:aspect-9/10 max-sm:max-w-120 mx-auto items-stretch justify-stretch sm:justify-center sm:h-[50svh] gap-6">
+          <ul class="flex max-sm:flex-col max-sm:max-w-120 mx-auto items-stretch justify-stretch sm:justify-center sm:h-[50svh] gap-6">
             {projects.map(async ({ data }) => {
               return (
-                <li class="sm:h-full max-sm:w-full">
+                <li class="sm:h-full max-sm:w-full aspect-9/10 sm:aspect-4/5">
                   <Project
                     {...data.overview}
                     category={(await getEntry(data.overview.category)).data}

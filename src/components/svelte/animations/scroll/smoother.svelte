@@ -1,4 +1,7 @@
 <script lang="ts" module>
+  export function isSmoothed(): boolean {
+    return !!ScrollSmoother.get()?.smooth();
+  }
   /**
    * Execute a function if the page use ScrollSmoother
    * @param then The function to execute. If ScrollSmoother if used, the return of `ifSmoothed` is the return of this given function
