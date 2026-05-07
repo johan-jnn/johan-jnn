@@ -22,7 +22,10 @@
       );
     }
 
-    const { scrollPaddingTop } = getComputedStyle(document.documentElement);
+    let paddingTop = "0px";
+    function refreshPaddingTop() {
+      paddingTop = getComputedStyle(document.documentElement).scrollPaddingTop;
+    }
 
     const fakeSmoothScrollHandler = (e: Event) => {
       const { currentTarget } = e;
@@ -33,7 +36,7 @@
         scroller.scrollTo(
           currentTarget.getAttribute("href"),
           true,
-          `top ${scrollPaddingTop}`,
+          `top ${paddingTop}`,
         );
       };
 
@@ -53,6 +56,15 @@
         node.removeEventListener("click", fakeSmoothScrollHandler);
       };
     });
+
+    refreshPaddingTop();
+    window.addEventListener("resize", refreshPaddingTop);
+
+    return {
+      destroy() {
+        window.removeEventListener("resize", refreshPaddingTop);
+      },
+    };
   };
 </script>
 

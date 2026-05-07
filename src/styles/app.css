@@ -11,7 +11,7 @@
 
 @layer base {
   :root {
-    @apply scroll-smooth scroll-pt-5 lg:scroll-pt-20;
+    @apply scroll-smooth scroll-pt-5 md:scroll-pt-20;
   }
 
   body {
