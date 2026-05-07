@@ -22,6 +22,7 @@
       url: string | (() => any);
       icon: string;
       theme: string;
+      darkTheme?: string;
 
       key_prefix?: string;
     };
@@ -46,6 +47,7 @@
       )}&url=${encodeURIComponent(url)}`,
       icon: "icon-[fa7-brands--x-twitter]",
       theme: "#000000",
+      darkTheme: "#ffffff",
     },
     mail: {
       url: `mailto:?subject=${encodeURIComponent(
@@ -81,9 +83,10 @@
     {@const label = (info.key_prefix ?? "Partage sur ") + network}
     {@const classStyles: string[] = [
       "size-8 grid cursor-pointer",
-      "hover:text-(--theme) pointer-coarse:text-(--theme) transition-colors"
+      "hover:text-(--theme) pointer-coarse:text-(--theme) transition-colors",
+      "hover:dark:text-(--dark-theme,var(--theme)) pointer-coarse:dark:text-(--dark-theme,var(--theme))"
     ]}
-    <li style:--theme={info.theme}>
+    <li style:--theme={info.theme} style:--dark-theme={info.darkTheme}>
       {#if typeof info.url === "string"}
         <a
           href={info.url}
