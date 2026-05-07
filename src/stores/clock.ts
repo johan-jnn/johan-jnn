@@ -1,7 +1,7 @@
 import { derived, writable } from "svelte/store";
 
 const CLOCK_UNIT = 1e3; // Ghz
-export const INITIAL_CLOCK_SPEED = 80;
+export const INITIAL_CLOCK_SPEED = 100;
 
 function HzToSeconds(hz: number) {
   return (1 / hz) * CLOCK_UNIT;

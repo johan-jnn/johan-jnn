@@ -22,7 +22,7 @@
 
   <div class="max-sm:my-2">
     <Range
-      bounds={[20, 300]}
+      bounds={[70, 140]}
       bind:value={$CLOCK_SPEED}
       steps={10}
       id="range-{id}"

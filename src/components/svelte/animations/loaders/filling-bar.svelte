@@ -31,9 +31,9 @@
   <defs>
     <mask id="sizer-{svg_id}" maskUnits="userSpaceOnUse">
       <rect
-        width="{(typeof fill === 'number'
-          ? fill
-          : $ambianceFrequenciesFrame.average(fill.frequency)) * 100}%"
+        width="{typeof fill === 'number'
+          ? fill * 100
+          : $ambianceFrequenciesFrame.average(fill.frequency)}%"
         height="100%"
         fill={delimiters ? `url(#delimiter_gradient-${svg_id})` : "#fff"}
       />

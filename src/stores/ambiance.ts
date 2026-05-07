@@ -27,10 +27,10 @@ export const ambianceFrequencies = derived(
       timeout = setInterval(() => {
         if (!analyser) return;
 
-        analyser.meter.getFloatTimeDomainData(frequencies);
-        // Convert time domains from [-1.0; 1.0] to [0.0; 1.0]
+        analyser.meter.getByteFrequencyData(frequencies);
+        // Convert time domains from [-255; 255] to [0; 100]
         frequencies.forEach((f, i) => {
-          frequencies[i] = (f + 1) / 2;
+          frequencies[i] = ((f + 255) / 500) * 100;
         });
         set(frequencies);
       }, interval);

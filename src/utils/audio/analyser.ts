@@ -6,11 +6,11 @@ interface AudioAnalyserOptions {
   size?: number;
   decibels?: {
     /**
-     * @default 0
+     * @default -255
      */
     min?: number;
     /**
-     * @default 1
+     * @default 255
      */
     max?: number;
   };
@@ -29,8 +29,8 @@ export class AudioAnalyser {
     const context = new AudioContext();
     this.meter = context.createAnalyser();
     this.meter.fftSize = options?.size ?? 32;
-    this.meter.maxDecibels = options?.decibels?.max ?? 1;
-    this.meter.minDecibels = options?.decibels?.min ?? 0;
+    this.meter.maxDecibels = options?.decibels?.max ?? 255;
+    this.meter.minDecibels = options?.decibels?.min ?? -255;
     this.meter.smoothingTimeConstant = options?.smoothing ?? 0.8;
 
     const source = context.createMediaElementSource(audio);

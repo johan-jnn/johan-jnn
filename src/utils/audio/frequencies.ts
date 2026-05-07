@@ -4,7 +4,7 @@ export enum AudioFrequenciesGroups {
   High,
 }
 
-export class AudioFrequencies extends Float32Array {
+export class AudioFrequencies extends Uint8Array {
   average(group: AudioFrequenciesGroups) {
     if (typeof group === "string")
       group = AudioFrequenciesGroups[group] as unknown as number;
