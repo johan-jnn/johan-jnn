@@ -7,7 +7,8 @@ export const ambiancePlayer = writable<undefined | AudioPlayer>();
 export const ambianceAnalyser = derived(ambiancePlayer, (player) => {
   if (!player) return;
   return new AudioAnalyser(player.audio, {
-    smoothing: 0,
+    smoothing: 0.8,
+    size: 2048,
   });
 });
 
@@ -30,7 +31,7 @@ export const ambianceFrequencies = derived(
         analyser.meter.getByteFrequencyData(frequencies);
         // Convert time domains from [-255; 255] to [0; 100]
         frequencies.forEach((f, i) => {
-          frequencies[i] = ((f + 255) / 500) * 100;
+          frequencies[i] = (Math.abs(f) / 255) * 100;
         });
         set(frequencies);
       }, interval);

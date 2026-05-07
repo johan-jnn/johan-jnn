@@ -23,7 +23,7 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
   import { AudioPlayer } from "$src/utils/audio/player";
 
   const player = new AudioPlayer(
-    new Audio("/content/audio/background/flypack.mp3"),
+    new Audio("/content/audio/background/test.mp3"),
   );
   player.audio.volume = 0.5;
   ambiancePlayer.set(player);
@@ -91,7 +91,8 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
               url: "/stack",
             }}
             level="neutral"
-            class="mt-12 w-fit mx-auto"
+            boxingClass="mt-8 block w-fit mx-auto"
+            stylingClass="w-fit"
           >
             Voir toute ma boite à outils
           </Button>
@@ -119,7 +120,8 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
               url: "/portfolio",
             }}
             level="secondary"
-            class="mx-auto w-fit mt-12 py-4"
+            boxingClass="mx-auto block w-fit mt-8"
+            stylingClass="w-fit py-4"
           >
             Voir tous mes projets
           </Button>

@@ -1,4 +1,8 @@
 <script module lang="ts">
+  import {
+    merge_classes,
+    type SvelteClassAttribute,
+  } from "$src/utils/svelte/classes";
   import { gsapSmoothScroll } from "$svelte/actions/gsap-smoothScroll.svelte";
   import type { Snippet } from "svelte";
   import type {
@@ -24,7 +28,8 @@
   }
 
   export interface ButtonProps {
-    class?: string;
+    stylingClass?: SvelteClassAttribute;
+    boxingClass?: SvelteClassAttribute;
 
     action: ButtonAsButton | ButtonAsLink;
 
@@ -34,27 +39,26 @@
 </script>
 
 <script lang="ts">
-  const {
-    children,
-    level,
-    class: additionnalClasses,
-    action,
-  }: ButtonProps = $props();
+  const { children, level, stylingClass, boxingClass, action }: ButtonProps =
+    $props();
 </script>
 
 {#snippet button()}
   <div
-    class={{
-      "border-2 text-center border-black dark:border-white px-4 py-2 uppercase font-bold font-heading": true,
-      "neo-shadow neo-shadow-black dark:neo-shadow-white neo-shadow--push": true,
-      "hover:neo-shadow-0 transition-[box-shadow_translate] before:transition-[top_left] after:transition-[top_left]": true,
-
-      [additionnalClasses ?? ""]: true,
-      "bg-primary text-black/90": level === ButtonLevel.Primary,
-      "bg-secondary text-black": level === ButtonLevel.Secondary,
-      "bg-white text-black dark:bg-black dark:text-white":
-        level === ButtonLevel.Neutral,
-    }}
+    class={merge_classes(
+      [
+        "border-2 text-center border-black dark:border-white px-4 py-2 uppercase font-bold font-heading",
+        "neo-shadow neo-shadow-black dark:neo-shadow-white neo-shadow--push",
+        "hover:neo-shadow-0 transition-[box-shadow_translate] before:transition-[top_left] after:transition-[top_left]",
+      ],
+      {
+        "bg-primary text-black/90": level === ButtonLevel.Primary,
+        "bg-secondary text-black": level === ButtonLevel.Secondary,
+        "bg-white text-black dark:bg-black dark:text-white":
+          level === ButtonLevel.Neutral,
+      },
+      stylingClass,
+    )}
   >
     {@render children()}
   </div>
@@ -66,6 +70,7 @@
   <a
     href={url}
     target={target ?? "_self"}
+    class={boxingClass}
     use:gsapSmoothScroll={{ onlyIfScrollSmoothed: true }}
   >
     {@render button()}
@@ -73,7 +78,11 @@
 {:else}
   {@const { type, onclick } = action}
 
-  <button {type} {onclick} class="cursor-pointer">
+  <button
+    {type}
+    {onclick}
+    class={merge_classes("cursor-pointer", stylingClass)}
+  >
     {@render button()}
   </button>
 {/if}

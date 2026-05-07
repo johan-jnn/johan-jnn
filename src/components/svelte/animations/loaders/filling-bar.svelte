@@ -33,7 +33,7 @@
       <rect
         width="{typeof fill === 'number'
           ? fill * 100
-          : $ambianceFrequenciesFrame.average(fill.frequency)}%"
+          : $ambianceFrequenciesFrame.averageBy(8, fill.frequency * 2)}%"
         height="100%"
         fill={delimiters ? `url(#delimiter_gradient-${svg_id})` : "#fff"}
       />
