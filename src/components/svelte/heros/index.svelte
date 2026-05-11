@@ -1,6 +1,11 @@
 <script lang="ts">
+  import { ambiancePlayer } from "$src/stores/ambiance";
+  import { CLOCK_SPEED } from "$src/stores/clock";
+  import { AudioPlayer } from "$src/utils/audio/player";
   import type { EntryData } from "$src/utils/content/entry";
   import Button from "$svelte/button.svelte";
+  import { onMount } from "svelte";
+  import { fade, scale } from "svelte/transition";
   import Music from "../animations/spinners/music.svelte";
   import ClockForm from "../forms/clock.svelte";
   import SplittedHeading from "../headings/splitted.svelte";
@@ -8,9 +13,11 @@
   const { titles, ctas, description, localisation }: EntryData<"home">["hero"] =
     $props();
 
-  const title_parts = $derived(
-    titles[Math.floor(Math.random() * titles.length)].lines,
-  );
+  let heading = $derived(titles[0].lines);
+
+  onMount(() => {
+    heading = titles[Math.floor(Math.random() * titles.length)].lines;
+  });
 </script>
 
 <div
@@ -24,7 +31,7 @@
       {localisation}
     </p>
 
-    <SplittedHeading parts={title_parts} h={1} />
+    <SplittedHeading parts={heading} h={1} />
 
     <p class="sm:max-w-[40svw] text-black-400">
       {description}
@@ -35,21 +42,50 @@
         <Button
           level={index ? "neutral" : "primary"}
           action={cta}
-          class="py-4 px-5"
+          stylingClass="py-4 px-5"
         >
           {cta.label}
         </Button>
       {/each}
     </div>
   </section>
-  <section
-    class="flex sm:flex-col align-middle justify-center gap-12 items-center w-full sm:h-full"
-  >
-    <div class="h-[10vh] sm:h-90">
-      <Music animation />
-    </div>
+  <section class="w-full sm:h-full relative">
+    {#if $ambiancePlayer}
+      <div
+        class="flex sm:flex-col align-middle justify-center gap-12 items-center size-full"
+        transition:fade
+      >
+        <div class="h-[10vh] sm:h-90">
+          <Music animation={{ sync: true }} />
+        </div>
 
-    <ClockForm />
+        <ClockForm />
+      </div>
+    {:else}
+      <div class="absolute size-full grid content-center" transition:scale>
+        <Button
+          level="primary"
+          boxingClass="w-fit mx-auto"
+          action={{
+            type: "button",
+            onclick: () => {
+              const player = new AudioPlayer(
+                new Audio("/content/audio/background/ambiance1.mp3"),
+              );
+              player.audio.volume = 0.5;
+              ambiancePlayer.set(player);
+
+              CLOCK_SPEED.subscribe((speed) => {
+                player.audio.playbackRate = speed / 100;
+              });
+              player.audio.play();
+            },
+          }}
+        >
+          Mettre dans l'ambiance
+        </Button>
+      </div>
+    {/if}
   </section>
 </div>
 

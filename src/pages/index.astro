@@ -17,29 +17,6 @@ const technos = await getEntries(Homepage.sections.technos.technos ?? []);
 const projects = await getEntries(Homepage.sections.projects.projects ?? []);
 ---
 
-<script>
-  import { ambiancePlayer } from "$src/stores/ambiance";
-  import { CLOCK_SPEED } from "$src/stores/clock";
-  import { AudioPlayer } from "$src/utils/audio/player";
-
-  const player = new AudioPlayer(
-    new Audio("/content/audio/background/test.mp3"),
-  );
-  player.audio.volume = 0.5;
-  ambiancePlayer.set(player);
-
-  CLOCK_SPEED.subscribe((speed) => {
-    player.audio.playbackRate = speed / 100;
-  });
-  document.addEventListener(
-    "click",
-    () => {
-      player.audio.play();
-    },
-    { once: true },
-  );
-</script>
-
 <Page
   title="Johan JANIN - Développeur Full-Stack"
   description="Johan JANIN : développeur web Full-Stack basé à Lyon, France."

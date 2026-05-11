@@ -16,23 +16,44 @@ export const ambianceAnalyser = derived(ambiancePlayer, (player) => {
  * The interval time between 2 frequencies check (in miliseconds)
  */
 export const frequenciesUpdateInterval = writable(0);
+/**
+ * The range of the ambiance frequencies
+ * @default [20, 20e3] (Humain earable)
+ */
+export const frequenciesHzRange = writable([20, 20e3]);
 
 export const ambianceFrequencies = derived(
-  [ambianceAnalyser, frequenciesUpdateInterval],
-  ([analyser, interval], set) => {
+  [ambianceAnalyser, frequenciesUpdateInterval, frequenciesHzRange],
+  ([analyser, interval, targetHzRange], set) => {
     if (!analyser) return;
-    const frequencies = new AudioFrequencies(analyser.meter.frequencyBinCount);
-    let timeout: NodeJS.Timeout;
+    const baseHzRange = [0, analyser.meter.context.sampleRate / 2];
+    const rangeStartIndex =
+      analyser.meter.frequencyBinCount *
+      (targetHzRange[0] / (baseHzRange[1] - baseHzRange[0]));
+    const rangeEndIndex =
+      analyser.meter.frequencyBinCount *
+      (targetHzRange[1] / (baseHzRange[1] - baseHzRange[0]));
 
+    let timeout: NodeJS.Timeout;
+    const rawFrequencies = new AudioFrequencies(
+      analyser.meter.frequencyBinCount,
+    );
     function start() {
       timeout = setInterval(() => {
         if (!analyser) return;
 
-        analyser.meter.getByteFrequencyData(frequencies);
-        // Convert time domains from [-255; 255] to [0; 100]
+        analyser.meter.getByteFrequencyData(rawFrequencies);
+
+        const frequencies = rawFrequencies.slice(
+          rangeStartIndex,
+          rangeEndIndex,
+        ) as AudioFrequencies;
+
+        // Convert time domains from [0; 255] to [0; 100]
         frequencies.forEach((f, i) => {
-          frequencies[i] = (Math.abs(f) / 255) * 100;
+          frequencies[i] = Math.max(0, (f / 255) * 100);
         });
+
         set(frequencies);
       }, interval);
     }

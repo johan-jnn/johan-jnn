@@ -49,8 +49,8 @@
       method="post"
       class={[
         "flex group items-stretch w-fit mx-auto my-12",
-        "children:px-6 children:py-4 children:transition-[shadow_translate] children:neo-shadow-black dark:children:neo-shadow-white",
-        "children:border-black children:dark:border-white children:border-2 children:outline-none",
+        "*:px-6 *:py-4 *:transition-[shadow_translate] *:neo-shadow-black dark:*:neo-shadow-white",
+        "*:border-black *:dark:border-white *:border-2 *:outline-none",
 
         "max-sm:flex-col max-sm:w-full",
       ]}

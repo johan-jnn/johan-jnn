@@ -78,11 +78,7 @@
 {:else}
   {@const { type, onclick } = action}
 
-  <button
-    {type}
-    {onclick}
-    class={merge_classes("cursor-pointer", stylingClass)}
-  >
+  <button {type} {onclick} class={merge_classes("cursor-pointer", boxingClass)}>
     {@render button()}
   </button>
 {/if}

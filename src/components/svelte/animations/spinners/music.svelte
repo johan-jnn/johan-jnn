@@ -1,9 +1,12 @@
 <script lang="ts">
   import { CSSAnimationDurationSmoother } from "$src/actions/css/animationDurationSmoother";
+  import { ambianceFrequenciesFrame } from "$src/stores/ambiance";
+  import { CLOCK_SPEED, INITIAL_CLOCK_SPEED } from "$src/stores/clock";
 
   const {
     animation = { sync: true },
     levels = 7,
+    gap = 0.25,
   }: {
     animation?:
       | {
@@ -17,7 +20,19 @@
         }
       | boolean;
     levels?: number;
+    /**
+     * Must be in `[0; 1]`
+     * Corresponding to the rate of the final bars' width that are displayed
+     */
+    gap?: number;
   } = $props();
+
+  $effect(() =>
+    console.assert(
+      gap >= 0 && gap <= 1,
+      `The gap parameter must be in the [0; 1] range (received : ${gap})`,
+    ),
+  );
 
   const cssAnimation = $derived.by(() => {
     if (typeof animation === "boolean") {
@@ -32,6 +47,18 @@
       return animation.sync;
     }
   });
+
+  const barFills = $derived(
+    cssAnimation === true
+      ? $ambianceFrequenciesFrame.averageBy(levels, undefined, false, {
+          rate: 0.75,
+          position: 0.5,
+        })
+      : new Array(levels).fill(null).map(() => Math.random() * 100),
+  );
+
+  const barsFullWidth = $derived(100 / barFills.length);
+  const barsWidth = $derived(barsFullWidth * (1 - gap));
 </script>
 
 <svg
@@ -39,7 +66,9 @@
   viewBox="0 0 60 60"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
-  style="--animation-speed:{cssAnimation};"
+  style="--animation-speed:{cssAnimation === true && barFills.length
+    ? (2 - $CLOCK_SPEED / INITIAL_CLOCK_SPEED) ** 2 * 10 + 's'
+    : cssAnimation};"
   class={{
     animated: typeof cssAnimation === "string",
   }}
@@ -59,56 +88,21 @@
     />
   </defs>
   <g>
-    <g class="levels fill-white-700" transform="translate(0 2)">
-      <rect
-        x="26.762"
-        y="27.178"
-        width="6.4765"
-        height="2.8222"
-        use:CSSAnimationDurationSmoother
-      />
-      <rect
-        x="18.762"
-        y="22.167"
-        width="6.4765"
-        height="7.8327"
-        use:CSSAnimationDurationSmoother
-      />
-      <rect
-        x="10.762"
-        y="26.084"
-        width="6.4765"
-        height="3.9163"
-        use:CSSAnimationDurationSmoother
-      />
-      <rect
-        x="2.7617"
-        y="24.356"
-        width="6.4765"
-        height="5.6445"
-        use:CSSAnimationDurationSmoother
-      />
-      <rect
-        x="34.762"
-        y="26.084"
-        width="6.4765"
-        height="3.9163"
-        use:CSSAnimationDurationSmoother
-      />
-      <rect
-        x="42.762"
-        y="26.084"
-        width="6.4765"
-        height="3.9163"
-        use:CSSAnimationDurationSmoother
-      />
-      <rect
-        x="50.762"
-        y="28.371"
-        width="6.4765"
-        height="1.6287"
-        use:CSSAnimationDurationSmoother
-      />
+    <g class="levels fill-white-700">
+      <!-- All variables in this loop are written as pourcentages (expect for indexes) -->
+      {#each barFills as fill, index}
+        {@const x = barsFullWidth * index + (barsFullWidth * gap) / 2}
+        {@const height = fill / 3}
+        {@const y = 55 - height}
+
+        <rect
+          x="{x}%"
+          y="{y}%"
+          width="{barsWidth}%"
+          height="{height}%"
+          use:CSSAnimationDurationSmoother
+        />
+      {/each}
     </g>
   </g>
   <g>
@@ -190,7 +184,7 @@
   $level-steps: (0.35, 0.2, 0.75, 0.7, 1.5, 0.25, 0.5);
   $level-amount: list.length($level-steps);
   $level-randomness: 8;
-  $level-rate-modifier-bounds: (0.45, 1.5);
+  $level-rate-modifier-bounds: (0.45, 0.85);
   $level-speed: calc($duration / 6);
 
   @keyframes rotate {
@@ -224,15 +218,15 @@
     width: 100%;
     height: 100%;
 
+    .radar {
+      animation: rotate calc($duration / 2) infinite linear;
+      transform-origin: center;
+    }
+    .dashed-circle {
+      animation: rotate reverse $duration infinite linear;
+      transform-origin: center;
+    }
     &.animated {
-      .radar {
-        animation: rotate calc($duration / 2) infinite linear;
-        transform-origin: center;
-      }
-      .dashed-circle {
-        animation: rotate reverse $duration infinite linear;
-        transform-origin: center;
-      }
       .levels {
         > * {
           animation: level-animation $level-speed infinite linear;
