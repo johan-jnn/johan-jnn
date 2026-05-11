@@ -1,4 +1,3 @@
-import { AudioAnalyser } from "$src/utils/audio/analyser";
 import { AudioFrequencies } from "$src/utils/audio/frequencies";
 import type { AudioPlayer } from "$src/utils/audio/player";
 import { derived, writable } from "svelte/store";
@@ -6,7 +5,7 @@ import { derived, writable } from "svelte/store";
 export const ambiancePlayer = writable<undefined | AudioPlayer>();
 export const ambianceAnalyser = derived(ambiancePlayer, (player) => {
   if (!player) return;
-  return new AudioAnalyser(player.audio, {
+  return player.getAnalyser({
     smoothing: 0.8,
     size: 2048,
   });
@@ -63,10 +62,6 @@ export const ambianceFrequencies = derived(
 
     analyser.audio.addEventListener("play", start);
     analyser.audio.addEventListener("pause", pause);
-
-    return () => {
-      clearInterval(timeout);
-    };
   },
   new AudioFrequencies(),
 );

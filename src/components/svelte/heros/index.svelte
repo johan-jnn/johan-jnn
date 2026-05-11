@@ -1,12 +1,11 @@
 <script lang="ts">
   import { ambiancePlayer } from "$src/stores/ambiance";
-  import { CLOCK_SPEED } from "$src/stores/clock";
-  import { AudioPlayer } from "$src/utils/audio/player";
   import type { EntryData } from "$src/utils/content/entry";
   import Button from "$svelte/button.svelte";
   import { onMount } from "svelte";
   import { fade, scale } from "svelte/transition";
   import Music from "../animations/spinners/music.svelte";
+  import { start } from "../audio/ambiance.svelte";
   import ClockForm from "../forms/clock.svelte";
   import SplittedHeading from "../headings/splitted.svelte";
 
@@ -69,16 +68,7 @@
           action={{
             type: "button",
             onclick: () => {
-              const player = new AudioPlayer(
-                new Audio("/content/audio/background/ambiance1.mp3"),
-              );
-              player.audio.volume = 0.5;
-              ambiancePlayer.set(player);
-
-              CLOCK_SPEED.subscribe((speed) => {
-                player.audio.playbackRate = speed / 100;
-              });
-              player.audio.play();
+              start();
             },
           }}
         >

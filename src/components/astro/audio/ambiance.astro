@@ -1,0 +1,14 @@
+---
+import SvelteAmbiance from "$svelte/audio/ambiance.svelte";
+
+const files = import.meta.glob("./content/audio/background/*.mp3", {
+  base: "/public",
+});
+const urls = Object.keys(files).map((path) => path.replace(/^\.+/, ""));
+---
+
+<SvelteAmbiance
+  ambianceFilesUrls={urls}
+  transition:persist
+  data-swap-id="ambiancer"
+/>

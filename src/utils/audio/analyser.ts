@@ -1,4 +1,4 @@
-interface AudioAnalyserOptions {
+export interface AudioAnalyserOptions {
   /**
    * @range [32; 2048]
    * @default 2048
@@ -22,15 +22,21 @@ export class AudioAnalyser {
   ) {
     const context = new AudioContext();
     this.meter = context.createAnalyser();
-    this.meter.fftSize = options?.size ?? 2048;
-    if (options?.decibels) {
-      this.meter.maxDecibels = options?.decibels.max;
-      this.meter.minDecibels = options?.decibels.min;
+    if (options) {
+      this.options = options;
     }
-    this.meter.smoothingTimeConstant = options?.smoothing ?? 0.8;
 
     const source = context.createMediaElementSource(audio);
     source.connect(this.meter);
     source.connect(context.destination);
+  }
+
+  set options(options: AudioAnalyserOptions) {
+    this.meter.fftSize = options.size ?? 2048;
+    if (options.decibels) {
+      this.meter.maxDecibels = options.decibels.max;
+      this.meter.minDecibels = options.decibels.min;
+    }
+    this.meter.smoothingTimeConstant = options.smoothing ?? 0.8;
   }
 }

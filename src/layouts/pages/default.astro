@@ -1,6 +1,7 @@
 ---
 import Header from "$astro/header.astro";
 import Html from "$layouts/html.astro";
+import Ambiance from "$src/components/astro/audio/ambiance.astro";
 import Smoother from "$src/components/svelte/animations/scroll/smoother.svelte";
 import Footer from "$src/components/svelte/footer.svelte";
 import Style from "$src/styles/style.astro";
@@ -15,6 +16,7 @@ interface Props {
     header?: boolean;
     footer?: boolean;
     head?: boolean;
+    ambiance?: boolean
   };
 }
 
@@ -77,4 +79,6 @@ const { lang, title, description, without_defaults } = Astro.props;
       : <Footer client:load />
     }
   </Fragment>
+
+  {!without_defaults?.ambiance && <Ambiance />}
 </Html>
