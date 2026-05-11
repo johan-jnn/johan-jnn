@@ -61,9 +61,12 @@
         <ClockForm />
       </div>
     {:else}
-      <div class="absolute size-full grid content-center" transition:scale>
+      <div
+        class="absolute size-full grid content-center max-sm:hidden not-has-hover:animate-pulse"
+        transition:scale
+      >
         <Button
-          level="primary"
+          level="neutral"
           boxingClass="w-fit mx-auto"
           action={{
             type: "button",
@@ -72,7 +75,7 @@
             },
           }}
         >
-          Mettre dans l'ambiance
+          Animer le portfolio
         </Button>
       </div>
     {/if}
