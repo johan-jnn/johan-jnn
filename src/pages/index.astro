@@ -21,7 +21,10 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
   title="Johan JANIN - Développeur Full-Stack"
   description="Johan JANIN : développeur web Full-Stack basé à Lyon, France."
 >
-  <ul class="flex items-center justify-end gap-2" slot="header-extra">
+  <ul
+    class="flex items-center justify-end gap-2 max-sm:hidden"
+    slot="header-extra"
+  >
     <li>
       <Button
         level="primary"

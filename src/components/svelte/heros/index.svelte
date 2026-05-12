@@ -75,7 +75,7 @@
             },
           }}
         >
-          Animer le portfolio
+          Ajouter un fond sonore
         </Button>
       </div>
     {/if}
