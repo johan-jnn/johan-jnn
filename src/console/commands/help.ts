@@ -5,11 +5,6 @@ export default new (class extends OsCommand {
   public alias: string[] = ["man"];
   public description: string = "Get help about the os or some commands";
 
-  public man(os: Os): number {
-    console.log("Get help about the os or the given commands.");
-    return 0;
-  }
-
   public run(os: Os, invoker: string, ...args: string[]): number {
     const help_on_commands = args
       .map((find) => {

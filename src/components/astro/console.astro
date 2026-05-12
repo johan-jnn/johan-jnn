@@ -1,8 +1,76 @@
 <script>
   import { WebsiteOs } from "$src/console/main";
+  import type { Os } from "$src/console/os";
+
+  class Grub {
+    static #LIST: Os[] = [WebsiteOs];
+    static #DEFAULT_OS = "browser-os";
+
+    public static list() {
+      this.#LIST.forEach((os, index) => {
+        console.log(`#${index}: ${os.name} (version: ${os.version})`);
+      });
+      console.log(`Use (grub.boot(<name>)) to boot an os.`);
+    }
+    public static boot(name?: string) {
+      const active = this.#LIST.find((os) => os.working);
+      if (active) {
+        console.error(
+          `OS ${active.name}@${active.version} is active. Please stop it before booting another OS.`,
+        );
+        return;
+      }
+
+      name ??= this.#DEFAULT_OS;
+      const os = this.#LIST.find((os) => os.name === name);
+      if (!os) {
+        console.error(`The OS ${name} does not exists.`);
+        return;
+      }
+
+      console.groupCollapsed(`Booting ${os.name}@${os.version}`);
+      os.boot();
+      console.groupEnd();
+    }
+  }
   Object.assign(window, {
-    boot_os() {
-      WebsiteOs.boot();
-    },
+    grub: Grub,
   });
+
+  console.log(
+    `
+ ............          ++++++++++++++++++++++++                           
+ ............          ++++++++++++++++++++++++                           
+ ............          ++++++++++++++++++++++++                           
+ ............          ++++++++++++++++++++++++                           
+ ............          ++++++++++++++++++++++++                           
+ ............          ++++++++++++++++++++++++                           
+                                  =++++++++++++                           
+                                  =++++++++++++                           
+                                  =++++++++++++                           
+                                  =++++++++++++                           
+                                  =++++++++++++                           
+                                                                          
+                                                                          
+                                                                          
+                                                                          
+                                   ++++++++++++                           
+                                   ++++++++++++                           
+                                   ++++++++++++                           
+                                  +++++++++++++                           
+                                  +++++++++++++                           
+ +++++++++++++                    +++++++++++++                           
+ +++++++++++++                   ++++++++++++++                           
+ +++++++++++++++                ++++++++++++++                            
+  ++++++++++++++++           ++++++++++++++++                             
+   +++++++++++++++++++++++++++++++++++++++++                              
+    +++++++++++++++++++++++++++++++++++++++                               
+      ++++++++++++++++++++++++++++++++++++                                
+       +++++++++++++++++++++++++++++++++                                  
+          ++++++++++++++++++++++++++++                                    
+              ++++++++++++++++++++
+  `,
+  );
+  console.log("%cWelcome on my website !", "color:#ff7f11;font-size:24px");
+  console.log("%cI hope you'll apreciate it ❤️", "font-style:italic;");
 </script>

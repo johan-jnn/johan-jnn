@@ -1,14 +1,13 @@
 import { Os, OsCommand } from "./os.d";
 
 export const WebsiteOs = new (class extends Os {
-  public name: string = "JohanJANIN-OS";
+  public name: string = "browser-os";
   public version: string = "0.0.1";
   public presentation: string = "A small os running in the browser's console";
   public files: string[] = [];
   public commands: OsCommand[] = [];
 
   boot() {
-    console.time(this.name);
     console.info(`Initializing OS: ${this.name}@${this.version}`);
 
     console.info(`Loading OS' commands...`);
@@ -59,7 +58,7 @@ export const WebsiteOs = new (class extends Os {
 
             return _[invoker];
           },
-          configurable: false,
+          configurable: true,
         });
       });
 
@@ -72,5 +71,21 @@ export const WebsiteOs = new (class extends Os {
     console.info("All commands has been registered.");
 
     console.info("OS fully loaded.");
+    this.status = "active";
+  }
+
+  public stop() {
+    console.info("Unloading commands from RAM...");
+    this.commands.forEach((command) => {
+      [command.invoker, ...command.alias].forEach((invoker) => {
+        //@ts-ignore
+        delete window[invoker];
+      });
+    });
+    this.commands = [];
+    console.info("Done");
+
+    console.log(`${this.name} is now powered off.`);
+    this.status = "inactive";
   }
 })();

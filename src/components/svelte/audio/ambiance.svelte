@@ -3,7 +3,6 @@
   import { CLOCK_SPEED } from "$src/stores/clock";
   import { AudioPlayer } from "$utils/audio/player";
   import { get } from "svelte/store";
-  import { slide } from "svelte/transition";
   import Music from "../animations/spinners/music.svelte";
   import Button from "../button.svelte";
   import Range from "../forms/inputs/range.svelte";
@@ -44,6 +43,8 @@
 </script>
 
 <script lang="ts">
+  import { slide } from "svelte/transition";
+
   const {
     ambianceFilesUrls,
   }: {
