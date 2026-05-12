@@ -51,7 +51,7 @@
   <section class="w-full sm:h-full relative">
     {#if $ambiancePlayer}
       <div
-        class="flex sm:flex-col align-middle justify-center gap-12 items-center size-full"
+        class="absolute flex sm:flex-col align-middle justify-center gap-12 items-center size-full"
         transition:fade
       >
         <div class="h-[10vh] sm:h-90">

@@ -10,5 +10,6 @@ const urls = Object.keys(files).map((path) => path.replace(/^\.+/, ""));
 <SvelteAmbiance
   ambianceFilesUrls={urls}
   transition:persist
+  client:load
   data-swap-id="ambiancer"
 />

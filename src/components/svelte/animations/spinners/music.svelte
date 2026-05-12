@@ -4,7 +4,7 @@
   import { CLOCK_SPEED, INITIAL_CLOCK_SPEED } from "$src/stores/clock";
 
   const {
-    animation = { sync: true },
+    animation = false,
     levels = 7,
     gap = 0.25,
   }: {

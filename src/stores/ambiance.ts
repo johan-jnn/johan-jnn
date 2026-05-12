@@ -2,13 +2,16 @@ import { AudioFrequencies } from "$src/utils/audio/frequencies";
 import type { AudioPlayer } from "$src/utils/audio/player";
 import { derived, writable } from "svelte/store";
 
+export const ambianceUrls = writable<string[]>([]);
 export const ambiancePlayer = writable<undefined | AudioPlayer>();
 export const ambianceAnalyser = derived(ambiancePlayer, (player) => {
   if (!player) return;
-  return player.getAnalyser({
+  const { analyser } = player;
+  analyser.options = {
     smoothing: 0.8,
     size: 2048,
-  });
+  };
+  return analyser;
 });
 
 /**
@@ -24,7 +27,11 @@ export const frequenciesHzRange = writable([20, 20e3]);
 export const ambianceFrequencies = derived(
   [ambianceAnalyser, frequenciesUpdateInterval, frequenciesHzRange],
   ([analyser, interval, targetHzRange], set) => {
-    if (!analyser) return;
+    if (!analyser) {
+      set(new AudioFrequencies());
+      return;
+    }
+
     const baseHzRange = [0, analyser.meter.context.sampleRate / 2];
     const rangeStartIndex =
       analyser.meter.frequencyBinCount *
