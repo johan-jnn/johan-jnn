@@ -48,7 +48,11 @@
       >
         {#each Object.entries(SOCIALS) as [network, link]}
           <li>
-            <a class="not-hover:underline" href={link} target="_blank">
+            <a
+              class="not-hover:underline"
+              href={link}
+              target={/^\.?\//.test(link) ? "_self" : "_blank"}
+            >
               {network}
             </a>
           </li>
