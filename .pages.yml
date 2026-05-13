@@ -210,6 +210,7 @@ content:
                 component: uuid
               - name: icon
                 label: Icônne
+                required: true
                 type: image
                 options:
                   media: icons
