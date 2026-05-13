@@ -194,10 +194,12 @@ content:
         path: src/data/content/pages/contact.json
         fields:
           - name: title
+            type: string
             label: Titre de la page
             required: true
           - name: description
             label: Description
+            type: text
             required: true
           - name: links
             label: Points de contact
