@@ -118,6 +118,25 @@ export const collections = {
       }),
     }),
   }),
+  contact: defineCollection({
+    loader: glob({
+      pattern: "contact.json",
+      base: ContentPaths.pages(),
+    }),
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      links: z
+        .array(
+          z.object({
+            id: z.uuid(),
+            icon: z.string(),
+            link: components.link,
+          }),
+        )
+        .optional(),
+    }),
+  }),
   mentions: defineCollection({
     loader: glob({
       pattern: "mentions.md",
