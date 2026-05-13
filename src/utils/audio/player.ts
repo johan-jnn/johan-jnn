@@ -1,12 +1,12 @@
 import { on } from "svelte/events";
 import { createSubscriber } from "svelte/reactivity";
-import type { Unsubscriber } from "svelte/store";
 import { AudioAnalyser } from "./analyser";
 
 export class AudioPlayer {
   private cached_analyser: AudioAnalyser | undefined = undefined;
-  private audio_refresh: Unsubscriber;
-  private volume_refresh: Unsubscriber;
+  private audio_refresh: () => void;
+  private volume_refresh: () => void;
+  private time_refresh: () => void;
 
   constructor(readonly audio: HTMLAudioElement) {
     this.audio_refresh = createSubscriber((update) => {
@@ -26,6 +26,14 @@ export class AudioPlayer {
         off();
       };
     });
+
+    this.time_refresh = createSubscriber((update) => {
+      const off = on(audio, "timeupdate", update);
+
+      return () => {
+        off();
+      };
+    });
   }
 
   get active() {
@@ -39,6 +47,16 @@ export class AudioPlayer {
   }
   set volume(target: number) {
     this.audio.volume = target;
+  }
+
+  get time() {
+    this.time_refresh();
+
+    return {
+      seconds: this.audio.currentTime,
+      total: this.audio.duration,
+      rate: this.audio.currentTime / this.audio.duration,
+    };
   }
 
   get analyser(): AudioAnalyser {

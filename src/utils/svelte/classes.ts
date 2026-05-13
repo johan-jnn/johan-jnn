@@ -13,7 +13,11 @@ export function sanitize_class(
     return className.trim().replaceAll(/\s{2,}/g, " ");
   } else {
     for (const key in className) {
-      className[key] = sanitize_class(className[key]);
+      const sanitized = sanitize_class(key) as string;
+      if (sanitized === key) continue;
+
+      className[sanitized] = className[key];
+      delete className[key];
     }
 
     return className;
