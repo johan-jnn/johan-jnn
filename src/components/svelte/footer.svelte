@@ -4,6 +4,7 @@
   const SOCIALS = {
     Github: "https://github.com/johan-jnn",
     LinkedIn: "https://linkedin.com/in/johan-janin/",
+    "Me contacter": "/contact",
     "Mentions Légales": "/mentions",
   };
 
@@ -42,7 +43,9 @@
   </section>
   <section>
     <nav>
-      <ul class="flex gap-8 items-end font-medium max-sm:justify-center">
+      <ul
+        class="flex flex-wrap gap-x-8 items-end font-medium max-sm:justify-center"
+      >
         {#each Object.entries(SOCIALS) as [network, link]}
           <li>
             <a class="not-hover:underline" href={link} target="_blank">

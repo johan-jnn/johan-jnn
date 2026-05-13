@@ -9,7 +9,7 @@
     id?: string;
   } = $props();
 
-  let current_tm: number | null = null;
+  let current_tm: NodeJS.Timeout | null = null;
   let pressing = $state(false);
 
   function typed() {

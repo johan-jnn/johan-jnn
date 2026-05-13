@@ -7,7 +7,7 @@
     suptitle,
     subtitle,
     children,
-    h,
+    h = 1,
   }: {
     title: string | string[];
     suptitle?: string;
@@ -35,7 +35,7 @@
 
   <SplittedHeading
     parts={title instanceof Array ? title : [title]}
-    h={h ?? 1}
+    {h}
     class="max-md:text-[9svw]!"
   />
 
