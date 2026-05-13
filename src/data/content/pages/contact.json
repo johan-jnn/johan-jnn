@@ -1,0 +1,15 @@
+{
+  "title": "Me contacter",
+  "description": "Je serai heureux de vous répondre dans les plus bref délais !",
+  "links": [
+    {
+      "id": "5eac0b16-cae8-4143-9eea-b39f422890fa",
+      "icon": "/content/icons/localhost.svg",
+      "link": {
+        "label": "Mon site web",
+        "url": "https://johan-janin.com",
+        "target": "_blank"
+      }
+    }
+  ]
+}
