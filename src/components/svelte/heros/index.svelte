@@ -1,21 +1,26 @@
 <script lang="ts">
-  import { CLOCK_TIMINGS } from "$src/stores/clock";
+  import { ambiancePlayer } from "$src/stores/ambiance";
   import type { EntryData } from "$src/utils/content/entry";
   import Button from "$svelte/button.svelte";
+  import { onMount } from "svelte";
+  import { fade, scale } from "svelte/transition";
   import Music from "../animations/spinners/music.svelte";
+  import { start } from "../audio/ambiance.svelte";
   import ClockForm from "../forms/clock.svelte";
   import SplittedHeading from "../headings/splitted.svelte";
 
   const { titles, ctas, description, localisation }: EntryData<"home">["hero"] =
     $props();
 
-  const title_parts = $derived(
-    titles[Math.floor(Math.random() * titles.length)].lines,
-  );
+  let heading = $derived(titles[0].lines);
+
+  onMount(() => {
+    heading = titles[Math.floor(Math.random() * titles.length)].lines;
+  });
 </script>
 
 <div
-  class="h-full grid sm:grid-cols-[60%_1fr] gap-y-8 items-center px-12 py-18"
+  class="h-full grid sm:grid-cols-[60%_1fr] gap-y-8 items-center px-8 md:px-12 py-18"
 >
   <section class="grid tracking-wider gap-12">
     <p
@@ -25,7 +30,7 @@
       {localisation}
     </p>
 
-    <SplittedHeading parts={title_parts} h={1} />
+    <SplittedHeading parts={heading} h={1} />
 
     <p class="sm:max-w-[40svw] text-black-400">
       {description}
@@ -36,25 +41,44 @@
         <Button
           level={index ? "neutral" : "primary"}
           action={cta}
-          class="py-4 px-5"
+          stylingClass="py-4 px-5"
         >
           {cta.label}
         </Button>
       {/each}
     </div>
   </section>
-  <section
-    class="flex sm:flex-col align-middle justify-center gap-12 items-center w-full sm:h-full"
-  >
-    <div class="h-[10vh] sm:h-90">
-      <Music
-        animation={{
-          speed: $CLOCK_TIMINGS.ms,
-        }}
-      />
-    </div>
+  <section class="w-full sm:h-full relative">
+    {#if $ambiancePlayer}
+      <div
+        class="absolute flex sm:flex-col align-middle justify-center gap-12 items-center size-full"
+        transition:fade
+      >
+        <div class="h-[10vh] sm:h-90">
+          <Music animation={{ sync: true }} />
+        </div>
 
-    <ClockForm />
+        <ClockForm />
+      </div>
+    {:else}
+      <div
+        class="absolute size-full grid content-center max-sm:hidden not-has-hover:animate-pulse"
+        transition:scale
+      >
+        <Button
+          level="neutral"
+          boxingClass="w-fit mx-auto"
+          action={{
+            type: "button",
+            onclick: () => {
+              start();
+            },
+          }}
+        >
+          Ajouter un fond sonore
+        </Button>
+      </div>
+    {/if}
   </section>
 </div>
 

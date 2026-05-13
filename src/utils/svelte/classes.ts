@@ -2,6 +2,28 @@ import type { ClassValue } from "svelte/elements";
 
 export type SvelteClassAttribute = ClassValue;
 
+export function sanitize_class(
+  className: SvelteClassAttribute,
+): SvelteClassAttribute {
+  if (className instanceof Array) {
+    return className.map((classChild) =>
+      sanitize_class(classChild as SvelteClassAttribute),
+    );
+  } else if (typeof className === "string") {
+    return className.trim().replaceAll(/\s{2,}/g, " ");
+  } else {
+    for (const key in className) {
+      const sanitized = sanitize_class(key) as string;
+      if (sanitized === key) continue;
+
+      className[sanitized] = className[key];
+      delete className[key];
+    }
+
+    return className;
+  }
+}
+
 export function merge_classes(
   ...classes: (SvelteClassAttribute | undefined | null)[]
 ): SvelteClassAttribute {
@@ -9,13 +31,14 @@ export function merge_classes(
 
   for (const className of classes) {
     if (!className) continue;
+    const sanitized = sanitize_class(className);
 
-    if (className instanceof Array) {
-      dictionnary[className.join(" ")] = true;
-    } else if (typeof className === "string") {
-      dictionnary[className] = true;
+    if (sanitized instanceof Array) {
+      dictionnary[sanitized.join(" ")] = true;
+    } else if (typeof sanitized === "string") {
+      dictionnary[sanitized] = true;
     } else {
-      Object.assign(dictionnary, className);
+      Object.assign(dictionnary, sanitized);
     }
   }
 

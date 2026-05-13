@@ -39,7 +39,7 @@
 </script>
 
 <nav>
-  <ul class="flex items-center {justify} gap-2">
+  <ul class="flex items-center {justify} max-sm:justify-end gap-2">
     {#each items as item (item.url)}
       <li>
         <NavItem

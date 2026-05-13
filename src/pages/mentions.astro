@@ -1,0 +1,24 @@
+---
+import Page from "$layouts/pages/default.astro";
+import Prose from "$src/components/svelte/prose.svelte";
+import { getSingleton } from "$src/utils/content/singleton";
+import Hero from "$svelte/heros/simple.svelte";
+import { render } from "astro:content";
+
+const mentions = await getSingleton("mentions")!;
+const { Content } = await render(mentions);
+---
+
+<Page
+  title="Mentions légales"
+  description="Toutes les informations que vous devez savoir sur ce site web."
+>
+  <header>
+    <Hero title={mentions.data.title} />
+  </header>
+  <main>
+    <Prose>
+      <Content />
+    </Prose>
+  </main>
+</Page>

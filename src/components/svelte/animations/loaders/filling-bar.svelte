@@ -1,11 +1,18 @@
 <script lang="ts">
+  import { ambianceFrequenciesFrame } from "$src/stores/ambiance";
+  import { AudioFrequencies } from "$src/utils/audio/frequencies";
+
   const {
     fillColor,
     fill,
     delimiters,
   }: {
     fillColor: string;
-    fill: number;
+    fill:
+      | number
+      | {
+          frequency: (typeof AudioFrequencies.GROUPS)[keyof typeof AudioFrequencies.GROUPS];
+        };
     delimiters?:
       | boolean
       | number
@@ -28,7 +35,13 @@
   <defs>
     <mask id="sizer-{svg_id}" maskUnits="userSpaceOnUse">
       <rect
-        width="{100 * fill}%"
+        width="{typeof fill === 'number'
+          ? fill * 100
+          : $ambianceFrequenciesFrame.averageBy(
+              AudioFrequencies.GROUPS_SIZE,
+              fill.frequency,
+              true,
+            )}%"
         height="100%"
         fill={delimiters ? `url(#delimiter_gradient-${svg_id})` : "#fff"}
       />

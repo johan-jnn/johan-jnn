@@ -1,6 +1,7 @@
 ---
 import Header from "$astro/header.astro";
 import Html from "$layouts/html.astro";
+import Ambiance from "$src/components/astro/audio/ambiance.astro";
 import Smoother from "$src/components/svelte/animations/scroll/smoother.svelte";
 import Footer from "$src/components/svelte/footer.svelte";
 import Style from "$src/styles/style.astro";
@@ -15,6 +16,7 @@ interface Props {
     header?: boolean;
     footer?: boolean;
     head?: boolean;
+    ambiance?: boolean
   };
 }
 
@@ -45,18 +47,39 @@ const { lang, title, description, without_defaults } = Astro.props;
     <slot name="body-top" />
   </Fragment>
 
-  <main>
+  <Smoother
+  dom={{
+    wrapper: {
+      element: 'main',
+      class: 'relative z-1 pointer-events-none'
+    },
+    content: {
+      class: 'sm:pt-15 pb-(--footer-height)'
+    },
+  }} 
+  vars={{
+    // smooth: false,
+    effects: "[data-speed], [data-lag]"
+  }}
+  client:load>
+    <div
+      id="content"
+      class="app-background border-b-2 border-black dark:border-white pointer-events-auto min-h-screen"
+    >
       <slot name="before-content" />
       <slot />
       <slot name="after-content" />
-  </main>
+    </div>
+  </Smoother>
 
   <Fragment slot="body-bottom">
     <slot name="body-bottom" />
     {
       without_defaults?.footer
       ? <slot name="footer" />
-      : <Footer />
+      : <Footer client:load />
     }
   </Fragment>
+
+  {!without_defaults?.ambiance && <Ambiance />}
 </Html>

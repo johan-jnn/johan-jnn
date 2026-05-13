@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ProjectOverview } from "$src/utils/content/types/projectOverview";
+  import { gsapSticky } from "$svelte/actions/gsap-sticky.svelte";
   import CursorsStars from "../animations/sections/cursors-stars.svelte";
   import Project from "../cards/project.svelte";
   import Toggler from "../forms/inputs/toggler.svelte";
@@ -54,8 +55,9 @@
     method="dialog"
     class="
       px-8 overflow-visible bg-white dark:bg-black
-      py-2 md:sticky top-20 h-fit grid gap-4
+      py-2 md:sticky top-25 h-fit grid gap-4
     "
+    use:gsapSticky={{ onlyIfScrollSmoother: true }}
   >
     <section class="grid gap-2">
       <p class="uppercase font-heading font-bold">Catégories</p>

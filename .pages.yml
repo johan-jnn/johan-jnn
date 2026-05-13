@@ -3,6 +3,17 @@ media:
     label: Media des projets
     input: public/content/projects
     output: /content/projects
+  - name: background-musics
+    label: Musiques d'ambiance
+    input: public/content/audio/background
+    ouput: /content/audio/background
+    categories: [audio]
+  - name: icons
+    label: Icônnes
+    input: public/content/icons
+    output: /content/icons
+    rename: safe
+    categories: [image]
 
 components:
   uuid:
@@ -162,6 +173,50 @@ content:
                       collection: projects-list
                       value: "{id}"
                       max: 5
+      - name: mentions
+        label: Mentions légales
+        type: file
+        format: yaml-frontmatter
+        path: src/data/content/pages/mentions.md
+        fields:
+          - name: title
+            label: Titre
+            type: string
+            required: true
+          - name: body
+            label: Mentions légales
+            type: rich-text
+            required: true
+      - name: contact
+        label: Contact
+        type: file
+        format: json
+        path: src/data/content/pages/contact.json
+        fields:
+          - name: title
+            type: string
+            label: Titre de la page
+            required: true
+          - name: description
+            label: Description
+            type: text
+            required: true
+          - name: links
+            label: Points de contact
+            type: object
+            list: true
+            fields:
+              - name: id
+                component: uuid
+              - name: icon
+                label: Icônne
+                required: true
+                type: image
+                options:
+                  media: icons
+              - name: link
+                label: Lien
+                component: link
 
   - name: technos
     label: Technos

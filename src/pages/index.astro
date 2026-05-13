@@ -21,7 +21,10 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
   title="Johan JANIN - Développeur Full-Stack"
   description="Johan JANIN : développeur web Full-Stack basé à Lyon, France."
 >
-  <ul class="flex items-center justify-end gap-2" slot="header-extra">
+  <ul
+    class="flex items-center justify-end gap-2 max-sm:hidden"
+    slot="header-extra"
+  >
     <li>
       <Button
         level="primary"
@@ -35,14 +38,14 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
   </ul>
 
   <header>
-    <Hero client:load {...Homepage.hero} />
+    <Hero data-swap-id="index-hero" client:load {...Homepage.hero} />
   </header>
   <main>
     {
       technos.length && (
         <Section {...Homepage.sections.technos.section}>
           <ul class="flex max-md:flex-wrap max-md:max-w-120 max-md:mx-auto items-center justify-stretch py-4 gap-8">
-            {technos.map(({ data }) => {
+            {technos.map(({ data }, index) => {
               return (
                 <li class="w-full">
                   <Techno
@@ -50,12 +53,13 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
                     color={data.color ?? "var(--color-primary)"}
                   >
                     <FillingBar
-                      fill={Math.random()}
+                      fill={{ frequency: index % 3 }}
                       fillColor="var(--theme)"
                       delimiters={
                         Math.random() > 0.5 &&
                         Math.floor(Math.random() * 25) + 10
                       }
+                      client:visible
                     />
                   </Techno>
                 </li>
@@ -67,7 +71,8 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
               url: "/stack",
             }}
             level="neutral"
-            class="mt-12 w-fit mx-auto"
+            boxingClass="mt-8 block w-fit mx-auto"
+            stylingClass="w-fit"
           >
             Voir toute ma boite à outils
           </Button>
@@ -78,10 +83,10 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
     {
       projects.length && (
         <Section {...Homepage.sections.projects.section}>
-          <ul class="flex max-sm:flex-col max-sm:children:aspect-9/10 max-sm:max-w-120 mx-auto items-stretch justify-stretch sm:justify-center sm:h-[50svh] gap-6">
+          <ul class="flex max-sm:flex-col max-sm:max-w-120 mx-auto items-stretch justify-stretch sm:justify-center sm:h-[50svh] gap-6">
             {projects.map(async ({ data }) => {
               return (
-                <li class="sm:h-full max-sm:w-full">
+                <li class="sm:h-full max-sm:w-full aspect-9/10 sm:aspect-4/5">
                   <Project
                     {...data.overview}
                     category={(await getEntry(data.overview.category)).data}
@@ -95,7 +100,8 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
               url: "/portfolio",
             }}
             level="secondary"
-            class="mx-auto w-fit mt-12 py-4"
+            boxingClass="mx-auto block w-fit mt-8"
+            stylingClass="w-fit py-4"
           >
             Voir tous mes projets
           </Button>

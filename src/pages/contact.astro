@@ -1,0 +1,57 @@
+---
+import Page from "$layouts/pages/default.astro";
+import ContactForm from "$src/components/svelte/sections/contact.svelte";
+import { getSingleton } from "$src/utils/content/singleton";
+import Hero from "$svelte/heros/simple.svelte";
+
+const contact = await getSingleton("contact")!;
+---
+
+<Page
+  title="Me contacter"
+  description="Trouvez ici tous mes points de contact."
+>
+  <header>
+    <Hero title={contact.data.title} subtitle={contact.data.description} />
+  </header>
+  <main>
+    {
+      contact.data.links?.length && (
+        <section>
+          <ul class="grid grid-cols-[repeat(auto-fill,10rem)] max-w-400 px-8 mx-auto gap-4">
+            {contact.data.links.map(({ icon, link }, index) => (
+              <li
+                style={`--theme:${["var(--color-primary)", "var(--color-secondary)", "var(--color-tertiary)"][index % 3]}`}
+              >
+                <a
+                  href={link.url}
+                  target={link.target}
+                  class:list={[
+                    "p-2 flex flex-col gap-2 aspect-square w-full",
+                    "neo-shadow neo-shadow--push neo-shadow-(--theme) neo-shadow-0 border-(--theme) border-2",
+                    "transition-[transform_shadow] hover:neo-shadow-2",
+                  ]}
+                >
+                  <img
+                    class="h-50/100 grow"
+                    src={icon}
+                    alt={`Icon of ${link.url}`}
+                  />
+                  <span class="font-heading uppercase text-center">
+                    {link.label}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+    <section>
+      <ContactForm
+        title="Contact_me"
+        subtitle="Renseignez votre mail afin que je puisse vous recontacter"
+      />
+    </section>
+  </main>
+</Page>

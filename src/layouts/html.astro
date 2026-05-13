@@ -1,4 +1,7 @@
 ---
+import Console from "$src/components/astro/console.astro";
+import { ClientRouter } from "astro:transitions";
+
 interface Props {
   lang?: string;
 }
@@ -11,8 +14,12 @@ const { lang = "fr" } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <slot name="head" />
+
+    <ClientRouter />
+
+    <Console />
   </head>
-  <body>
+  <body class="app-background">
     <slot name="body-top" />
     <slot />
     <slot name="body-bottom" />

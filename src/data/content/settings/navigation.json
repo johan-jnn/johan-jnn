@@ -1,20 +1,10 @@
 {
   "header": {
-    "title": "Johan Janin",
+    "title": "Johan JANIN",
     "nav": [
       {
         "label": "Projets",
         "url": "/portfolio"
-      },
-      {
-        "label": "Blog",
-        "url": "/blog"
-      }
-    ],
-    "ctas": [
-      {
-        "label": "Me contacter",
-        "url": "/contact"
       }
     ]
   }
