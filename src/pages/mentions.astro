@@ -1,0 +1,24 @@
+---
+import Page from "$layouts/pages/default.astro";
+import Prose from "$src/components/svelte/prose.svelte";
+import { getSingleton } from "$src/utils/content/singleton";
+import Hero from "$svelte/heros/simple.svelte";
+import { render } from "astro:content";
+
+const mentions = await getSingleton("mentions")!;
+const { Content } = await render(mentions);
+---
+
+<Page
+  title="Johan JANIN - Développeur Full-Stack"
+  description="Johan JANIN : développeur web Full-Stack basé à Lyon, France."
+>
+  <header>
+    <Hero title={mentions.data.title} />
+  </header>
+  <main>
+    <Prose>
+      <Content />
+    </Prose>
+  </main>
+</Page>

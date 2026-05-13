@@ -4,6 +4,7 @@
   const SOCIALS = {
     Github: "https://github.com/johan-jnn",
     LinkedIn: "https://linkedin.com/in/johan-janin/",
+    "Mentions Légales": "/mentions",
   };
 
   let height = $state(0);
@@ -44,9 +45,9 @@
       <ul class="flex gap-8 items-end font-medium max-sm:justify-center">
         {#each Object.entries(SOCIALS) as [network, link]}
           <li>
-            <a class="not-hover:underline" href={link} target="_blank"
-              >{network}</a
-            >
+            <a class="not-hover:underline" href={link} target="_blank">
+              {network}
+            </a>
           </li>
         {/each}
       </ul>

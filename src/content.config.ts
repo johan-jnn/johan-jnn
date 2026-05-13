@@ -118,4 +118,13 @@ export const collections = {
       }),
     }),
   }),
+  mentions: defineCollection({
+    loader: glob({
+      pattern: "mentions.md",
+      base: ContentPaths.pages(),
+    }),
+    schema: z.object({
+      title: z.string(),
+    }),
+  }),
 };

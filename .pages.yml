@@ -167,6 +167,20 @@ content:
                       collection: projects-list
                       value: "{id}"
                       max: 5
+      - name: mentions
+        label: Mentions légales
+        type: file
+        format: markdown
+        path: src/data/content/pages/mentions.md
+        fields:
+          - name: title
+            label: Titre
+            type: string
+            required: true
+          - name: body
+            label: Mentions légales
+            type: rich-text
+            required: true
 
   - name: technos
     label: Technos
