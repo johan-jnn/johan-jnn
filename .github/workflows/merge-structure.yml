@@ -44,8 +44,7 @@ jobs:
     steps:
       - name: Ensure ${{ env.FROM }} branch exists
         run: FROM_EXISTS=$(git branch -ra | grep "^\s*${{ env.FROM }}\s*$")
-          if [ "$FROM_EXISTS" = "" ];
-          then
+          if [ "$FROM_EXISTS" = "" ]; then
           echo "::error::The branch ${{env.FROM}} does not exist."
           exit 1
           fi
@@ -55,8 +54,7 @@ jobs:
           ref: ${{ env.FROM }}
       - name: Check if branch ${{ env.TO }} exists or create it from ${{ env.FROM }} and end workflow
         run: TO_EXISTS=$(git branch -ra | grep "^\s*${{ env.TO }}\s*$")
-          if [ "$TO_EXISTS" = "" ];
-          then
+          if [ "$TO_EXISTS" = "" ]; then
           echo "::notice::The branch ${{env.TO}} does not exist. Create it from ${{ env.FROM }}..."
           git switch -c ${{ env.TO }}
           git push ${{ github.repositoryUrl }} ${{ env.TO }}
@@ -70,8 +68,7 @@ jobs:
       - name: Check mergability
         run: git merge --no-ff --no-commit ${{ env.FROM }}
           CONFLICTING=$(git diff --name-only --diff-filter=U --relative)
-          if [ ! "$CONFLICTING" = "" ];
-          then
+          if [ ! "$CONFLICTING" = "" ]; then
           echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
           echo "CANCELLED=1" >> $GITHUB_OUTPUT
           exit 1;
@@ -92,8 +89,7 @@ jobs:
       - name: Fetch mergin version
         run: MERGING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
       - name: Verify versions
-        run: if [ "$EXISTING_VERSION" = "$MERGIN_VERSION" ];
-          then
+        run: if [ "$EXISTING_VERSION" = "$MERGIN_VERSION" ]; then
           echo "::notice::Both versions matches. Cancelling all next jobs."
           echo "CANCELLED=1" >> $GITHUB_OUTPUT
           else
