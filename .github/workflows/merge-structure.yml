@@ -92,7 +92,7 @@ jobs:
     needs:
       - ensure-mergable
     if: |
-      (inputs.verify-version == null || inputs.verify-version)
+      (toJson(inputs) == '{}' || inputs.verify-version)
       && needs.ensure-mergable.outputs.target_exists
     outputs:
       existing: ${{ steps.existing.outputs.version }}
