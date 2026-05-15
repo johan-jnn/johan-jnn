@@ -74,7 +74,7 @@ jobs:
       - name: Check mergability
         if: steps.target.outputs.exists == 1
         run: |
-          git merge --no-ff --no-commit ${{ env.FROM }}
+          git merge --no-ff --no-commit origin ${{ env.FROM }}
           CONFLICTING=$(git diff --name-only --diff-filter=U --relative)
           if [ ! "$CONFLICTING" = "" ]; 
           then
