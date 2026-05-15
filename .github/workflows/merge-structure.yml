@@ -126,7 +126,21 @@ jobs:
     needs:
       - check-version
       - ensure-mergable
-    if: ! (( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same ) || needs.ensure-mergable.outputs.conflicts )
+    # Condition for the merge to appen:
+    # - ensure-mergable succeed
+    # - check-version succeed or skipped
+    # - Either:
+    #   - target branch doesn't exist
+    #   - target branch package.json's version is different from the source branch package.json's version
+    if: |
+      always()
+      && needs.ensure-mergable.result == 'success'
+      && contains('success skipped', needs.check-version.result)
+
+      && ! (
+        ( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same ) ||
+        needs.ensure-mergable.outputs.conflicts
+      )
     env:
       TMP_BRANCH: tmp/content-skipper
     steps:
