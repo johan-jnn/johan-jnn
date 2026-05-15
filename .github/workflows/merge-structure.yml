@@ -149,6 +149,7 @@ jobs:
 
               echo "*" > "$DIR/.gitignore"
             fi
+          done
 
       - name: Merge from ${{ env.TMP_BRANCH }} to ${{ env.TO }}
         uses: morbalint/git-merge-action@v1
