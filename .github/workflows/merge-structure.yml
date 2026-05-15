@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - run: |
-          echo $(git ls-remote --heads ${{ github.repositoryUrl }} ${{ env.TO }})
+          echo $(git ls-remote --heads origin ${{ env.TO }})
       - name: Ensure ${{ env.FROM }} branch exists
         run: |
           FROM_EXISTS=$(git branch -a --list '*/${{env.FROM}}')
