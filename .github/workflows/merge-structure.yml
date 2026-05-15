@@ -46,8 +46,8 @@ jobs:
 
       - name: Ensure ${{ env.FROM }} branch exists
         run: |
-          FROM_EXISTS=$(git branch -ra | grep "^\s*${{ env.FROM }}\s*$")
-          if [ "$FROM_EXISTS" = "" ]; 
+          FROM_EXISTS=$(git branch --list '${{env.FROM}}')
+          if [ -z "$FROM_EXISTS" ]; 
           then
             echo "::error::The branch ${{env.FROM}} does not exist."
             exit 1
@@ -58,8 +58,8 @@ jobs:
           ref: ${{ env.FROM }}
       - name: Check if branch ${{ env.TO }} exists or create it from ${{ env.FROM }} and end workflow
         run: |
-          TO_EXISTS=$(git branch -ra | grep "^\s*${{ env.TO }}\s*$")
-          if [ "$TO_EXISTS" = "" ]; 
+          TO_EXISTS=$(git branch --list '${{env.TO}}')
+          if [ -z "$TO_EXISTS" ]; 
           then
             echo "::notice::The branch ${{env.TO}} does not exist. Create it from ${{ env.FROM }}..."
             git switch -c ${{ env.TO }}
