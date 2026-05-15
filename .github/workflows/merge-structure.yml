@@ -1,0 +1,215 @@
+# -------------------------------------------------
+# | Merge a branch into another without touching  |
+# | the "into" branch's content.                  |
+# |                                               |
+# | This is useful because GitHub does not        |
+# | the "ours" merge strategy.                    |
+# -------------------------------------------------
+
+name: Structure merger
+
+on:
+  # When pushing to dev AND package.json's version are different
+  push:
+    branches:
+      - dev
+
+  workflow_dispatch:
+    inputs:
+      verify-version:
+        default: false
+        type: boolean
+        required: true
+        description: If you want to abort the merge if the package.json's version are the same in both branches
+
+      from:
+        default: dev
+        type: string
+        required: true
+        description: The name of the branch to copy the structure from
+      to:
+        default: main
+        type: string
+        required: true
+        description: The name of the branch to copy the structure to
+
+env:
+  FROM: ${{ inputs.from || 'dev' }}
+  TO: ${{ inputs.to || 'main' }}
+  IGNORED_LOCATIONS: public/content src/data/content
+  GIT_EMAIL: "github-actions[bot]@users.noreply.github.com"
+  GIT_NAME: "github-actions-merge-structure"
+
+jobs:
+  ensure-mergable:
+    runs-on: ubuntu-slim
+    outputs:
+      target_exists: ${{ steps.target.outputs.exists }}
+      conflicts: ${{ steps.mergeability.outputs.conflicts }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Ensure ${{ env.FROM }} branch exists
+        run: |
+          FROM_EXISTS=$(git ls-remote --heads origin '${{ env.FROM }}')
+          if [ -z "$FROM_EXISTS" ]; 
+          then
+            echo "::error::The branch ${{env.FROM}} does not exist."
+            exit 1
+          fi
+      - name: Check if branch ${{ env.TO }}
+        id: target
+        run: |
+          TO_EXISTS=$(git ls-remote --heads origin '${{ env.TO }}')
+
+          if [ -z "$TO_EXISTS" ]; 
+          then
+            echo "::notice::The branch ${{env.TO}} does not exist."
+          else
+            echo "exists=1" >> $GITHUB_OUTPUT
+          fi
+
+      - uses: actions/checkout@v6
+        if: steps.target.outputs.exists
+        with:
+          ref: ${{ env.TO }}
+          fetch-depth: 0
+      - name: Check mergability
+        if: steps.target.outputs.exists
+        id: mergeability
+        run: |
+          git config user.email ${{ env.GIT_EMAIL }}
+          git config user.name ${{ env.GIT_NAME }}
+
+          if ! git merge --no-ff --no-commit origin/${{ env.FROM }}; 
+          then
+            echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
+            echo "conflicts=1" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+  check-versions:
+    runs-on: ubuntu-slim
+    needs:
+      - ensure-mergable
+    if: |
+      (inputs.verify-version == null || inputs.verify-version)
+      && needs.ensure-mergable.outputs.target_exists
+    outputs:
+      existing: ${{ steps.existing.outputs.version }}
+      mergin: ${{ steps.merging.outputs.version }}
+      same: ${{ steps.matcher.outputs.same }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.TO }}
+      - name: Fetch current version
+        id: existing
+        run: |
+          EXISTING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
+          echo "version=$EXISTING_VERSION" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.FROM }}
+      - name: Fetch mergin version
+        id: merging
+        run: |
+          MERGING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
+          echo "version=$MERGING_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Verify versions
+        id: matcher
+        env:
+          EXISTING: ${{ steps.existing.outputs.version }}
+          MERGING: ${{ steps.merging.outputs.version }}
+        run: |
+          echo "::debug::Current version: $EXISTING"
+          echo "::debug::Merging version: $MERGING"
+
+          if [ "$EXISTING" = "$MERGING" ]; 
+          then
+            echo "::notice::Both versions matches. The merge will not append."
+            echo "same=1" >> $GITHUB_OUTPUT
+          else
+            echo "::notice::Versions differ. Passing from '$EXISTING' to '$MERGING'."
+          fi
+
+  merge:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    needs:
+      - check-versions
+      - ensure-mergable
+    # Condition for the merge to appen:
+    # - ensure-mergable succeed
+    # - check-version succeed or skipped
+    # - there is no merge conflicts
+    # - Either:
+    #   - target branch doesn't exist
+    #   - target branch package.json's version is different from the source branch package.json's version
+    if: |
+      always()
+      && needs.ensure-mergable.result == 'success'
+      && contains('success skipped', needs.check-versions.result)
+      && ! needs.ensure-mergable.outputs.conflicts
+
+      && ! (
+        needs.ensure-mergable.outputs.target_exists && needs.check-versions.outputs.same
+      )
+    env:
+      TMP_BRANCH: tmp/content-restorer
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.FROM }}
+          fetch-depth: 0
+      - name: Switch to the ${{ env.TMP_BRANCH }} tempory branch
+        run: git switch -c ${{ env.TMP_BRANCH }}
+
+      - name: Updating the content to match ${{ env.TO }} (or deleting it if ${{ env.TO }} does not exist)
+        env:
+          TARGET_EXISTS: ${{ needs.ensure-mergable.outputs.target_exists }}
+        run: |
+          for LOC in ${IGNORED_LOCATIONS[@]}; do
+            LOC="./$LOC"
+
+            if [ "$TARGET_EXISTS" = "1" ]; then
+              echo "::debug::Fetching $LOC from ${{env.TO}}"
+
+              if git checkout origin/${{ env.TO }} $LOC; then
+                echo "::notice::Restored $LOC from ${{ env.TO }}"
+                continue
+              else
+                echo "::notice::$LOC does not exist in ${{env.TO}}. Deleting it here..."
+              fi
+            fi
+
+            if [ -e $LOC ]; then
+              rm -rf $LOC
+              echo "::notice::Deleted $LOC"
+            else
+              echo "::warning::$LOC does not exist here"
+            fi
+          done
+
+      - name: Saving changes
+        uses: EndBug/add-and-commit@v10
+        with:
+          message: "workflow: Excluding content files"
+          pull: ""
+          push: false
+
+      - name: Merging to ${{ env.TO }}
+        if: needs.ensure-mergable.outputs.target_exists
+        run: |
+          git config user.email ${{ env.GIT_EMAIL }}
+          git config user.name ${{ env.GIT_NAME }}
+
+          git switch ${{ env.TO }}
+          git merge ${{ env.TMP_BRANCH }}
+
+      - name: Pushing changes to ${{ env.TO }}
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ env.TO }}
