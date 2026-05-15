@@ -10,9 +10,9 @@ name: Structure merger
 
 on:
   # When pushing to dev AND package.json's version are different
-  # push:
-  #   branches:
-  #     - dev
+  push:
+    branches:
+      - dev
 
   workflow_dispatch:
     inputs:
@@ -35,7 +35,7 @@ on:
 
 env:
   FROM: ${{ inputs.from || 'dev' }}
-  TO: ${{ inputs.to || 'main' }}
+  TO: ${{ inputs.to || 'merge-test' }}
   CHECK_VERSION: ${{ inputs.verify-version == null || inputs.verify-version }}
 
 jobs:
