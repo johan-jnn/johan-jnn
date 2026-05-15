@@ -142,7 +142,7 @@ jobs:
         needs.ensure-mergable.outputs.conflicts
       )
     env:
-      TMP_BRANCH: tmp/content-skipper
+      TMP_BRANCH: tmp/content-restorer
     steps:
       - uses: actions/checkout@v6
         with:
