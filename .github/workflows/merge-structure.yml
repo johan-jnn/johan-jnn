@@ -76,7 +76,7 @@ jobs:
         run: |
           git merge --no-ff --no-commit origin/${{ env.FROM }}
           CONFLICTING=$(git diff --name-only --diff-filter=U --relative)
-          if [ ! "$CONFLICTING" = "" ]; 
+          if [ -n "$CONFLICTING" ]; 
           then
             echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
             exit 1;
