@@ -129,6 +129,7 @@ jobs:
     # Condition for the merge to appen:
     # - ensure-mergable succeed
     # - check-version succeed or skipped
+    # - there is no merge conflicts
     # - Either:
     #   - target branch doesn't exist
     #   - target branch package.json's version is different from the source branch package.json's version
@@ -136,10 +137,10 @@ jobs:
       always()
       && needs.ensure-mergable.result == 'success'
       && contains('success skipped', needs.check-version.result)
+      && ! needs.ensure-mergable.outputs.conflicts
 
       && ! (
-        ( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same ) ||
-        needs.ensure-mergable.outputs.conflicts
+        needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same
       )
     env:
       TMP_BRANCH: tmp/content-restorer
