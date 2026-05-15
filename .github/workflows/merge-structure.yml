@@ -124,7 +124,7 @@ jobs:
           echo "::debug::Current version: $EXISTING"
           echo "::debug::Merging version: $MERGING"
 
-          if [ "$EXISTING" = "$MERGIN" ]; 
+          if [ "$EXISTING" = "$MERGING" ]; 
           then
             echo "::notice::Both versions matches. The merge will not append."
             echo "same=1" >> $GITHUB_OUTPUT
@@ -169,21 +169,24 @@ jobs:
         env:
           TARGET_EXISTS: ${{ needs.ensure-mergable.outputs.target_exists }}
         run: |
-          if [ "$TARGET_EXISTS" = "1" ]; then
-            git fetch origin ${{ env.TO }}:${{env.TO}}
-          fi
-
           for LOC in ${IGNORED_LOCATIONS[@]}; do
             LOC="./$LOC"
 
             if [ "$TARGET_EXISTS" = "1" ]; then
-              git checkout ${{ env.TO }} $LOC
-              echo "::notice::Restored $LOC from ${{ env.TO }}"
-            elif [ -e $LOC ]; then
+              echo "::debug::Fetching $LOC from ${{env.TO}}"
+
+              if git checkout ${{ env.TO }} $LOC; then
+                echo "::notice::Restored $LOC from ${{ env.TO }}"
+              else
+                echo "::notice::$LOC does not exist in ${{env.TO}}. Deleting it here..."
+              fi
+            fi
+
+            if [ -e $LOC ]; then
               rm -rf $LOC
               echo "::notice::Deleted $LOC"
             else
-              echo "::warning::$LOC does not exist"
+              echo "::warning::$LOC does not exist here"
             fi
           done
 
