@@ -46,11 +46,9 @@ jobs:
       target_exists: ${{ steps.target.outputs.exists }}
     steps:
       - uses: actions/checkout@v6
-      - run: |
-          echo $(git ls-remote --heads origin ${{ env.TO }})
       - name: Ensure ${{ env.FROM }} branch exists
         run: |
-          FROM_EXISTS=$(git branch -a --list '*/${{env.FROM}}')
+          FROM_EXISTS=$(git ls-remote --heads origin '${{ env.FROM }}')
           if [ -z "$FROM_EXISTS" ]; 
           then
             echo "::error::The branch ${{env.FROM}} does not exist."
@@ -59,7 +57,7 @@ jobs:
       - name: Check if branch ${{ env.TO }}
         id: target
         run: |
-          TO_EXISTS=$(git branch -a --list '*/${{env.TO}}')
+          TO_EXISTS=$(git ls-remote --heads origin '${{ env.TO }}')
           RESULT=1
 
           if [ -z "$TO_EXISTS" ]; 
@@ -67,9 +65,6 @@ jobs:
             echo "::notice::The branch ${{env.TO}} does not exist."
             RESULT=0
           fi
-
-          echo $RESULT
-
           echo "exists=$RESULT" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v6
