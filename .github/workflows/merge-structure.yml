@@ -116,47 +116,53 @@ jobs:
 
           echo "same=$SAME" >> $GITHUB_OUTPUT
 
-  # merge:
-  #   runs-on: ubuntu-22.04
-  #   permissions:
-  #     contents: write
-  #   needs:
-  #     - check-version
-  #     - ensure-mergable
-  #   if: always() && ! ( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same )
-  #   env:
-  #     TMP_BRANCH: tmp/content-skipper
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #       with:
-  #         ref: ${{ env.FROM }}
-  #     - name: Switch to the ${{ env.TMP_BRANCH }} tempory branch
-  #       run: git switch -c ${{ env.TMP_BRANCH }}
+  merge:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    needs:
+      - check-version
+      - ensure-mergable
+    if: always() && ! ( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same )
+    env:
+      TMP_BRANCH: tmp/content-skipper
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.FROM }}
+      - name: Switch to the ${{ env.TMP_BRANCH }} tempory branch
+        run: git switch -c ${{ env.TMP_BRANCH }}
 
-  #     - name: Create the .gitignore files
-  #       env:
-  #         TARGET_EXISTS: ${{ needs.ensure-mergable.outputs.target_exists }}
-  #       run: |
-  #         for LOC in ${IGNORED_LOCATIONS[@]}; do
-  #           LOC="./$LOC"
+      - name: Create the .gitignore files
+        env:
+          TARGET_EXISTS: ${{ needs.ensure-mergable.outputs.target_exists }}
+        run: |
+          for LOC in ${IGNORED_LOCATIONS[@]}; do
+            LOC="./$LOC"
 
-  #           if [ "$TARGET_EXISTS" = "1"]; then
-  #             git checkout ${{ env.FROM }} $LOC
-  #             echo "::notice::Restored $LOC from ${{ env.FROM }}"
-  #           elif [ -e $LOC ]; then
-  #             rm -rf $LOC
-  #             echo "::notice::Deleted $LOC"
-  #           else
-  #             echo "::warning::$LOC does not exist"
-  #           fi
-  #         done
+            if [ "$TARGET_EXISTS" = "1"]; then
+              git checkout ${{ env.FROM }} $LOC
+              echo "::notice::Restored $LOC from ${{ env.FROM }}"
+            elif [ -e $LOC ]; then
+              rm -rf $LOC
+              echo "::notice::Deleted $LOC"
+            else
+              echo "::warning::$LOC does not exist"
+            fi
+          done
 
-  #     - name: Saving changes
-  #       uses: EndBug/add-and-commit@v10
-  #       with:
-  #         message: "workflow: Excluding content files"
+      - name: Saving changes
+        uses: EndBug/add-and-commit@v10
+        with:
+          message: "workflow: Excluding content files"
 
-  #     - name: Merge from ${{ env.TMP_BRANCH }} to ${{ env.TO }}
-  #       uses: ad-m/github-push-action@master
-  #       with:
-  #         branch: ${{ env.TO }}
+      - name: Merging to ${{ env.TO }}
+        if: needs.ensure-mergable.outputs.target_exists
+        run: |
+          git switch ${{ env.TO }}
+          git merge ${{ env.TMP_BRANCH }}
+
+      - name: Pushing changes to ${{ env.TO }}
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ env.TO }}
