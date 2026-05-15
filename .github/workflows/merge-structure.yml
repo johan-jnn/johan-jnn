@@ -113,7 +113,7 @@ jobs:
         id: merging
         run: |
           MERGING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
-          echo "version=$EXISTING_VERSION" >> $GITHUB_OUTPUT
+          echo "version=$MERGING_VERSION" >> $GITHUB_OUTPUT
 
       - name: Verify versions
         id: matcher
@@ -121,20 +121,16 @@ jobs:
           EXISTING: ${{ steps.existing.outputs.version }}
           MERGING: ${{ steps.merging.outputs.version }}
         run: |
-          SAME=0
-
           echo "::debug::Current version: $EXISTING"
           echo "::debug::Merging version: $MERGING"
 
           if [ "$EXISTING" = "$MERGIN" ]; 
           then
             echo "::notice::Both versions matches. The merge will not append."
-            SAME=1
+            echo "same=1" >> $GITHUB_OUTPUT
           else
             echo "::notice::Versions differ. Passing from '$EXISTING' to '$MERGING'."
           fi
-
-          echo "same=$SAME" >> $GITHUB_OUTPUT
 
   merge:
     runs-on: ubuntu-22.04
