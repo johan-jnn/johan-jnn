@@ -82,6 +82,7 @@ jobs:
           then
             echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
             echo "conflicts=1" >> $GITHUB_OUTPUT
+            exit 1
           fi
 
   check-version:
