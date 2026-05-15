@@ -155,6 +155,8 @@ jobs:
         uses: EndBug/add-and-commit@v10
         with:
           message: "workflow: Excluding content files"
+          pull: '--'
+          push: false
 
       - name: Merging to ${{ env.TO }}
         if: needs.ensure-mergable.outputs.target_exists
