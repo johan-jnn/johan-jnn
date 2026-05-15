@@ -41,6 +41,9 @@ env:
 jobs:
   ensure-mergable:
     runs-on: ubuntu-slim
+    outputs:
+      mergable: ${{ ! ( steps.target.outputs.exists && steps.conflicts.outputs.conflicting ) }}
+      target_exists: ${{ steps.target.outputs.exists }}
     steps:
       - uses: actions/checkout@v6
 
@@ -57,48 +60,41 @@ jobs:
         with:
           ref: ${{ env.FROM }}
       - name: Check if branch ${{ env.TO }}
-        id: to_tests
+        id: target
         run: |
           TO_EXISTS=$(git branch --list '${{env.TO}}')
-          IS_NEW=0
+          RESULT=1
 
           if [ -z "$TO_EXISTS" ]; 
           then
-            echo "::notice::The branch ${{env.TO}} does not exist. It'll be directly created from ${{ env.FROM }} and workflow will terminate."
-            IS_NEW=1
+            echo "::notice::The branch ${{env.TO}} does not exist."
+            RESULT=0
           fi
-          echo "exists=$IS_NEW" >> $GITHUB_OUTPUT
 
-      - name: Create ${{ env.TO }} from ${{ env.FROM }}
-        uses: ad-m/github-push-action@master
-        if: ! steps.to_tests.outputs.exists
-        with:
-          branch: ${{ env.TO }}
-      - name: Terminate workflow
-        if: ! steps.to_tests.outputs.exists
-        run: |
-          echo "$CANCELLED=1" >> $GITHUB_ENV
-          exit 0
+          echo "exists=$RESULT" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v6
-        if: ! github.env.CANCELLED
+        if: steps.target.outputs.exists
         with:
           ref: ${{ env.TO }}
       - name: Check mergability
-        if: ! github.env.CANCELLED
+        if: steps.target.outputs.exists
+        id: conflicts
         run: |
           git merge --no-ff --no-commit ${{ env.FROM }}
           CONFLICTING=$(git diff --name-only --diff-filter=U --relative)
           if [ ! "$CONFLICTING" = "" ]; 
           then
             echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
-            echo "CANCELLED=1" >> $GITHUB_ENV
+            echo "conflicting=1" >> $GITHUB_OUTPUT
             exit 1;
           fi
 
   check-version:
     runs-on: ubuntu-slim
-    if: github.env.CHECK_VERSION && ! github.env.CANCELLED
+    needs:
+      - ensure-mergable
+    if: github.env.CHECK_VERSION && needs.ensure-mergable.outputs.target_exists
     steps:
       - uses: actions/checkout@v6
         with:
