@@ -87,6 +87,8 @@ jobs:
     needs:
       - ensure-mergable
     if: github.env.CHECK_VERSION && needs.ensure-mergable.outputs.target_exists
+    outputs:
+      same: ${{ steps.matcher.outputs.same }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -100,34 +102,45 @@ jobs:
       - name: Fetch mergin version
         run: MERGING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
       - name: Verify versions
+        id: matcher
         run: |
+          SAME=0
+
           if [ "$EXISTING_VERSION" = "$MERGIN_VERSION" ]; 
           then
-            echo "::notice::Both versions matches. Cancelling all next jobs."
-            echo "CANCELLED=1" >> $GITHUB_ENV
-            else
+            echo "::notice::Both versions matches. The merge will not append."
+            SAME=1
+          else
             echo "::notice::Versions differ. Passing from '$EXISTING_VERSION' to '$MERGING_VERSION'."
           fi
 
-  # merge:
-  #   runs-on: ubuntu-slim
-  #   if: ! github.env.CANCELLED
-  #   env:
-  #     TMP_BRANCH: tmp/content-skipper
-  #     TO_IGNORE: (public/content src/data/content)
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #       with:
-  #         ref: ${{ env.FROM }}
-  #     - name: Switch to a tempory branch
-  #       run:
-  #         git switch -c ${{ env.TMP_BRANCH }}
-  #     - name: Create the .gitignore files
-  #       run:
-  #         for path in ${TO_IGNORE[@]}; do
-  #           echo "*" > "$path/.gitignore"
-  #     - name: Merge from ${{ env.TMP_BRANCH }} to ${{ env.TO }}
-  #       uses: morbalint/git-merge-action@v1
-  #       with:
-  #         source: ${{ env.TMP_BRANCH }}
-  #         target: ${{ env.TO }}
+          echo "same=$SAME" >> $GITHUB_OUTPUT
+
+  merge:
+    runs-on: ubuntu-slim
+    needs:
+      - check-version
+      - ensure-mergable
+    if: ! ( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same )
+    env:
+      TMP_BRANCH: tmp/content-skipper
+      TO_IGNORE: (public/content src/data/content)
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.FROM }}
+      - name: Switch to the ${{ env.TMP_BRANCH }} tempory branch
+        run: git switch -c ${{ env.TMP_BRANCH }}
+
+      - name: Create the .gitignore files
+        run: |
+          for path in ${TO_IGNORE[@]}; do
+            if [[ -d $path ]]; then
+              echo "*" > "$path/.gitignore"
+            fi
+
+      - name: Merge from ${{ env.TMP_BRANCH }} to ${{ env.TO }}
+        uses: morbalint/git-merge-action@v1
+        with:
+          source: ${{ env.TMP_BRANCH }}
+          target: ${{ env.TO }}
