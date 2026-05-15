@@ -1,0 +1,102 @@
+# -------------------------------------------------
+# | Merge a branch into another without touching  |
+# | the "into" branch's content.                  |
+# |                                               |
+# | This is useful because GitHub does not        |
+# | the "ours" merge strategy.                    |
+# -------------------------------------------------
+
+name: Structure merger
+
+on:
+  # When pushing to dev AND package.json's version are different
+  # push:
+  #   branches:
+  #     - dev
+
+  workflow_dispatch:
+    inputs:
+      verify-version:
+        default: false
+        type: boolean
+        required: true
+        description: If you want to abort the merge if the package.json's version are the same in both branches
+
+      from:
+        default: dev
+        type: string
+        required: true
+        description: The name of the branch to copy the structure from
+      to:
+        default: main
+        type: string
+        required: true
+        description: The name of the branch to copy the structure to
+
+env:
+  FROM: ${{ inputs.from || 'dev' }}
+  TO: ${{ inputs.to || 'main' }}
+  CHECK_VERSION: ${{ inputs.verify-version == null || inputs.verify-version }}
+
+jobs:
+  ensure-mergable:
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.TO }}
+      - name: Check mergability
+        run: git merge --no-ff --no-commit ${{ env.FROM }}
+          CONFLICTING=$(git diff --name-only --diff-filter=U --relative)
+          if [ ! "$CONFLICTING" = "" ];
+          then
+          echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
+          echo "CANCELLED=1" >> $GITHUB_OUTPUT
+          exit 1;
+          fi
+  check-version:
+    runs-on: ubuntu-slim
+    if: github.env.CHECK_VERSION && ! github.env.CANCELLED
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.TO }}
+      - name: Fetch current version
+        if: env.CHECK_VERSION
+        run: EXISTING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.FROM }}
+      - name: Fetch mergin version
+        run: MERGING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
+      - name: Verify versions
+        run: if [ "$EXISTING_VERSION" = "$MERGIN_VERSION" ];
+          then
+          echo Both versions matches. Cancelling all next jobs.
+          echo "CANCELLED=1" >> $GITHUB_OUTPUT
+          else
+          echo "Versions differ. Passing from '$EXISTING_VERSION' to '$MERGING_VERSION'."
+          fi
+
+  # merge:
+  #   runs-on: ubuntu-slim
+  #   if: ! github.env.CANCELLED
+  #   env:
+  #     TMP_BRANCH: tmp/content-skipper
+  #     TO_IGNORE: (public/content src/data/content)
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #       with:
+  #         ref: ${{ env.FROM }}
+  #     - name: Switch to a tempory branch
+  #       run:
+  #         git switch -c ${{ env.TMP_BRANCH }}
+  #     - name: Create the .gitignore files
+  #       run:
+  #         for path in ${TO_IGNORE[@]}; do
+  #           echo "*" > "$path/.gitignore"
+  #     - name: Merge from ${{ env.TMP_BRANCH }} to ${{ env.TO }}
+  #       uses: morbalint/git-merge-action@v1
+  #       with:
+  #         source: ${{ env.TMP_BRANCH }}
+  #         target: ${{ env.TO }}
