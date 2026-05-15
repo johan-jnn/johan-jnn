@@ -169,12 +169,16 @@ jobs:
         env:
           TARGET_EXISTS: ${{ needs.ensure-mergable.outputs.target_exists }}
         run: |
+          if [ "$TARGET_EXISTS" = "1" ]; then
+            git fetch origin ${{ env.TO }}:${{env.TO}}
+          fi
+
           for LOC in ${IGNORED_LOCATIONS[@]}; do
             LOC="./$LOC"
 
             if [ "$TARGET_EXISTS" = "1" ]; then
-              git checkout origin ${{ env.FROM }} $LOC
-              echo "::notice::Restored $LOC from ${{ env.FROM }}"
+              git checkout ${{ env.TO }} $LOC
+              echo "::notice::Restored $LOC from ${{ env.TO }}"
             elif [ -e $LOC ]; then
               rm -rf $LOC
               echo "::notice::Deleted $LOC"
