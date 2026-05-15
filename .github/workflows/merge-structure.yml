@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-slim
     needs:
       - ensure-mergable
-    if: always() && success() && github.env.CHECK_VERSION && needs.ensure-mergable.outputs.target_exists
+    if: env.CHECK_VERSION && needs.ensure-mergable.outputs.target_exists
     outputs:
       same: ${{ steps.matcher.outputs.same }}
     steps:
