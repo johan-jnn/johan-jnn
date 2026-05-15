@@ -135,19 +135,18 @@ jobs:
         run: git switch -c ${{ env.TMP_BRANCH }}
 
       - name: Create the .gitignore files
+        env:
+          TARGET_EXISTS: ${{ needs.ensure-mergable.outputs.target_exists }}
         run: |
           for DIR in ${IGNORED_DIRECTORIES[@]}; do
             DIR="./$DIR"
 
             if [ -d $DIR ]; then
-              $FILE="$DIR/.gitignore"
-
-              if [ -f $FILE ]; then
-                echo "::warning::$FILE already exists (the script will not overwriting it)."
-                continue
+              if [ "$TARGET_EXISTS" = "1"]; then
+                git checkout ${{ env.FROM }} $DIR
+              else
+                rm -rf $DIR
               fi
-
-              echo "*" > "$DIR/.gitignore"
             fi
           done
 
