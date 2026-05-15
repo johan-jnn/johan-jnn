@@ -152,7 +152,9 @@ jobs:
           done
 
       - name: Merge from ${{ env.TMP_BRANCH }} to ${{ env.TO }}
-        uses: morbalint/git-merge-action@v1
+        uses: devmasx/merge-branch@master
         with:
-          source: ${{ env.TMP_BRANCH }}
-          target: ${{ env.TO }}
+          type: now
+          target_branch: ${{ env.TO }}
+          from_branch: ${{ env.TMP_BRANCH }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
