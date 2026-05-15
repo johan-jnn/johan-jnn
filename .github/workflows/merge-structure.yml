@@ -42,11 +42,9 @@ jobs:
   ensure-mergable:
     runs-on: ubuntu-slim
     outputs:
-      mergable: ${{ ! ( steps.target.outputs.exists && steps.conflicts.outputs.conflicting ) }}
       target_exists: ${{ steps.target.outputs.exists }}
     steps:
       - uses: actions/checkout@v6
-
       - name: Ensure ${{ env.FROM }} branch exists
         run: |
           FROM_EXISTS=$(git branch --list '${{env.FROM}}')
@@ -55,10 +53,6 @@ jobs:
             echo "::error::The branch ${{env.FROM}} does not exist."
             exit 1
           fi
-
-      - uses: actions/checkout@v6
-        with:
-          ref: ${{ env.FROM }}
       - name: Check if branch ${{ env.TO }}
         id: target
         run: |
@@ -74,19 +68,17 @@ jobs:
           echo "exists=$RESULT" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v6
-        if: steps.target.outputs.exists
+        if: steps.target.outputs.exists == 1
         with:
           ref: ${{ env.TO }}
       - name: Check mergability
-        if: steps.target.outputs.exists
-        id: conflicts
+        if: steps.target.outputs.exists == 1
         run: |
           git merge --no-ff --no-commit ${{ env.FROM }}
           CONFLICTING=$(git diff --name-only --diff-filter=U --relative)
           if [ ! "$CONFLICTING" = "" ]; 
           then
             echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
-            echo "conflicting=1" >> $GITHUB_OUTPUT
             exit 1;
           fi
 
