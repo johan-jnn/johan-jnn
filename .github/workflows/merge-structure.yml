@@ -75,6 +75,9 @@ jobs:
         if: steps.target.outputs.exists
         id: mergeability
         run: |
+          git config user.email "action@johan-janin.com"
+          git config user.name "Mergeability tester"
+
           git merge --allow-unrelated-histories --no-ff --no-commit origin/${{ env.FROM }}
           CONFLICTING=$(git diff --name-only --diff-filter=U --relative)
 
