@@ -92,7 +92,8 @@ jobs:
     needs:
       - ensure-mergable
     if: |
-      (toJson(inputs) == '{}' || inputs.verify-version)
+      ! contains(github.event.head_commit.message, 'skip-version-check')
+      && (toJson(inputs) == '{}' || inputs.verify-version)
       && needs.ensure-mergable.outputs.target_exists
     outputs:
       existing: ${{ steps.existing.outputs.version }}
