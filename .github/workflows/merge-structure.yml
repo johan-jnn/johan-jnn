@@ -36,7 +36,6 @@ on:
 env:
   FROM: ${{ inputs.from || 'dev' }}
   TO: ${{ inputs.to || 'merge-test' }}
-  CHECK_VERSION: ${{ inputs.verify-version == null || inputs.verify-version }}
   IGNORED_LOCATIONS: public/content src/data/content
 
 jobs:
@@ -90,7 +89,9 @@ jobs:
     runs-on: ubuntu-slim
     needs:
       - ensure-mergable
-    if: env.CHECK_VERSION && needs.ensure-mergable.outputs.target_exists
+    if: |
+      (inputs.verify-version == null || inputs.verify-version)
+      && needs.ensure-mergable.outputs.target_exists
     outputs:
       same: ${{ steps.matcher.outputs.same }}
     steps:
