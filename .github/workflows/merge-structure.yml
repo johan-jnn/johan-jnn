@@ -35,7 +35,7 @@ on:
 
 env:
   FROM: ${{ inputs.from || 'dev' }}
-  TO: ${{ inputs.to || 'merge-test' }}
+  TO: ${{ inputs.to || 'main' }}
   IGNORED_LOCATIONS: public/content src/data/content
   GIT_EMAIL: "github-actions[bot]@users.noreply.github.com"
   GIT_NAME: "github-actions-merge-structure"
