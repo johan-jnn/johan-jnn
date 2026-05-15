@@ -170,7 +170,7 @@ jobs:
           TARGET_EXISTS: ${{ needs.ensure-mergable.outputs.target_exists }}
         run: |
           for LOC in ${IGNORED_LOCATIONS[@]}; do
-            LOC="./$LOC"
+            LOC="./$LOC/*"
 
             if [ "$TARGET_EXISTS" = "1" ]; then
               echo "::debug::Fetching $LOC from ${{env.TO}}"
