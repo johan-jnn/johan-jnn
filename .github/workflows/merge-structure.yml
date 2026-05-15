@@ -37,6 +37,8 @@ env:
   FROM: ${{ inputs.from || 'dev' }}
   TO: ${{ inputs.to || 'merge-test' }}
   IGNORED_LOCATIONS: public/content src/data/content
+  GIT_EMAIL: "github-actions[bot]@users.noreply.github.com"
+  GIT_NAME: "github-actions-merge-structure"
 
 jobs:
   ensure-mergable:
@@ -75,8 +77,8 @@ jobs:
         if: steps.target.outputs.exists
         id: mergeability
         run: |
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions-mergeability-tester"
+          git config user.email ${{ env.GIT_EMAIL }}
+          git config user.name ${{ env.GIT_NAME }}
 
           if ! git merge --no-ff --no-commit origin/${{ env.FROM }}; 
           then
@@ -170,12 +172,12 @@ jobs:
           TARGET_EXISTS: ${{ needs.ensure-mergable.outputs.target_exists }}
         run: |
           for LOC in ${IGNORED_LOCATIONS[@]}; do
-            LOC="./$LOC/*"
+            LOC="./$LOC"
 
             if [ "$TARGET_EXISTS" = "1" ]; then
               echo "::debug::Fetching $LOC from ${{env.TO}}"
 
-              if git checkout ${{ env.TO }} $LOC; then
+              if git checkout origin/${{ env.TO }} $LOC; then
                 echo "::notice::Restored $LOC from ${{ env.TO }}"
               else
                 echo "::notice::$LOC does not exist in ${{env.TO}}. Deleting it here..."
@@ -200,6 +202,9 @@ jobs:
       - name: Merging to ${{ env.TO }}
         if: needs.ensure-mergable.outputs.target_exists
         run: |
+          git config user.email ${{ env.GIT_EMAIL }}
+          git config user.name ${{ env.GIT_NAME }}
+
           git switch ${{ env.TO }}
           git merge ${{ env.TMP_BRANCH }}
 
