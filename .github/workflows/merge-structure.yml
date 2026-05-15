@@ -156,5 +156,4 @@ jobs:
         with:
           type: now
           target_branch: ${{ env.TO }}
-          from_branch: ${{ env.TMP_BRANCH }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
