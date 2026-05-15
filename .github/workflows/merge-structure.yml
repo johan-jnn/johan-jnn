@@ -133,7 +133,7 @@ jobs:
       - name: Switch to the ${{ env.TMP_BRANCH }} tempory branch
         run: git switch -c ${{ env.TMP_BRANCH }}
 
-      - name: Create the .gitignore files
+      - name: Updating the content to match ${{ env.TO }} (or deleting it if ${{ env.TO }} does not exist)
         env:
           TARGET_EXISTS: ${{ needs.ensure-mergable.outputs.target_exists }}
         run: |
@@ -159,7 +159,7 @@ jobs:
           push: false
 
       - name: Merging to ${{ env.TO }}
-        if: needs.ensure-mergable.outputs.target_exists
+        if: needs.ensure-mergable.outputs.target_exists == 1
         run: |
           git switch ${{ env.TO }}
           git merge ${{ env.TMP_BRANCH }}
