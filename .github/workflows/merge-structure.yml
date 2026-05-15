@@ -75,11 +75,11 @@ jobs:
         if: steps.target.outputs.exists
         id: mergeability
         run: |
-          git config user.email "action@johan-janin.com"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "Mergeability tester"
           git fetch origin ${{env.FROM}}:${{env.FROM}}
 
-          if ! git merge --no-ff --no-commit origin/${{ env.FROM }}; 
+          if ! git merge --allow-unrelated-histories --no-ff --no-commit origin/${{ env.FROM }}; 
           then
             echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
             echo "conflicts=1" >> $GITHUB_OUTPUT
