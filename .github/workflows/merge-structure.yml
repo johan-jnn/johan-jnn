@@ -20,7 +20,7 @@ on:
         default: false
         type: boolean
         required: true
-        description: If you want to abort the merge if the package.json's version are the same in both branches
+        description: Abort the merge if the package.json's version are the same in both branches
 
       from:
         default: dev
@@ -92,7 +92,8 @@ jobs:
     needs:
       - ensure-mergable
     if: |
-      (inputs.verify-version == null || inputs.verify-version)
+      ! contains(github.event.head_commit.message, 'skip-version-check')
+      && (toJson(inputs) == '{}' || inputs.verify-version)
       && needs.ensure-mergable.outputs.target_exists
     outputs:
       existing: ${{ steps.existing.outputs.version }}
