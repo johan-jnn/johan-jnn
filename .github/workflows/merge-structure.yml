@@ -57,6 +57,7 @@ jobs:
         with:
           ref: ${{ env.FROM }}
       - name: Check if branch ${{ env.TO }}
+        id: to_tests
         run: |
           TO_EXISTS=$(git branch --list '${{env.TO}}')
           IS_NEW=0
@@ -66,18 +67,18 @@ jobs:
             echo "::notice::The branch ${{env.TO}} does not exist. It'll be directly created from ${{ env.FROM }} and workflow will terminate."
             IS_NEW=1
           fi
-          echo "IS_NEW=$IS_NEW" >> $GITHUB_OUTPUT
+          echo "exists=$IS_NEW" >> $GITHUB_OUTPUT
 
       - name: Create ${{ env.TO }} from ${{ env.FROM }}
         uses: ad-m/github-push-action@master
-        if: github.env.IS_NEW == 1
+        if: ! steps.to_tests.outputs.exists
         with:
           branch: ${{ env.TO }}
       - name: Terminate workflow
-        if: github.env.IS_NEW == 1
+        if: ! steps.to_tests.outputs.exists
         run: |
-          echo "$CANCELLED=1" >> $GITHUB_OUTPUT
-          exit 0;
+          echo "$CANCELLED=1" >> $GITHUB_ENV
+          exit 0
 
       - uses: actions/checkout@v6
         if: ! github.env.CANCELLED
@@ -91,7 +92,7 @@ jobs:
           if [ ! "$CONFLICTING" = "" ]; 
           then
             echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
-            echo "CANCELLED=1" >> $GITHUB_OUTPUT
+            echo "CANCELLED=1" >> $GITHUB_ENV
             exit 1;
           fi
 
@@ -115,7 +116,7 @@ jobs:
           if [ "$EXISTING_VERSION" = "$MERGIN_VERSION" ]; 
           then
             echo "::notice::Both versions matches. Cancelling all next jobs."
-            echo "CANCELLED=1" >> $GITHUB_OUTPUT
+            echo "CANCELLED=1" >> $GITHUB_ENV
             else
             echo "::notice::Versions differ. Passing from '$EXISTING_VERSION' to '$MERGING_VERSION'."
           fi
