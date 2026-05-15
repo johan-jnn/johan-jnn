@@ -151,9 +151,10 @@ jobs:
             fi
           done
 
+          git add .
+          git commit -m "workflow: Excluding content files"
+
       - name: Merge from ${{ env.TMP_BRANCH }} to ${{ env.TO }}
-        uses: devmasx/merge-branch@master
+        uses: ad-m/github-push-action@master
         with:
-          type: now
-          target_branch: ${{ env.TO }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.TO }}
