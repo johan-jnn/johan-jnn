@@ -179,6 +179,7 @@ jobs:
 
               if git checkout origin/${{ env.TO }} $LOC; then
                 echo "::notice::Restored $LOC from ${{ env.TO }}"
+                continue
               else
                 echo "::notice::$LOC does not exist in ${{env.TO}}. Deleting it here..."
               fi
