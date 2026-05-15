@@ -78,10 +78,7 @@ jobs:
           git config user.email "action@johan-janin.com"
           git config user.name "Mergeability tester"
 
-          git merge --allow-unrelated-histories --no-ff --no-commit origin/${{ env.FROM }}
-          CONFLICTING=$(git diff --name-only --diff-filter=U --relative)
-
-          if [ -n "$CONFLICTING" ]; 
+          if ! git merge --allow-unrelated-histories --no-ff --no-commit origin/${{ env.FROM }}; 
           then
             echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
             echo "conflicts=1" >> $GITHUB_OUTPUT
