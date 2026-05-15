@@ -99,7 +99,6 @@ jobs:
         with:
           ref: ${{ env.TO }}
       - name: Fetch current version
-        if: env.CHECK_VERSION
         run: EXISTING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
       - uses: actions/checkout@v6
         with:
