@@ -79,6 +79,9 @@ jobs:
           git config user.name "Mergeability tester"
           git fetch origin ${{env.FROM}}:${{env.FROM}}
 
+          ls -al
+          git branch -a
+
           if ! git merge --allow-unrelated-histories --no-ff --no-commit origin/${{ env.FROM }}; 
           then
             echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
