@@ -37,6 +37,7 @@ env:
   FROM: ${{ inputs.from || 'dev' }}
   TO: ${{ inputs.to || 'merge-test' }}
   CHECK_VERSION: ${{ inputs.verify-version == null || inputs.verify-version }}
+  IGNORED_DIRECTORIES: (public/content src/data/content)
 
 jobs:
   ensure-mergable:
@@ -118,13 +119,14 @@ jobs:
 
   merge:
     runs-on: ubuntu-slim
+    permissions:
+      contents: write
     needs:
       - check-version
       - ensure-mergable
-    if: ! ( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same )
+    if: always() && ! ( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same )
     env:
       TMP_BRANCH: tmp/content-skipper
-      TO_IGNORE: (public/content src/data/content)
     steps:
       - uses: actions/checkout@v6
         with:
@@ -134,9 +136,18 @@ jobs:
 
       - name: Create the .gitignore files
         run: |
-          for path in ${TO_IGNORE[@]}; do
-            if [[ -d $path ]]; then
-              echo "*" > "$path/.gitignore"
+          for DIR in ${IGNORED_DIRECTORIES[@]}; do
+            DIR="./$DIR"
+
+            if [ -d $DIR ]; then
+              $FILE="$DIR/.gitignore"
+
+              if [ -f $FILE ]; then
+                echo "::warning::$FILE already exists (the script will not overwriting it)."
+                continue
+              fi
+
+              echo "*" > "$DIR/.gitignore"
             fi
 
       - name: Merge from ${{ env.TMP_BRANCH }} to ${{ env.TO }}
