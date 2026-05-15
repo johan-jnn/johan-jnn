@@ -44,6 +44,7 @@ jobs:
     runs-on: ubuntu-slim
     outputs:
       target_exists: ${{ steps.target.outputs.exists }}
+      conflicts: ${{ steps.mergeability.outputs.conflicts }}
     steps:
       - uses: actions/checkout@v6
       - name: Ensure ${{ env.FROM }} branch exists
@@ -58,28 +59,29 @@ jobs:
         id: target
         run: |
           TO_EXISTS=$(git ls-remote --heads origin '${{ env.TO }}')
-          RESULT=1
 
           if [ -z "$TO_EXISTS" ]; 
           then
             echo "::notice::The branch ${{env.TO}} does not exist."
-            RESULT=0
+          else
+            echo "exists=1" >> $GITHUB_OUTPUT
           fi
-          echo "exists=$RESULT" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v6
-        if: steps.target.outputs.exists == 1
+        if: steps.target.outputs.exists
         with:
           ref: ${{ env.TO }}
       - name: Check mergability
-        if: steps.target.outputs.exists == 1
+        if: steps.target.outputs.exists
+        id: mergeability
         run: |
           git merge --allow-unrelated-histories --no-ff --no-commit origin/${{ env.FROM }}
           CONFLICTING=$(git diff --name-only --diff-filter=U --relative)
+
           if [ -n "$CONFLICTING" ]; 
           then
             echo "::error::Somes files are conflicting between branches ${{ env.FROM }} and ${{ env.TO }}."
-            exit 1;
+            echo "conflicts=1" >> $GITHUB_OUTPUT
           fi
 
   check-version:
@@ -123,7 +125,7 @@ jobs:
     needs:
       - check-version
       - ensure-mergable
-    if: always() && ! ( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same )
+    if: ! (( needs.ensure-mergable.outputs.target_exists && needs.check-version.outputs.same ) || needs.ensure-mergable.outputs.conflicts )
     env:
       TMP_BRANCH: tmp/content-skipper
     steps:
@@ -155,7 +157,7 @@ jobs:
         uses: EndBug/add-and-commit@v10
         with:
           message: "workflow: Excluding content files"
-          pull: ''
+          pull: ""
           push: false
 
       - name: Merging to ${{ env.TO }}
