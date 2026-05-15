@@ -118,7 +118,7 @@ jobs:
           echo "same=$SAME" >> $GITHUB_OUTPUT
 
   merge:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
     needs:
@@ -151,9 +151,7 @@ jobs:
             fi
 
       - name: Merge from ${{ env.TMP_BRANCH }} to ${{ env.TO }}
-        uses: devmasx/merge-branch@master
+        uses: morbalint/git-merge-action@v1
         with:
-          type: now
-          target_branch: ${{ env.TO }}
-          from_branch: ${{ env.TMP_BRANCH }}
-          github_token: ${{ github.token }}
+          source: ${{ env.TMP_BRANCH }}
+          target: ${{ env.TO }}
