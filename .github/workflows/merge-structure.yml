@@ -47,10 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - run: |
-          echo $(git branch)
-          echo $(git branch -a)
-          echo $(git branch -a --list '${{ env.TO }}')
-          echo $(git branch -a --list '*/${{ env.TO }}')
+          echo $(git ls-remote --heads ${{ github.repositoryUrl }} ${{ env.TO }})
       - name: Ensure ${{ env.FROM }} branch exists
         run: |
           FROM_EXISTS=$(git branch -a --list '*/${{env.FROM}}')
