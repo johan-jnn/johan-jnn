@@ -31,7 +31,7 @@ jobs:
           # Installing bun
           curl -fsSL https://bun.com/install | bash
           # Registering bun
-          source ~/.bash_profile
+          . ~/.bash_profile
 
       - name: Retreive content
         uses: actions/checkout@v6
@@ -41,4 +41,4 @@ jobs:
 
       - name: Deploy website
         run: |
-          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} bun x netlify deploy
+          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} bunx netlify deploy
