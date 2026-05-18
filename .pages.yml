@@ -1,3 +1,10 @@
+actions:
+  - name: deploy
+    label: Deploy content
+    workflow: deploy
+    ref: main
+    cancellable: false
+
 media:
   - name: projects-assets
     label: Media des projets
