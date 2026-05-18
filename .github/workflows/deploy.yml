@@ -1,4 +1,12 @@
-name: Deploy
+# -------------------------------------------------
+# | Trigger a deploy from current state of the    |
+# | 'main' branch.                                |
+# |                                               |
+# | This is useful because I can trigger deploy   |
+# | only when I finished edition on PagesCMS      |
+# -------------------------------------------------
+
+name: Deploy & publish main
 
 on:
   workflow_dispatch:
@@ -12,16 +20,26 @@ jobs:
   deploy:
     runs-on: ubuntu-slim
     steps:
-      - name: Debug
+      - name: Debug PagesCMS Payload
         if: inputs.payload
         run: |
           echo "::notice::Deploy triggered via PagesCMS"
           echo '${{ inputs.payload }}' | jq .
-      - name: Trigger deploy hook
+
+      - name: Install required tools
         run: |
-          if curl -X POST -d {} ${{ secrets.NETLIFY_DEPLOY_HOOK }};
-          then
-            echo "::notice::Website has been deployed."
-          else
-            echo "::error::Failed to deploy website."
-          fi
+          # Installing bun
+          curl -fsSL https://bun.com/install | bash
+
+          # Installing netlify cli
+          bun i -g netlify
+
+      - name: Retreive content
+        uses: actions/checkout@v6
+        with:
+          # We hard-code 'main' because this is the production deploy
+          ref: main
+
+      - name: Deploy website
+        run: |
+          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} netlify deploy
