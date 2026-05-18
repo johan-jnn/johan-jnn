@@ -59,12 +59,9 @@ jobs:
         env:
           CREATED_VIA: github deploy workflow
         run: |
-          bun i
-
-          CREATED_AT="github deploy workflow"
-
+          bun install
           NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} NETLIFY_SITE_ID=${{secrets.NETLIFY_SITE_ID}} \
             bunx netlify deploy \
-            --prod --context "Prod: main@$(git log -n1 --format="%h")" \
-            --created-via "github deploy workflow" \
+            --prod --context "branch:main" \
+            --created-via "github-deploy-workflow" \
             --message "Deployed from repository's deploy workflow $EXTRA_CONTENT"
