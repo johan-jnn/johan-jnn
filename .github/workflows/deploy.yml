@@ -31,6 +31,10 @@ jobs:
           # Installing bun
           curl -fsSL https://bun.com/install | bash
 
+          # Updating path env to correctly find the bun executable
+          source ~/.bash_profile
+          echo "PATH=$PATH" >> $GITHUB_ENV
+
       - name: Retreive content
         uses: actions/checkout@v6
         with:
@@ -39,4 +43,4 @@ jobs:
 
       - name: Deploy website
         run: |
-          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} ~/.bun/bin/bunx netlify deploy
+          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} bunx netlify deploy
