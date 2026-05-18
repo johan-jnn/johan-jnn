@@ -2,11 +2,21 @@ name: Deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      payload:
+        description: Pages CMS payload
+        required: false
+        type: string
 
 jobs:
   deploy:
     runs-on: ubuntu-slim
     steps:
+      - name: Debug
+        if: inputs.payload
+        run: |
+          echo "::notice::Deploy triggered via PagesCMS"
+          echo '${{ inputs.payload }}' | jq .
       - name: Trigger deploy hook
         run: |
           if curl -X POST -d {} ${{ secrets.NETLIFY_DEPLOY_HOOK }};

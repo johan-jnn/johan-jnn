@@ -106,7 +106,7 @@ jobs:
       - name: Fetch current version
         id: existing
         run: |
-          EXISTING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
+          EXISTING_VERSION=$(jq .version -r ./package.json)
           echo "version=$EXISTING_VERSION" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v6
@@ -115,7 +115,7 @@ jobs:
       - name: Fetch mergin version
         id: merging
         run: |
-          MERGING_VERSION=$(grep "version" ./package.json | grep -oP "\d.+(?=\")")
+          MERGING_VERSION=$(jq .version -r ./package.json)
           echo "version=$MERGING_VERSION" >> $GITHUB_OUTPUT
 
       - name: Verify versions
