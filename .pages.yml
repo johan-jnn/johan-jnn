@@ -1,7 +1,7 @@
 actions:
   - name: deploy
     label: Publish changes
-    workflow: deploy
+    workflow: deploy.yml
     ref: main
     cancelable: false
     confirm: false
