@@ -20,11 +20,25 @@ jobs:
   deploy:
     runs-on: ubuntu-slim
     steps:
-      - name: Debug PagesCMS Payload
+      - name: Validate PagesCMS payload
         if: inputs.payload
+        env:
+          PAYLOAD: ${{ inputs.payload }}
         run: |
-          echo "::notice::Deploy triggered via PagesCMS"
-          echo '${{ inputs.payload }}' | jq .
+          if [ ! "$(printenv PAYLOAD | jq -r .source)" = "pages-cms" ]; then
+            echo "::error::The PagesCMS payload is not correct."
+            exit 1
+          fi
+
+          payload_get() {
+            printenv PAYLOAD | jq -r $1
+          }
+
+          TRIGGERED_BY=$(payload_get .triggeredBy.name)
+          TRIGGERED_AT=$(payload_get .triggeredAt)
+
+          echo "EXTRA_CONTEXT=${EXTRA_CONTEXT}(through PagesCMS by $TRIGGERED_BY at $TRIGGERED_AT)" >> $GITHUB_ENV
+          echo "::notice::Deploy triggered via PagesCMS by $TRIGGERED_BY at $TRIGGERED_AT"
 
       - name: Install required tools
         run: |
@@ -42,6 +56,14 @@ jobs:
           ref: main
 
       - name: Deploy website
+        env:
+          CREATED_VIA: github deploy workflow
         run: |
           bun i
-          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} NETLIFY_SITE_ID=${{secrets.NETLIFY_SITE_ID}} bunx netlify deploy -p
+
+          CREATED_AT="github deploy workflow"
+
+          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} NETLIFY_SITE_ID=${{secrets.NETLIFY_SITE_ID}} \
+            bunx netlify deploy \
+            -prod-if-unlocked --context production \
+            --created-via "github deploy workflow $EXTRA_CONTEXT"
