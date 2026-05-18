@@ -65,5 +65,6 @@ jobs:
 
           NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} NETLIFY_SITE_ID=${{secrets.NETLIFY_SITE_ID}} \
             bunx netlify deploy \
-            --prod --context production \
-            --created-via "github deploy workflow $EXTRA_CONTEXT"
+            --prod --context "Prod: main@$(git log -n1 --format="%h")" \
+            --created-via "github deploy workflow" \
+            --message "Deployed from repository's deploy workflow $EXTRA_CONTENT"
