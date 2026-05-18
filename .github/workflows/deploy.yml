@@ -34,7 +34,7 @@ jobs:
           source ~/.bash_profile
 
           # Installing netlify cli
-          bun a -g netlify
+          bun a -g netlify-cli
 
       - name: Retreive content
         uses: actions/checkout@v6
