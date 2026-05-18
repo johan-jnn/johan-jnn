@@ -30,9 +30,11 @@ jobs:
         run: |
           # Installing bun
           curl -fsSL https://bun.com/install | bash
+          # Registering bun
+          source ~/.bash_profile
 
           # Installing netlify cli
-          bun i -g netlify
+          bun a -g netlify
 
       - name: Retreive content
         uses: actions/checkout@v6
