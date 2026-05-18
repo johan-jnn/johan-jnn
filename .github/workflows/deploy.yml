@@ -33,9 +33,6 @@ jobs:
           # Registering bun
           source ~/.bash_profile
 
-          # Installing netlify cli
-          bun a -g netlify-cli
-
       - name: Retreive content
         uses: actions/checkout@v6
         with:
@@ -44,4 +41,4 @@ jobs:
 
       - name: Deploy website
         run: |
-          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} netlify deploy
+          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} bunx netlify deploy
