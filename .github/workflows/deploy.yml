@@ -43,4 +43,5 @@ jobs:
 
       - name: Deploy website
         run: |
+          bun i
           NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} bunx netlify deploy
