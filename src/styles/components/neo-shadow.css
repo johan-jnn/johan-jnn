@@ -1,6 +1,7 @@
 @utility neo-shadow-* {
   --neo-shadow-size: --value(integer);
-  --neo-shadow-size: --value([percentage, length]);
+  --neo-shadow-size: --value([percentage]);
+  --neo-shadow-size: --value([length]);
   --neo-shadow-color: --value(--color-*);
   --neo-shadow-color: --value("literal");
   --neo-shadow-color: --value([*]);

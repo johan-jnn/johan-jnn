@@ -1,19 +1,16 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-
-import node from "@astrojs/node";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import rehypeAutolinkHeadings, {
   type Options as AutoLinkHeadingsOptions,
 } from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
+import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
-  adapter: node({
-    mode: "standalone",
-  }),
+  adapter: netlify(),
 
   integrations: [
     svelte({
