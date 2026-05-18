@@ -1,9 +1,10 @@
 actions:
   - name: deploy
-    label: Deploy content
+    label: Publish changes
     workflow: deploy
     ref: main
     cancellable: false
+    confirm: false
 
 media:
   - name: projects-assets
