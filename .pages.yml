@@ -14,7 +14,7 @@ media:
   - name: background-musics
     label: Musiques d'ambiance
     input: public/content/audio/background
-    ouput: /content/audio/background
+    output: /content/audio/background
     categories: [audio]
   - name: icons
     label: Icônnes
