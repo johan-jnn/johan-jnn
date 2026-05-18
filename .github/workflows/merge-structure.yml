@@ -3,7 +3,7 @@
 # | the "into" branch's content.                  |
 # |                                               |
 # | This is useful because GitHub does not        |
-# | the "ours" merge strategy.                    |
+# | support the "ours" merge strategy.            |
 # -------------------------------------------------
 
 name: Structure merger
