@@ -17,7 +17,7 @@ media:
     output: /content/audio/background
     categories: [audio]
   - name: icons
-    label: Icônnes
+    label: Icônes
     input: public/content/icons
     output: /content/icons
     rename: safe
@@ -297,6 +297,7 @@ content:
             component: uuid
           - name: title
             label: Titre
+            type: string
             required: true
           - name: description
             label: Description
