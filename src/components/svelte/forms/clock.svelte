@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CLOCK_SPEED } from "$src/stores/clock";
+  import { CLOCK_BOUDARIES, CLOCK_SPEED } from "$src/stores/clock";
   import Arrow from "../vectors/arrow.svelte";
   import Range from "./inputs/range.svelte";
 
@@ -22,7 +22,7 @@
 
   <div class="max-sm:my-2">
     <Range
-      bounds={[70, 140]}
+      bounds={CLOCK_BOUDARIES}
       bind:value={$CLOCK_SPEED}
       steps={10}
       id="range-{id}"

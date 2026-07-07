@@ -1,4 +1,5 @@
 ---
+import Ambiance from "$src/components/astro/audio/ambiance.astro";
 import Console from "$src/components/astro/console.astro";
 import { ClientRouter } from "astro:transitions";
 
@@ -23,5 +24,7 @@ const { lang = "fr" } = Astro.props;
     <slot name="body-top" />
     <slot />
     <slot name="body-bottom" />
+
+    <Ambiance />
   </body>
 </html>

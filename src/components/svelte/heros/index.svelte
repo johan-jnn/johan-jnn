@@ -55,7 +55,7 @@
         transition:fade
       >
         <div class="h-[10vh] sm:h-90">
-          <Music animation={{ sync: true }} />
+          <Music animation="sync" />
         </div>
 
         <ClockForm />

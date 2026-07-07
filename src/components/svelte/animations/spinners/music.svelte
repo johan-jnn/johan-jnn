@@ -1,24 +1,20 @@
 <script lang="ts">
-  import { CSSAnimationDurationSmoother } from "$src/actions/css/animationDurationSmoother";
   import { ambianceFrequenciesFrame } from "$src/stores/ambiance";
-  import { CLOCK_SPEED, INITIAL_CLOCK_SPEED } from "$src/stores/clock";
+  import { CLOCK_TIMINGS } from "$src/stores/clock";
+  import gsap from "gsap";
+  import { onDestroy, onMount } from "svelte";
 
   const {
     animation = false,
     levels = 7,
     gap = 0.25,
   }: {
-    animation?:
-      | {
-          /**
-           * If the value is a number, it represents milliseconds
-           */
-          speed: number | string;
-        }
-      | {
-          sync: true;
-        }
-      | boolean;
+    /**
+     * `'sync'` -> Sync the animation speed with the current clock's speed
+     * `number` -> Duration of the animation exprimed in seconds
+     * `boolean` -> If `true`, use the default animation's duration. If `false`, do not animate
+     */
+    animation?: "sync" | number | boolean;
     levels?: number;
     /**
      * Must be in `[0; 1]`
@@ -27,29 +23,79 @@
     gap?: number;
   } = $props();
 
-  $effect(() =>
+  $effect(() => {
     console.assert(
       gap >= 0 && gap <= 1,
       `The gap parameter must be in the [0; 1] range (received : ${gap})`,
-    ),
+    );
+  });
+
+  const duration = $derived(
+    animation &&
+      (animation === "sync"
+        ? $CLOCK_TIMINGS.s
+        : typeof animation === "number"
+          ? animation
+          : 5),
   );
 
-  const cssAnimation = $derived.by(() => {
-    if (typeof animation === "boolean") {
-      return animation ? "10s" : false;
+  let circleRef: SVGCircleElement | undefined = $state(),
+    radarRef: SVGGElement | undefined = $state(),
+    levelsRefs: SVGRectElement[] = $state([]);
+
+  let tweens: (gsap.core.Tween | gsap.core.Timeline)[] = $state([]);
+
+  onMount(() => {
+    // Note: all the tweens' duration will be set in the $effect
+    // hook bellow.
+
+    tweens = [
+      gsap.to([circleRef, radarRef], {
+        rotate: (index) => 360 * (index * 2 - 1),
+        repeat: -1,
+        transformOrigin: "center center",
+        ease: "none",
+      }),
+    ];
+
+    if (animation !== "sync") {
+      tweens.push(
+        ...levelsRefs.map((level) => {
+          const tm = gsap.timeline({
+            yoyo: true,
+            repeat: -1,
+            defaults: {
+              ease: "none",
+              transformOrigin: "bottom center",
+            },
+          });
+          const steps = Math.floor(Math.random() * 30 + 5);
+          for (let i = 0; i < steps; i++) {
+            tm.to(level, {
+              scaleY: "random(0.1, 1.3)",
+            });
+          }
+          return tm;
+        }),
+      );
     }
-    if ("speed" in animation) {
-      return typeof animation.speed === "number"
-        ? `${animation.speed}ms`
-        : animation.speed;
-    }
-    if ("sync" in animation) {
-      return animation.sync;
-    }
+  });
+  onDestroy(() => {
+    tweens.splice(0).forEach((t) => t.kill());
+  });
+  $effect(() => {
+    tweens.forEach((tween) => {
+      if (duration === false) {
+        tween.pause();
+      } else {
+        const proportionalTime = (duration * tween.time()) / tween.duration();
+        tween.duration(duration).play(proportionalTime);
+      }
+    });
   });
 
   const barFills = $derived(
-    cssAnimation === true
+    animation === "sync"
       ? $ambianceFrequenciesFrame.averageBy(levels, undefined, false, {
           rate: 0.75,
           position: 0.5,
@@ -66,12 +112,7 @@
   viewBox="0 0 60 60"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
-  style="--animation-speed:{cssAnimation === true && barFills.length
-    ? (2 - $CLOCK_SPEED / INITIAL_CLOCK_SPEED) ** 2 * 10 + 's'
-    : cssAnimation};"
-  class={{
-    animated: typeof cssAnimation === "string",
-  }}
+  class="aspect-square size-full"
 >
   <defs>
     <linearGradient id="swatch8">
@@ -100,7 +141,7 @@
           y="{y}%"
           width="{barsWidth}%"
           height="{height}%"
-          use:CSSAnimationDurationSmoother
+          bind:this={levelsRefs[index]}
         />
       {/each}
     </g>
@@ -111,8 +152,8 @@
       cy="29.997"
       r="22.793"
       style="fill:none;stroke-dasharray:1.15, 1.2;stroke-width:.4"
-      class="dashed-circle stroke-black dark:stroke-white"
-      use:CSSAnimationDurationSmoother
+      class="stroke-black dark:stroke-white"
+      bind:this={circleRef}
     />
     <circle
       cx="30"
@@ -129,7 +170,7 @@
       class="stroke-primary"
     />
   </g>
-  <g class="radar" use:CSSAnimationDurationSmoother>
+  <g bind:this={radarRef}>
     <g transform="matrix(1.1593 0 0 1.1593 -4.7777 -4.7788)">
       <circle
         cx="30"
@@ -175,79 +216,3 @@
     </g>
   </g>
 </svg>
-
-<style lang="scss">
-  @use "sass:math";
-  @use "sass:list";
-
-  $duration: var(--animation-speed);
-  $level-steps: (0.35, 0.2, 0.75, 0.7, 1.5, 0.25, 0.5);
-  $level-amount: list.length($level-steps);
-  $level-randomness: 8;
-  $level-rate-modifier-bounds: (0.45, 0.85);
-  $level-speed: calc($duration / 6);
-
-  @keyframes rotate {
-    from {
-      rotate: 0deg;
-    }
-    to {
-      rotate: 360deg;
-    }
-  }
-  @keyframes level-animation {
-    0% {
-      scale: 1 1;
-    }
-    100% {
-      scale: 1 1;
-    }
-
-    @for $i from 1 to $level-amount {
-      $rate: list.nth($level-steps, $i);
-      $pourcent: calc(100% / $level-amount * $i);
-
-      #{$pourcent} {
-        scale: 1 calc(var(--rate-modifier, 1) * $rate);
-      }
-    }
-  }
-
-  svg {
-    aspect-ratio: 1 / 1;
-    width: 100%;
-    height: 100%;
-
-    .radar {
-      animation: rotate calc($duration / 2) infinite linear;
-      transform-origin: center;
-    }
-    .dashed-circle {
-      animation: rotate reverse $duration infinite linear;
-      transform-origin: center;
-    }
-    &.animated {
-      .levels {
-        > * {
-          animation: level-animation $level-speed infinite linear;
-          transform-origin: center bottom;
-          transform-box: fill-box;
-
-          @for $n from 0 to $level-randomness {
-            &:nth-child(#{$level-randomness}n + #{$n}) {
-              --rate-modifier: #{math.random() *
-                (
-                  list.nth($level-rate-modifier-bounds, 2) - list.nth(
-                      $level-rate-modifier-bounds,
-                      1
-                    )
-                ) +
-                list.nth($level-rate-modifier-bounds, 1)};
-              animation-delay: calc(-1 * $level-speed * math.random());
-            }
-          }
-        }
-      }
-    }
-  }
-</style>

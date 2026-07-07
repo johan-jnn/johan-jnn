@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { ambiancePlayer, ambianceUrls } from "$src/stores/ambiance";
-  import { CLOCK_SPEED } from "$src/stores/clock";
+  import { CLOCK_BOUDARIES, CLOCK_SPEED } from "$src/stores/clock";
   import { AudioPlayer } from "$utils/audio/player";
   import { get } from "svelte/store";
   import Music from "../animations/spinners/music.svelte";
@@ -116,10 +116,10 @@
       "
     >
       <div class="h-14 aspect-square">
-        <Music animation={{ sync: true }} levels={20} />
+        <Music animation="sync" levels={20} />
       </div>
 
-      <Range bounds={[70, 140]} bind:value={$CLOCK_SPEED} steps={10} />
+      <Range bounds={CLOCK_BOUDARIES} bind:value={$CLOCK_SPEED} steps={10} />
 
       <Range bounds={[0, 1]} bind:value={$ambiancePlayer.volume} steps={0.01} />
 
