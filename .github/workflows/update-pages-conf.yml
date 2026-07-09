@@ -33,9 +33,11 @@ jobs:
       - name: Verify if differences exist
         id: diff
         run: |
+          set +e
           git add .pages.yml
-          git diff --quiet HEAD .pages.yml > /dev/null
+          git diff --quiet HEAD .pages.yml
           echo "exists=$?" >> $GITHUB_OUTPUT
+
           exit 0
 
       - name: Upload the new version of .pages.cms
