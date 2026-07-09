@@ -33,10 +33,11 @@ jobs:
       - name: Verify if differences exist
         id: diff
         run: |
+          # To disable the exit-early behavior
           set +e
+
           git add .pages.yml
           git diff --exit-code HEAD .pages.yml
-          echo "$?"
           echo "exists=$?" >> $GITHUB_OUTPUT
 
           exit 0
