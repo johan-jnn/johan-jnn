@@ -25,6 +25,6 @@ const { lang = "fr" } = Astro.props;
     <slot />
     <slot name="body-bottom" />
 
-    <Ambiance />
+    <Ambiance transition:persist="ambiance-controller" />
   </body>
 </html>
