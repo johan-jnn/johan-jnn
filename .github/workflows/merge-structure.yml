@@ -8,9 +8,16 @@
 
 name: Structure merger
 
+concurrency:
+  group: structure
+
 on:
   # When pushing to dev AND package.json's version are different
-  push:
+  workflow_run:
+    workflows:
+      - Update .pages.yml
+    types:
+      - completed
     branches:
       - dev
 
@@ -92,7 +99,7 @@ jobs:
     needs:
       - ensure-mergable
     if: |
-      ! contains(github.event.head_commit.message, 'skip-version-check')
+      ! contains(github.event.workflow_run.display_title, 'skip-version-check')
       && (toJson(inputs) == '{}' || inputs.verify-version)
       && needs.ensure-mergable.outputs.target_exists
     outputs:

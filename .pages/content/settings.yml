@@ -1,0 +1,6 @@
+name: settings
+label: Paramètres
+type: group
+items: !!import/payload
+  strategy: sequence
+  paths: settings/

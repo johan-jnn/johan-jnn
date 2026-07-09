@@ -16,7 +16,6 @@ interface Props {
     header?: boolean;
     footer?: boolean;
     head?: boolean;
-    ambiance?: boolean
   };
 }
 
@@ -81,5 +80,4 @@ const { lang, title, description, without_defaults } = Astro.props;
     }
   </Fragment>
 
-  {!without_defaults?.ambiance && <Ambiance />}
 </Html>

@@ -1,0 +1,6 @@
+name: projects-wrapper
+type: group
+label: Projets
+items: !!import/payload
+  strategy: sequence
+  paths: projects/

@@ -1,0 +1,15 @@
+actions: !!import/payload
+  strategy: sequence
+  paths: actions/
+
+media: !!import/payload
+  strategy: sequence
+  paths: media/
+
+components: !!import/tree
+  strategy: merge
+  paths: components/
+
+content: !!import/payload
+  strategy: sequence
+  paths: content/

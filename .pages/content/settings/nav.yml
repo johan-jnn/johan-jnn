@@ -1,0 +1,18 @@
+name: nav
+path: src/data/content/settings/navigation.json
+label: Navigation
+type: file
+format: json
+fields:
+  - name: header
+    type: object
+    label: Header
+    fields:
+      - name: title
+        label: Titre
+        type: string
+        required: true
+      - name: nav
+        label: Navigations
+        component: link
+        list: true

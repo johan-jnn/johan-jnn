@@ -1,3 +1,5 @@
+import { AudioFrequencies } from "./frequencies";
+
 export interface AudioAnalyserOptions {
   /**
    * @range [32; 2048]
@@ -14,29 +16,43 @@ export interface AudioAnalyserOptions {
    */
   smoothing?: number;
 }
+
 export class AudioAnalyser {
-  readonly meter: AnalyserNode;
+  readonly node: AnalyserNode;
+
   constructor(
     readonly audio: HTMLAudioElement,
     options?: AudioAnalyserOptions,
   ) {
+    // Device's context
     const context = new AudioContext();
-    this.meter = context.createAnalyser();
+    // Analyser's context
+    this.node = context.createAnalyser();
+
+    // Create a controllable audio source from the given audio
+    const source = context.createMediaElementSource(audio);
+
+    // Pipe this source to the analyser and then to the device's output
+    source.connect(this.node);
+    source.connect(context.destination);
+
     if (options) {
       this.options = options;
     }
-
-    const source = context.createMediaElementSource(audio);
-    source.connect(this.meter);
-    source.connect(context.destination);
   }
 
   set options(options: AudioAnalyserOptions) {
-    this.meter.fftSize = options.size ?? 2048;
+    this.node.fftSize = options.size ?? this.node.fftSize;
+    this.node.smoothingTimeConstant =
+      options.smoothing ?? this.node.smoothingTimeConstant;
+
     if (options.decibels) {
-      this.meter.maxDecibels = options.decibels.max;
-      this.meter.minDecibels = options.decibels.min;
+      this.node.minDecibels = options.decibels.min;
+      this.node.maxDecibels = options.decibels.max;
     }
-    this.meter.smoothingTimeConstant = options.smoothing ?? 0.8;
+  }
+
+  get frequencies() {
+    return AudioFrequencies.fromNode(this.node);
   }
 }

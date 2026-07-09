@@ -1,0 +1,6 @@
+name: id
+type: uuid
+hidden: true
+required: true
+options:
+  editable: false

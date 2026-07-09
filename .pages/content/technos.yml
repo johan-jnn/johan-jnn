@@ -1,0 +1,46 @@
+name: technos
+label: Technos
+description: Liste des technos maîtrisées
+type: collection
+format: json
+path: src/data/content/technos
+filename: "{id}.json"
+view:
+  primary: "name"
+  fields:
+    - name
+    - description
+    - website
+  search:
+    - name
+    - website
+  sort:
+    - name
+    - used_since
+fields:
+  - name: id
+    component: uuid
+  - name: name
+    type: string
+    label: Nom
+    required: true
+  - name: description
+    label: Description
+    required: true
+  - name: icon
+    label: Iconne
+    required: true
+    type: string
+    description: |
+      Nom de l'icônne basé sur https://devicon.dev/.
+      Mettre le nom de l'icônne sans le préfix "devicon-".
+      Ex: "devicon-svelte-plain" -> "svelte-plain"
+  - name: used_since
+    label: Date de début d'utilisation
+    type: date
+  - name: website
+    label: Site internet
+    type: string
+  - name: color
+    label: Couleur primaire
+    type: string

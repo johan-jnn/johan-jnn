@@ -1,0 +1,22 @@
+type: object
+fields:
+  - name: label
+    label: Label
+    type: string
+    required: true
+  - name: url
+    label: URL
+    type: string
+    required: true
+  - name: target
+    label: Comportement au click
+    type: select
+    options:
+      placeholder: "Par défaut"
+      values:
+        - name: Fenêtre actuelle
+          value: _self
+        - name: Nouvelle fenêtre
+          value: _blank
+        - name: Plus haut contexte de navigation
+          value: _top

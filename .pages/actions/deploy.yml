@@ -1,0 +1,6 @@
+name: deploy
+label: Publish changes
+workflow: deploy.yml
+ref: main
+cancelable: false
+confirm: false

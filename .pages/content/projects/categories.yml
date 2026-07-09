@@ -1,0 +1,25 @@
+name: project-categories
+label: Catégories
+type: collection
+format: json
+path: src/data/content/projects/categories
+filename: "{id}.json"
+view:
+  primary: title
+  fields:
+    - title
+  sort:
+    - title
+  search:
+    - title
+    - description
+fields:
+  - name: id
+    component: uuid
+  - name: title
+    label: Titre
+    type: string
+    required: true
+  - name: description
+    label: Description
+    required: false

@@ -7,9 +7,4 @@ const files = import.meta.glob("./content/audio/background/*.mp3", {
 const urls = Object.keys(files).map((path) => path.replace(/^\.+/, ""));
 ---
 
-<SvelteAmbiance
-  ambianceFilesUrls={urls}
-  transition:persist
-  client:load
-  data-swap-id="ambiancer"
-/>
+<SvelteAmbiance ambianceFilesUrls={urls} client:load />

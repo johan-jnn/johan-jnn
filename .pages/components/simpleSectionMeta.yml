@@ -1,0 +1,15 @@
+type: object
+name: section_metadata
+label: Section
+fields:
+  - name: title
+    label: Titre de la section
+    required: true
+    type: string
+  - name: subtitle
+    label: Contexte de la section
+    type: string
+  - name: important
+    label: Section à mettre en avant
+    type: boolean
+    default: false

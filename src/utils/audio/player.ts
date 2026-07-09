@@ -3,13 +3,13 @@ import { createSubscriber } from "svelte/reactivity";
 import { AudioAnalyser } from "./analyser";
 
 export class AudioPlayer {
-  private cached_analyser: AudioAnalyser | undefined = undefined;
-  private audio_refresh: () => void;
-  private volume_refresh: () => void;
-  private time_refresh: () => void;
+  private audio_analyser: AudioAnalyser | undefined = undefined;
+  private update_audio: () => void;
+  private update_volume: () => void;
+  private update_time: () => void;
 
   constructor(readonly audio: HTMLAudioElement) {
-    this.audio_refresh = createSubscriber((update) => {
+    this.update_audio = createSubscriber((update) => {
       const off_onplay = on(audio, "play", update);
       const off_onpause = on(audio, "pause", update);
 
@@ -19,7 +19,7 @@ export class AudioPlayer {
       };
     });
 
-    this.volume_refresh = createSubscriber((update) => {
+    this.update_volume = createSubscriber((update) => {
       const off = on(audio, "volumechange", update);
 
       return () => {
@@ -27,7 +27,7 @@ export class AudioPlayer {
       };
     });
 
-    this.time_refresh = createSubscriber((update) => {
+    this.update_time = createSubscriber((update) => {
       const off = on(audio, "timeupdate", update);
 
       return () => {
@@ -37,12 +37,12 @@ export class AudioPlayer {
   }
 
   get active() {
-    this.audio_refresh();
+    this.update_audio();
     return !this.audio.paused;
   }
 
   get volume() {
-    this.volume_refresh();
+    this.update_volume();
     return this.audio.volume;
   }
   set volume(target: number) {
@@ -50,7 +50,7 @@ export class AudioPlayer {
   }
 
   get time() {
-    this.time_refresh();
+    this.update_time();
 
     return {
       seconds: this.audio.currentTime,
@@ -61,8 +61,8 @@ export class AudioPlayer {
 
   get analyser(): AudioAnalyser {
     return (
-      this.cached_analyser ??
-      (this.cached_analyser = new AudioAnalyser(this.audio))
+      this.audio_analyser ??
+      (this.audio_analyser = new AudioAnalyser(this.audio))
     );
   }
 }

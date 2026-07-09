@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ambianceFrequenciesFrame } from "$src/stores/ambiance";
+  import { DRAWABLE_AMBIANCE_FREQUENCIES } from "$src/stores/ambiance";
   import { AudioFrequencies } from "$src/utils/audio/frequencies";
 
   const {
@@ -37,7 +37,7 @@
       <rect
         width="{typeof fill === 'number'
           ? fill * 100
-          : $ambianceFrequenciesFrame.averageBy(
+          : $DRAWABLE_AMBIANCE_FREQUENCIES.averageBy(
               AudioFrequencies.GROUPS_SIZE,
               fill.frequency,
               true,

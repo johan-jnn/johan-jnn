@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ambianceAnalyser, ambiancePlayer } from "$src/stores/ambiance";
+  import { AMBIANCE_PLAYER } from "$src/stores/ambiance";
 
   const SOCIALS = {
     Github: "https://github.com/johan-jnn",
@@ -30,8 +30,8 @@
     <p class="font-bold text-xl">Johan JANIN</p>
     <p>
       &copy; Johan JANIN // Signal
-      {#if $ambiancePlayer}
-        {#if $ambiancePlayer.active}
+      {#if $AMBIANCE_PLAYER}
+        {#if $AMBIANCE_PLAYER.active}
           Connected
         {:else}
           Buffering
@@ -60,16 +60,16 @@
       </ul>
     </nav>
   </section>
-  {#if $ambiancePlayer}
+  {#if $AMBIANCE_PLAYER}
     <section
       aria-hidden="true"
       class="flex items-center gap-4 text-black-300 dark:text-white-700 text-xs max-sm:justify-end"
     >
-      <p>Processed: {Math.round(($ambiancePlayer.time.rate ?? 0) * 100)}%</p>
+      <p>Processed: {Math.round(($AMBIANCE_PLAYER.time.rate ?? 0) * 100)}%</p>
       <hr
         class="h-1 w-auto m-0 aspect-square rounded-full border-none bg-black-300 dark:bg-white-700"
       />
-      <p>Rate: {$ambianceAnalyser!.meter.context.sampleRate}</p>
+      <p>Rate: {$AMBIANCE_PLAYER.analyser.node.context.sampleRate}</p>
     </section>
   {/if}
 </footer>
