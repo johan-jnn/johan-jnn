@@ -10,12 +10,21 @@ export class AudioFrequencies extends Uint8Array {
     (v) => typeof v === "number",
   ).length;
 
+  public static fromNode(analyser: AnalyserNode): AudioFrequencies {
+    const frequencies = new AudioFrequencies(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(frequencies);
+    return frequencies;
+  }
+
   sliceBy<
     P extends number | undefined = undefined,
     R = P extends number ? Uint8Array<ArrayBuffer> : Uint8Array<ArrayBuffer>[],
   >(
     channels: number,
     pick: P = undefined as P,
+    /**
+     * Subselection of the range for each channels
+     */
     range: {
       rate: number;
       position: number;
@@ -27,20 +36,30 @@ export class AudioFrequencies extends Uint8Array {
     const { rate, position } = range;
     console.assert(
       rate >= 0 && rate <= 1 && position >= 0 && position <= 1,
-      `Invalid range parameters : they must be in [0; 1] (received : rate=${rate} & position=${position})`,
+      `Invalid range arguments. They must be in [0; 1] (received : rate=${rate} & position=${position})`,
     );
 
-    channels = Math.min(channels, this.length);
+    if (!this.length) {
+      return [] as R;
+    }
+
+    console.assert(
+      channels > 0 && channels < this.length,
+      `Invalid channels argument. It must be in ]0; ${this.length}[ (received : ${channels})`,
+    );
+    console.assert(
+      typeof pick !== "number" || (pick >= 0 && pick <= channels),
+      `Invalid pick argument. It must be in [0; ${channels}] (received : ${pick})`,
+    );
 
     if (typeof pick === "number") {
-      const index = Math.min(pick, channels);
-      const full_size = Math.floor((this.length * 0.85) / channels);
-      const final_size = Math.floor(full_size * rate || 1);
+      const channel_size = Math.floor(this.length / channels);
+      const range_size = Math.floor(channel_size * (rate || 1));
 
       const start = Math.floor(
-        full_size * index + (full_size - final_size) * position,
+        channel_size * pick + (channel_size - range_size) * position,
       );
-      const end = start + final_size;
+      const end = start + channel_size;
       return this.slice(start, end) as R;
     } else {
       return new Array(channels)
@@ -56,6 +75,9 @@ export class AudioFrequencies extends Uint8Array {
     channels: number,
     pick: P = undefined as P,
     strict: boolean = false,
+    /**
+     * Subselection of the range for each channels
+     */
     range: {
       rate: number;
       position: number;
@@ -86,6 +108,9 @@ export class AudioFrequencies extends Uint8Array {
   >(
     channels: number,
     pick: P = undefined as P,
+    /**
+     * Subselection of the range for each channels
+     */
     range: {
       rate: number;
       position: number;

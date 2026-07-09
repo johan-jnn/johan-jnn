@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ambianceFrequenciesFrame } from "$src/stores/ambiance";
+  import { DRAWABLE_AMBIANCE_FREQUENCIES } from "$src/stores/ambiance";
   import { CLOCK_TIMER } from "$src/stores/clock";
   import gsap from "gsap";
   import { onDestroy, onMount } from "svelte";
@@ -40,8 +40,6 @@
           ? animation
           : 5),
   );
-
-  $inspect(duration);
 
   let circleRef: SVGCircleElement | undefined = $state(),
     radarRef: SVGGElement | undefined = $state(),
@@ -100,7 +98,7 @@
 
   const barFills = $derived(
     animation === "sync"
-      ? $ambianceFrequenciesFrame.averageBy(levels, undefined, false, {
+      ? $DRAWABLE_AMBIANCE_FREQUENCIES.averageBy(levels, undefined, false, {
           rate: 0.75,
           position: 0.5,
         })

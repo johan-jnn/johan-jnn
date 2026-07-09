@@ -1,96 +1,80 @@
 import { AudioFrequencies } from "$src/utils/audio/frequencies";
-import type { AudioPlayer } from "$src/utils/audio/player";
+import { AudioPlayer } from "$src/utils/audio/player";
 import { derived, writable } from "svelte/store";
 
-export const ambianceUrls = writable<string[]>([]);
-export const ambiancePlayer = writable<undefined | AudioPlayer>();
-export const ambianceAnalyser = derived(ambiancePlayer, (player) => {
-  if (!player) return;
-  const { analyser } = player;
-  analyser.options = {
-    smoothing: 0.8,
-    size: 2048,
-  };
-  return analyser;
-});
+export const AMBIANCE_LIBRAIRY = writable<string[]>([]);
+export const AMBIANCE_PLAYER = writable<AudioPlayer | undefined>();
 
-/**
- * The interval time between 2 frequencies check (in miliseconds)
- */
-export const frequenciesUpdateInterval = writable(0);
-/**
- * The range of the ambiance frequencies
- * @default [20, 20e3] (Humain earable)
- */
-export const frequenciesHzRange = writable([20, 20e3]);
+export const FREQUENCIES_CHECK_INTERVAL = writable(0);
+export const FREQUENCIES_RANGE = writable<[number, number]>([20, 20e3]);
 
-export const ambianceFrequencies = derived(
-  [ambianceAnalyser, frequenciesUpdateInterval, frequenciesHzRange],
-  ([analyser, interval, targetHzRange], set) => {
-    if (!analyser) {
-      set(new AudioFrequencies());
-      return;
+export const AMBIANCE_FREQUENCIES = derived(
+  [AMBIANCE_PLAYER, FREQUENCIES_CHECK_INTERVAL, FREQUENCIES_RANGE],
+  ([player, interval, range], set) => {
+    if (!player) {
+      return set(new AudioFrequencies());
     }
 
-    const baseHzRange = [0, analyser.meter.context.sampleRate / 2];
-    const rangeStartIndex =
-      analyser.meter.frequencyBinCount *
-      (targetHzRange[0] / (baseHzRange[1] - baseHzRange[0]));
-    const rangeEndIndex =
-      analyser.meter.frequencyBinCount *
-      (targetHzRange[1] / (baseHzRange[1] - baseHzRange[0]));
+    const { analyser } = player;
+    function analyse() {
+      const {
+        context: { sampleRate },
+        frequencyBinCount,
+      } = analyser.node;
+      const hzRange = [0, sampleRate / 2];
+      const hzRangeSize = hzRange[1] - hzRange[0];
+      const frequenciesRange = range.map(
+        (bound) => frequencyBinCount * (bound / hzRangeSize),
+      );
 
-    let timeout: NodeJS.Timeout;
-    const rawFrequencies = new AudioFrequencies(
-      analyser.meter.frequencyBinCount,
-    );
-    function start() {
-      timeout = setInterval(() => {
-        if (!analyser) return;
+      const frequencies = analyser.frequencies.slice(
+        ...frequenciesRange,
+      ) as AudioFrequencies;
 
-        analyser.meter.getByteFrequencyData(rawFrequencies);
+      // Convert time domains from [0; 255] to [0; 100]
+      frequencies.forEach((f, i) => {
+        frequencies[i] = Math.max(0, (f / 255) * 100);
+      });
 
-        const frequencies = rawFrequencies.slice(
-          rangeStartIndex,
-          rangeEndIndex,
-        ) as AudioFrequencies;
-
-        // Convert time domains from [0; 255] to [0; 100]
-        frequencies.forEach((f, i) => {
-          frequencies[i] = Math.max(0, (f / 255) * 100);
-        });
-
-        set(frequencies);
-      }, interval);
-    }
-    function pause() {
-      clearInterval(timeout);
+      set(frequencies);
     }
 
-    analyser.audio.addEventListener("play", start);
-    analyser.audio.addEventListener("pause", pause);
+    let timer: NodeJS.Timeout;
+    function enable() {
+      timer = setInterval(analyse, interval);
+    }
+    function disable() {
+      clearInterval(timer);
+    }
+
+    analyser.audio.addEventListener("play", enable);
+    analyser.audio.addEventListener("pause", disable);
+
+    () => {};
   },
   new AudioFrequencies(),
 );
 
-let nextFrame: number | undefined = undefined;
-export const ambianceFrequenciesFrame = derived(
-  ambianceFrequencies,
-  (frequencies, set) => {
+export const DRAWABLE_AMBIANCE_FREQUENCIES = derived(
+  AMBIANCE_FREQUENCIES,
+  function (
+    this: { frame?: number },
+    frequencies: AudioFrequencies,
+    set: Function,
+  ) {
     if (
       !(
         "requestAnimationFrame" in globalThis &&
         "cancelAnimationFrame" in globalThis
       )
     ) {
-      set(frequencies);
-      return;
+      return set(frequencies);
     }
 
-    if (typeof nextFrame === "number") {
-      cancelAnimationFrame(nextFrame);
+    if (typeof this.frame === "number") {
+      cancelAnimationFrame(this.frame);
     }
-    nextFrame = requestAnimationFrame(() => set(frequencies));
-  },
+    this.frame = requestAnimationFrame(() => set(frequencies));
+  }.bind({}),
   new AudioFrequencies(),
 );

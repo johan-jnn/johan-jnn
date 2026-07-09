@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { ambiancePlayer } from "$src/stores/ambiance";
+  import { AMBIANCE_PLAYER } from "$src/stores/ambiance";
   import type { EntryData } from "$src/utils/content/entry";
   import Button from "$svelte/button.svelte";
   import { onMount } from "svelte";
   import { fade, scale } from "svelte/transition";
   import Music from "../animations/spinners/music.svelte";
-  import { start } from "../audio/ambiance.svelte";
+  import { enable } from "../audio/ambiance.svelte";
   import ClockForm from "../forms/clock.svelte";
   import SplittedHeading from "../headings/splitted.svelte";
 
@@ -49,7 +49,7 @@
     </div>
   </section>
   <section class="w-full sm:h-full relative">
-    {#if $ambiancePlayer}
+    {#if $AMBIANCE_PLAYER}
       <div
         class="absolute flex sm:flex-col align-middle justify-center gap-12 items-center size-full"
         transition:fade
@@ -71,7 +71,7 @@
           action={{
             type: "button",
             onclick: () => {
-              start();
+              enable();
             },
           }}
         >
