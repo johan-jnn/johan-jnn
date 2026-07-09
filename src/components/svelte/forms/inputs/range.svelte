@@ -36,7 +36,7 @@
     "transition-[shadow_transform]",
 
     "after:content-[''] after:h-full after:aspect-square after:bg-primary after:absolute after:top-1/2 after:-translate-y-1/2",
-    "after:left-[calc(100%*var(--rate))] after:-translate-x-[calc(100%*var(--rate))] after:select-none",
+    "after:left-[calc(100%*var(--rate))] after:translate-x-[calc(-100%*var(--rate))] after:select-none",
   ]}
 >
   <span class="absolute top-1/2 -translate-1/2 left-1/2 w-9/10 flex">

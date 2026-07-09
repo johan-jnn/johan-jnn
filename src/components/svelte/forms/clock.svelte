@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CLOCK_BOUDARIES, CLOCK_SPEED } from "$src/stores/clock";
+  import { CLOCK_CPS, CLOCK_CPS_LIMITS } from "$src/stores/clock";
   import Arrow from "../vectors/arrow.svelte";
   import Range from "./inputs/range.svelte";
 
@@ -22,8 +22,8 @@
 
   <div class="max-sm:my-2">
     <Range
-      bounds={CLOCK_BOUDARIES}
-      bind:value={$CLOCK_SPEED}
+      bounds={CLOCK_CPS_LIMITS}
+      bind:value={$CLOCK_CPS}
       steps={10}
       id="range-{id}"
     />
@@ -32,6 +32,6 @@
   <p
     class="font-bold italic text-sm text-black-300 dark:text-white-700 text-right"
   >
-    {$CLOCK_SPEED}Ghz
+    {$CLOCK_CPS}Hz
   </p>
 </form>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ambianceFrequenciesFrame } from "$src/stores/ambiance";
-  import { CLOCK_TIMINGS } from "$src/stores/clock";
+  import { CLOCK_TIMER } from "$src/stores/clock";
   import gsap from "gsap";
   import { onDestroy, onMount } from "svelte";
 
@@ -30,14 +30,18 @@
     );
   });
 
+  const timer = CLOCK_TIMER(1e3);
+
   const duration = $derived(
     animation &&
       (animation === "sync"
-        ? $CLOCK_TIMINGS.s
+        ? $timer.s
         : typeof animation === "number"
           ? animation
           : 5),
   );
+
+  $inspect(duration);
 
   let circleRef: SVGCircleElement | undefined = $state(),
     radarRef: SVGGElement | undefined = $state(),

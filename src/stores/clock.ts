@@ -1,48 +1,29 @@
-import { derived, writable } from "svelte/store";
+import { derived, get, writable } from "svelte/store";
 
-const CLOCK_UNIT = 1e3; // Ghz
-export const INITIAL_CLOCK_SPEED = 100;
-export const CLOCK_BOUDARIES = [20, 200] as [number, number];
-
-function HzToSeconds(hz: number) {
-  return (1 / hz) * CLOCK_UNIT;
-}
-function SecondsToTimings(s: number) {
-  return {
-    ms: s * 1e3,
-    s,
-    min: s / 60,
-  };
-}
+export const DEFAULT_CLOCK_CPS = 100; // Hz
+export const CLOCK_CPS = writable(DEFAULT_CLOCK_CPS);
+export const CLOCK_CPS_LIMITS = [20, 260] as [number, number];
 
 /**
- * The website's clock speed in mHz
- */
-export const CLOCK_SPEED = writable(INITIAL_CLOCK_SPEED);
-/**
- * The clock's delta shift if it has changed
+ * The difference between the last clock's cps and the current one
  */
 export const CLOCK_DELTA = derived(
-  CLOCK_SPEED,
+  CLOCK_CPS,
   function (this: { previous: number }, speed: number) {
     const delta = speed - this.previous;
     this.previous = speed;
     return delta;
-  }.bind({ previous: INITIAL_CLOCK_SPEED }),
+  }.bind({ previous: get(CLOCK_CPS) }),
 );
 
-export const CLOCK_TIMINGS = derived(CLOCK_SPEED, (hz) =>
-  SecondsToTimings(HzToSeconds(hz)),
-);
-export const CLOCK_DELTA_TIMINGS = derived(CLOCK_DELTA, (hz) =>
-  SecondsToTimings(HzToSeconds(hz)),
-);
+export function CLOCK_TIMER(cycles_unit: number, coefficent = 1.25) {
+  return derived(CLOCK_CPS, (cps) => {
+    const s = cycles_unit / cps / coefficent;
 
-export const CLOCK_RATE = derived(
-  CLOCK_SPEED,
-  (hz) => hz / INITIAL_CLOCK_SPEED,
-);
-export const CLOCK_DELTA_RATE = derived(
-  CLOCK_DELTA,
-  (hz) => hz / INITIAL_CLOCK_SPEED,
-);
+    return {
+      s,
+      ms: s * 1e3,
+      min: s / 60,
+    };
+  });
+}

@@ -1,6 +1,5 @@
 <script module lang="ts">
   import { ambiancePlayer, ambianceUrls } from "$src/stores/ambiance";
-  import { CLOCK_BOUDARIES, CLOCK_SPEED } from "$src/stores/clock";
   import { AudioPlayer } from "$utils/audio/player";
   import { get } from "svelte/store";
   import Music from "../animations/spinners/music.svelte";
@@ -24,7 +23,7 @@
       player.audio.addEventListener("ended", () => {
         start(ambiance_index + 1);
       });
-      CLOCK_SPEED.subscribe((speed) => {
+      CLOCK_CPS.subscribe((speed) => {
         player.audio.playbackRate = speed / 100;
       });
     }
@@ -43,6 +42,7 @@
 </script>
 
 <script lang="ts">
+  import { CLOCK_CPS, CLOCK_CPS_LIMITS } from "$src/stores/clock";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   import { slide } from "svelte/transition";
 
@@ -119,7 +119,7 @@
         <Music animation="sync" levels={20} />
       </div>
 
-      <Range bounds={CLOCK_BOUDARIES} bind:value={$CLOCK_SPEED} steps={10} />
+      <Range bounds={CLOCK_CPS_LIMITS} bind:value={$CLOCK_CPS} steps={10} />
 
       <Range bounds={[0, 1]} bind:value={$ambiancePlayer.volume} steps={0.01} />
 
