@@ -19,7 +19,8 @@ env:
   GIT_NAME: "github-actions-pages-updater"
 
 jobs:
-  build:
+  builder:
+    name: Builder
     runs-on: ubuntu-slim
     permissions:
       contents: write
@@ -32,7 +33,7 @@ jobs:
       - name: Verify if differences exist
         id: diff
         run: |
-          git add .pages.cms
+          git add .pages.yml
           git diff --quiet .pages.yml
           echo "exists=$?" >> $GITHUB_OUTPUT
 
@@ -41,7 +42,7 @@ jobs:
         uses: EndBug/add-and-commit@v10
         with:
           message: "feat: Updating .pages.yml"
-          add: .pages.cms
+          add: .pages.yml
           push: true
           committer_email: ${{ env.GIT_EMAIL }}
           committer_name: ${{ env.GIT_NAME }}
