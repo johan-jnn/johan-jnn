@@ -34,7 +34,7 @@ jobs:
         id: diff
         run: |
           git add .pages.yml
-          git diff --quiet HEAD .pages.yml
+          git diff --quiet HEAD .pages.yml > /dev/null
           echo "exists=$?" >> $GITHUB_OUTPUT
           exit 0
 
