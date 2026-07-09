@@ -5,33 +5,26 @@ actions:
     ref: main
     cancelable: false
     confirm: false
-
 media:
-  - name: projects-assets
-    label: Media des projets
-    input: public/content/projects
-    output: /content/projects
-  - name: background-musics
-    label: Musiques d'ambiance
-    input: public/content/audio/background
-    output: /content/audio/background
-    categories: [audio]
   - name: icons
     label: Icônes
     input: public/content/icons
     output: /content/icons
     rename: safe
-    categories: [image]
-
+    categories:
+      - image
+  - name: background-musics
+    label: Musiques d'ambiance
+    input: public/content/audio/background
+    output: /content/audio/background
+    categories:
+      - audio
+  - name: projects-assets
+    label: Media des projets
+    input: public/content/projects
+    output: /content/projects
 components:
-  uuid:
-    name: id
-    type: uuid
-    hidden: true
-    required: true
-    options:
-      editable: false
-  simple-section-meta:
+  simpleSectionMeta:
     type: object
     name: section_metadata
     label: Section
@@ -47,6 +40,13 @@ components:
         label: Section à mettre en avant
         type: boolean
         default: false
+  uuid:
+    name: id
+    type: uuid
+    hidden: true
+    required: true
+    options:
+      editable: false
   link:
     type: object
     fields:
@@ -62,7 +62,7 @@ components:
         label: Comportement au click
         type: select
         options:
-          placeholder: "Par défaut"
+          placeholder: Par défaut
           values:
             - name: Fenêtre actuelle
               value: _self
@@ -70,171 +70,16 @@ components:
               value: _blank
             - name: Plus haut contexte de navigation
               value: _top
-
 content:
-  - name: settings
-    label: Paramètres
-    type: group
-    items:
-      - name: nav
-        path: src/data/content/settings/navigation.json
-        label: Navigation
-        type: file
-        format: json
-        fields:
-          - name: header
-            type: object
-            label: Header
-            fields:
-              - name: title
-                label: Titre
-                type: string
-                required: true
-              - name: nav
-                label: Navigations
-                component: link
-                list: true
-
-  - name: pages
-    label: Pages
-    description: Contenu des différentes pages du site
-    type: group
-    items:
-      - name: homepage
-        label: Page d'accueil
-        type: file
-        format: json
-        path: src/data/content/pages/home.json
-        fields:
-          - name: hero
-            label: Héro-header
-            type: object
-            required: true
-            fields:
-              - name: localisation
-                label: Localisation
-                description: Texte affiché en haut du header
-                type: string
-                options:
-                  maxlength: 300
-              - name: titles
-                label: Titre (h1)
-                description: |
-                  Titre de la page.
-                  Chaque items est sur 1 lignes.
-                  Les items sont choisis aléatoirement au chargement de la page
-                type: object
-                required: true
-                list:
-                  collapsible: true
-                fields:
-                  - name: lines
-                    label: Ligne du titre
-                    description: "Note: les lignes impaires sont colorées avec la couleur primaire"
-                    list: true
-                    required: true
-                    type: string
-              - name: description
-                label: Description
-                description: Description présente en dessous du titre
-                type: text
-                required: true
-                options:
-                  minlength: 70
-                  maxlength: 600
-              - name: ctas
-                label: Call-to-actions
-                list:
-                  collapsible: true
-                component: link
-
-          - name: sections
-            label: Sections
-            type: object
-            fields:
-              - name: technos
-                label: Technos misent en avant
-                type: object
-                fields:
-                  - name: section
-                    component: simple-section-meta
-                  - name: technos
-                    label: Technos misent en avant
-                    type: reference
-                    options:
-                      collection: technos
-                      multiple: true
-                      max: 4
-                      value: "{id}"
-
-              - name: projects
-                label: Projets mis en avant
-                type: object
-                fields:
-                  - name: section
-                    component: simple-section-meta
-                  - name: projects
-                    label: Projets mis en avant
-                    type: reference
-                    options:
-                      multiple: true
-                      collection: projects-list
-                      value: "{id}"
-                      max: 5
-      - name: mentions
-        label: Mentions légales
-        type: file
-        format: yaml-frontmatter
-        path: src/data/content/pages/mentions.md
-        fields:
-          - name: title
-            label: Titre
-            type: string
-            required: true
-          - name: body
-            label: Mentions légales
-            type: rich-text
-            required: true
-      - name: contact
-        label: Contact
-        type: file
-        format: json
-        path: src/data/content/pages/contact.json
-        fields:
-          - name: title
-            type: string
-            label: Titre de la page
-            required: true
-          - name: description
-            label: Description
-            type: text
-            required: true
-          - name: links
-            label: Points de contact
-            type: object
-            list: true
-            fields:
-              - name: id
-                component: uuid
-              - name: icon
-                label: Icônne
-                required: true
-                type: image
-                options:
-                  media: icons
-              - name: link
-                label: Lien
-                component: link
-
   - name: technos
     label: Technos
     description: Liste des technos maîtrisées
     type: collection
     format: json
     path: src/data/content/technos
-    filename: "{id}.json"
+    filename: '{id}.json'
     view:
-      primary: "name"
+      primary: name
       fields:
         - name
         - description
@@ -272,42 +117,145 @@ content:
       - name: color
         label: Couleur primaire
         type: string
-
-  - name: projects
+  - name: pages
+    label: Pages
+    description: Contenu des différentes pages du site
     type: group
-    label: Projets
     items:
-      - name: project-categories
-        label: Catégories
-        type: collection
-        format: json
-        path: src/data/content/projects/categories
-        filename: "{id}.json"
-        view:
-          primary: title
-          fields:
-            - title
-          sort:
-            - title
-          search:
-            - title
-            - description
+      - name: mentions
+        label: Mentions légales
+        type: file
+        format: yaml-frontmatter
+        path: src/data/content/pages/mentions.md
         fields:
-          - name: id
-            component: uuid
           - name: title
             label: Titre
             type: string
             required: true
+          - name: body
+            label: Mentions légales
+            type: rich-text
+            required: true
+      - name: homepage
+        label: Page d'accueil
+        type: file
+        format: json
+        path: src/data/content/pages/home.json
+        fields:
+          - name: hero
+            label: Héro-header
+            type: object
+            required: true
+            fields:
+              - name: localisation
+                label: Localisation
+                description: Texte affiché en haut du header
+                type: string
+                options:
+                  maxlength: 300
+              - name: titles
+                label: Titre (h1)
+                description: |
+                  Titre de la page.
+                  Chaque items est sur 1 lignes.
+                  Les items sont choisis aléatoirement au chargement de la page
+                type: object
+                required: true
+                list:
+                  collapsible: true
+                fields:
+                  - name: lines
+                    label: Ligne du titre
+                    description: >-
+                      Note: les lignes impaires sont colorées avec la couleur
+                      primaire
+                    list: true
+                    required: true
+                    type: string
+              - name: description
+                label: Description
+                description: Description présente en dessous du titre
+                type: text
+                required: true
+                options:
+                  minlength: 70
+                  maxlength: 600
+              - name: ctas
+                label: Call-to-actions
+                list:
+                  collapsible: true
+                component: link
+          - name: sections
+            label: Sections
+            type: object
+            fields:
+              - name: technos
+                label: Technos misent en avant
+                type: object
+                fields:
+                  - name: section
+                    component: simpleSectionMeta
+                  - name: technos
+                    label: Technos misent en avant
+                    type: reference
+                    options:
+                      collection: technos
+                      multiple: true
+                      max: 4
+                      value: '{id}'
+              - name: projects
+                label: Projets mis en avant
+                type: object
+                fields:
+                  - name: section
+                    component: simpleSectionMeta
+                  - name: projects
+                    label: Projets mis en avant
+                    type: reference
+                    options:
+                      multiple: true
+                      collection: projects-list
+                      value: '{id}'
+                      max: 5
+      - name: contact
+        label: Contact
+        type: file
+        format: json
+        path: src/data/content/pages/contact.json
+        fields:
+          - name: title
+            type: string
+            label: Titre de la page
+            required: true
           - name: description
             label: Description
-            required: false
-
-      - name: projects-list
+            type: text
+            required: true
+          - name: links
+            label: Points de contact
+            type: object
+            list: true
+            fields:
+              - name: id
+                component: uuid
+              - name: icon
+                label: Icônne
+                required: true
+                type: image
+                options:
+                  media: icons
+              - name: link
+                label: Lien
+                component: link
+  - name: projects-wrapper
+    type: group
+    label: Projets
+    items:
+      - name: projects
         label: Liste des projets
         path: src/data/content/projects/list
         type: collection
-        filename: "{slug}.md"
+        filename: '{slug}.md'
         view:
           primary: overview.name
           fields:
@@ -352,16 +300,16 @@ content:
                 label: Date de la réalisation
                 required: false
                 options:
-                  format: "yyyy-MM-dd"
+                  format: yyyy-MM-dd
               - name: category
                 type: reference
                 required: true
                 label: Catégorie
                 options:
                   collection: project-categories
-                  search: "title"
-                  label: "{title}"
-                  value: "{id}"
+                  search: title
+                  label: '{title}'
+                  value: '{id}'
               - name: tags
                 label: Tags
                 type: string
@@ -373,19 +321,25 @@ content:
           - name: presentation
             label: Présentation
             type: object
-            description: |
-              Chaque champ ci-dessous permet de redéfinir l'élément du projet présent dans ses informations sur sa page détail. 
-              Si non définie, l'information sera pris depuis la section "Information du projet".
+            description: >
+              Chaque champ ci-dessous permet de redéfinir l'élément du projet
+              présent dans ses informations sur sa page détail. 
+
+              Si non définie, l'information sera pris depuis la section
+              "Information du projet".
             fields:
               - name: title
                 label: Titre
-                description: Titre long du projet (si non défini, le nom du projet sera utilisé)
+                description: >-
+                  Titre long du projet (si non défini, le nom du projet sera
+                  utilisé)
                 type: string
               - name: subtitle
                 label: Sous-titre
-                description: Sous-titre/description du projet (si non défini, la description du projet sera utilisé)
+                description: >-
+                  Sous-titre/description du projet (si non défini, la
+                  description du projet sera utilisé)
                 type: text
-
           - name: body
             label: Détails
             type: rich-text
@@ -395,22 +349,69 @@ content:
               path: body
               rename: true
               media: projects-assets
-
           - name: gallery
             label: Gallerie
             type: file
             options:
               multiple: true
-              categories: [image, video]
+              categories:
+                - image
+                - video
               unique: true
               rename: true
               media: projects-assets
               path: gallery
-
           - name: related_projects
             label: Projets référençables
             type: reference
             options:
               collection: projects
               multiple: true
-              value: "{id}"
+              value: '{id}'
+      - name: project-categories
+        label: Catégories
+        type: collection
+        format: json
+        path: src/data/content/projects/categories
+        filename: '{id}.json'
+        view:
+          primary: title
+          fields:
+            - title
+          sort:
+            - title
+          search:
+            - title
+            - description
+        fields:
+          - name: id
+            component: uuid
+          - name: title
+            label: Titre
+            type: string
+            required: true
+          - name: description
+            label: Description
+            required: false
+  - name: settings
+    label: Paramètres
+    type: group
+    items:
+      - name: nav
+        path: src/data/content/settings/navigation.json
+        label: Navigation
+        type: file
+        format: json
+        fields:
+          - name: header
+            type: object
+            label: Header
+            fields:
+              - name: title
+                label: Titre
+                type: string
+                required: true
+              - name: nav
+                label: Navigations
+                component: link
+                list: true
