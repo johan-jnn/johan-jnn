@@ -34,7 +34,7 @@ jobs:
         id: diff
         run: |
           git add .pages.yml
-          git diff --quiet HEAD .pages.yml
+          (git diff --quiet HEAD .pages.yml)
           echo "exists=$?" >> $GITHUB_OUTPUT
 
       - name: Upload the new version of .pages.cms
