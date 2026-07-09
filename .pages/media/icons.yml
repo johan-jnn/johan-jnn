@@ -1,0 +1,6 @@
+name: icons
+label: Icônes
+input: public/content/icons
+output: /content/icons
+rename: safe
+categories: [image]

@@ -8,6 +8,9 @@
 
 name: Structure merger
 
+concurrency:
+  group: structure
+
 on:
   # When pushing to dev AND package.json's version are different
   push:

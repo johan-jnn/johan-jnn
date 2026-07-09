@@ -1,0 +1,7 @@
+name: pages
+label: Pages
+description: Contenu des différentes pages du site
+type: group
+items: !!import/payload
+  strategy: sequence
+  paths: pages/

@@ -1,0 +1,47 @@
+# -------------------------------------------------
+# | On each push on dev, we update the .pages.yml |
+# | according to the .pages folder.               |
+# -------------------------------------------------
+
+name: Update .pages.yml
+
+concurrency:
+  queue: max
+  group: structure
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  GIT_EMAIL: "github-actions[bot]@users.noreply.github.com"
+  GIT_NAME: "github-actions-pages-updater"
+
+jobs:
+  build:
+    runs-on: ubuntu-slim
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+      - name: Build cms' config
+        run: .pages/build.sh .pages.yml
+      - name: Verify if differences exist
+        id: diff
+        run: |
+          git add .pages.cms
+          git diff --quiet .pages.yml
+          echo "exists=$?" >> $GITHUB_OUTPUT
+
+      - name: Upload the new version of .pages.cms
+        if: steps.diff.outputs.exists == 1
+        uses: EndBug/add-and-commit@v10
+        with:
+          message: "feat: Updating .pages.yml"
+          add: .pages.cms
+          push: true
+          committer_email: ${{ env.GIT_EMAIL }}
+          committer_name: ${{ env.GIT_NAME }}

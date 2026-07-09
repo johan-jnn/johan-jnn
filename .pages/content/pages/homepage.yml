@@ -1,0 +1,80 @@
+name: homepage
+label: Page d'accueil
+type: file
+format: json
+path: src/data/content/pages/home.json
+fields:
+  - name: hero
+    label: Héro-header
+    type: object
+    required: true
+    fields:
+      - name: localisation
+        label: Localisation
+        description: Texte affiché en haut du header
+        type: string
+        options:
+          maxlength: 300
+      - name: titles
+        label: Titre (h1)
+        description: |
+          Titre de la page.
+          Chaque items est sur 1 lignes.
+          Les items sont choisis aléatoirement au chargement de la page
+        type: object
+        required: true
+        list:
+          collapsible: true
+        fields:
+          - name: lines
+            label: Ligne du titre
+            description: "Note: les lignes impaires sont colorées avec la couleur primaire"
+            list: true
+            required: true
+            type: string
+      - name: description
+        label: Description
+        description: Description présente en dessous du titre
+        type: text
+        required: true
+        options:
+          minlength: 70
+          maxlength: 600
+      - name: ctas
+        label: Call-to-actions
+        list:
+          collapsible: true
+        component: link
+  - name: sections
+    label: Sections
+    type: object
+    fields:
+      - name: technos
+        label: Technos misent en avant
+        type: object
+        fields:
+          - name: section
+            component: simpleSectionMeta
+          - name: technos
+            label: Technos misent en avant
+            type: reference
+            options:
+              collection: technos
+              multiple: true
+              max: 4
+              value: "{id}"
+
+      - name: projects
+        label: Projets mis en avant
+        type: object
+        fields:
+          - name: section
+            component: simpleSectionMeta
+          - name: projects
+            label: Projets mis en avant
+            type: reference
+            options:
+              multiple: true
+              collection: projects-list
+              value: "{id}"
+              max: 5

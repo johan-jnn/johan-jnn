@@ -1,0 +1,4 @@
+name: projects-assets
+label: Media des projets
+input: public/content/projects
+output: /content/projects
