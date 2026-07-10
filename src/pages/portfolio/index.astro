@@ -27,12 +27,21 @@ const min_date = projects.reduce(
   description="Découvrez les projets réalisés par Johan JANIN : développeur Full-Stack basé à Lyon."
 >
   <header>
-    <Hero title={["Deployed_modules //", "mes projets"]} suptitle="lorem ipsum">
-      <ul>
-        <li>Catégories: {new Set(projects.map((p) => p.category)).size}</li>
-        <li>Projets: {projects.length}</li>
-        <li>Depuis: {moment(min_date).locale("fr").fromNow(true)}</li>
-      </ul>
+    <Hero
+      title={["Deployed_modules //", "mes projets"]}
+      suptitle={`${min_date.getFullYear()} - ${new Date().getFullYear()}`}
+    >
+      {
+        projects.length ? (
+          <ul>
+            <li>Projets: {projects.length}</li>
+            <li>Catégories: {new Set(projects.map((p) => p.category)).size}</li>
+            <li>Depuis: {moment(min_date).locale("fr").fromNow(true)}</li>
+          </ul>
+        ) : (
+          ""
+        )
+      }
     </Hero>
   </header>
   <hr class:list={{ "mb-0": projects.length }} />

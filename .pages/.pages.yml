@@ -13,3 +13,6 @@ components: !!import/tree
 content: !!import/payload
   strategy: sequence
   paths: content/
+
+settings:
+  hide: true
