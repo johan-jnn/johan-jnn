@@ -51,5 +51,9 @@
         "1b35a217-2bf9-42c6-a165-76684cd1bce6"
       ]
     }
+  },
+  "contact": {
+    "title": "Ready to sync ?",
+    "subtitle": "Initiate ping // démarrer la collaboration"
   }
 }
