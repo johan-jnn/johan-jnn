@@ -8,14 +8,11 @@
 
 name: Structure merger
 
-concurrency:
-  group: structure
-
 on:
   # When pushing to dev AND package.json's version are different
   workflow_run:
     workflows:
-      - Update .pages.yml
+      - ./update-pages-conf.yml
     types:
       - completed
     branches:

@@ -6,16 +6,16 @@ actions:
     cancelable: false
     confirm: false
 media:
-  - name: projects-assets
-    label: Media des projets
-    input: public/content/projects
-    output: /content/projects
   - name: background-musics
     label: Musiques d'ambiance
     input: public/content/audio/background
     output: /content/audio/background
     categories:
       - audio
+  - name: projects-assets
+    label: Media des projets
+    input: public/content/projects
+    output: /content/projects
   - name: icons
     label: Icônes
     input: public/content/icons
@@ -47,13 +47,6 @@ components:
               value: _blank
             - name: Plus haut contexte de navigation
               value: _top
-  uuid:
-    name: id
-    type: uuid
-    hidden: true
-    required: true
-    options:
-      editable: false
   simpleSectionMeta:
     type: object
     name: section_metadata
@@ -70,6 +63,13 @@ components:
         label: Section à mettre en avant
         type: boolean
         default: false
+  uuid:
+    name: id
+    type: uuid
+    hidden: true
+    required: true
+    options:
+      editable: false
 content:
   - name: projects-wrapper
     type: group
@@ -217,6 +217,28 @@ content:
           - name: description
             label: Description
             required: false
+  - name: settings
+    label: Paramètres
+    type: group
+    items:
+      - name: nav
+        path: src/data/content/settings/navigation.json
+        label: Navigation
+        type: file
+        format: json
+        fields:
+          - name: header
+            type: object
+            label: Header
+            fields:
+              - name: title
+                label: Titre
+                type: string
+                required: true
+              - name: nav
+                label: Navigations
+                component: link
+                list: true
   - name: pages
     label: Pages
     description: Contenu des différentes pages du site
@@ -303,20 +325,6 @@ content:
                       collection: projects-list
                       value: '{id}'
                       max: 5
-      - name: mentions
-        label: Mentions légales
-        type: file
-        format: yaml-frontmatter
-        path: src/data/content/pages/mentions.md
-        fields:
-          - name: title
-            label: Titre
-            type: string
-            required: true
-          - name: body
-            label: Mentions légales
-            type: rich-text
-            required: true
       - name: contact
         label: Contact
         type: file
@@ -347,28 +355,20 @@ content:
               - name: link
                 label: Lien
                 component: link
-  - name: settings
-    label: Paramètres
-    type: group
-    items:
-      - name: nav
-        path: src/data/content/settings/navigation.json
-        label: Navigation
+      - name: mentions
+        label: Mentions légales
         type: file
-        format: json
+        format: yaml-frontmatter
+        path: src/data/content/pages/mentions.md
         fields:
-          - name: header
-            type: object
-            label: Header
-            fields:
-              - name: title
-                label: Titre
-                type: string
-                required: true
-              - name: nav
-                label: Navigations
-                component: link
-                list: true
+          - name: title
+            label: Titre
+            type: string
+            required: true
+          - name: body
+            label: Mentions légales
+            type: rich-text
+            required: true
   - name: technos
     label: Technos
     description: Liste des technos maîtrisées

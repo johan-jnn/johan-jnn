@@ -8,9 +8,6 @@
 
 name: Deploy & publish main
 
-concurrency:
-  group: deployment
-
 on:
   workflow_dispatch:
     inputs:
@@ -43,14 +40,8 @@ jobs:
           echo "EXTRA_CONTEXT=${EXTRA_CONTEXT}(through PagesCMS by $TRIGGERED_BY at $TRIGGERED_AT)" >> $GITHUB_ENV
           echo "::notice::Deploy triggered via PagesCMS by $TRIGGERED_BY at $TRIGGERED_AT"
 
-      - name: Install required tools
-        run: |
-          # Installing bun
-          curl -fsSL https://bun.com/install | bash
-
-          # Updating path env to correctly find the bun executable
-          source ~/.bash_profile
-          echo "PATH=$PATH" >> $GITHUB_ENV
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Retreive content
         uses: actions/checkout@v6
