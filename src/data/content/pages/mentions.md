@@ -1,4 +1,6 @@
 ---
 title: Mentions légales
 ---
-Lorem ipsum dolor sit amet
+Ceci est les mentions légales.
+
+Pour le moment non rédigées, veuillez revenir plus tard.
