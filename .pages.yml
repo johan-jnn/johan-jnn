@@ -6,6 +6,10 @@ actions:
     cancelable: false
     confirm: false
 media:
+  - name: projects-assets
+    label: Media des projets
+    input: public/content/projects
+    output: /content/projects
   - name: icons
     label: Icônes
     input: public/content/icons
@@ -19,10 +23,6 @@ media:
     output: /content/audio/background
     categories:
       - audio
-  - name: projects-assets
-    label: Media des projets
-    input: public/content/projects
-    output: /content/projects
 components:
   simpleSectionMeta:
     type: object
@@ -40,6 +40,13 @@ components:
         label: Section à mettre en avant
         type: boolean
         default: false
+  uuid:
+    name: id
+    type: uuid
+    hidden: true
+    required: true
+    options:
+      editable: false
   link:
     type: object
     fields:
@@ -63,14 +70,153 @@ components:
               value: _blank
             - name: Plus haut contexte de navigation
               value: _top
-  uuid:
-    name: id
-    type: uuid
-    hidden: true
-    required: true
-    options:
-      editable: false
 content:
+  - name: projects-wrapper
+    type: group
+    label: Projets
+    items:
+      - name: projects
+        label: Liste des projets
+        path: src/data/content/projects/list
+        type: collection
+        filename: '{slug}.md'
+        view:
+          primary: overview.name
+          fields:
+            - overview.name
+            - overview.description
+            - overview.category
+          search:
+            - overview.name
+            - overview.tags
+            - overview.category
+          sort:
+            - overview.date
+            - overview.name
+        fields:
+          - name: id
+            component: uuid
+          - name: overview
+            label: Informations du projet
+            type: object
+            fields:
+              - name: cover
+                label: Image de couverture
+                type: image
+                required: true
+                options:
+                  rename: true
+                  media: projects-assets
+              - name: slug
+                type: string
+                required: true
+                label: Slug
+              - name: name
+                type: string
+                required: true
+                label: Nom
+              - name: description
+                type: string
+                required: true
+                label: Description
+              - name: date
+                type: date
+                label: Date de la réalisation
+                required: false
+                options:
+                  format: yyyy-MM-dd
+              - name: category
+                type: reference
+                required: true
+                label: Catégorie
+                options:
+                  collection: project-categories
+                  search: title
+                  label: '{title}'
+                  value: '{id}'
+              - name: tags
+                label: Tags
+                type: string
+                required: true
+                list: true
+                options:
+                  minlength: 3
+                  maxlength: 18
+          - name: presentation
+            label: Présentation
+            type: object
+            description: >
+              Chaque champ ci-dessous permet de redéfinir l'élément du projet
+              présent dans ses informations sur sa page détail. 
+
+              Si non définie, l'information sera pris depuis la section
+              "Information du projet".
+            fields:
+              - name: title
+                label: Titre
+                description: >-
+                  Titre long du projet (si non défini, le nom du projet sera
+                  utilisé)
+                type: string
+              - name: subtitle
+                label: Sous-titre
+                description: >-
+                  Sous-titre/description du projet (si non défini, la
+                  description du projet sera utilisé)
+                type: text
+          - name: body
+            label: Détails
+            type: rich-text
+            required: true
+            options:
+              format: markdown
+              path: body
+              rename: true
+              media: projects-assets
+          - name: gallery
+            label: Gallerie
+            type: file
+            options:
+              multiple: true
+              categories:
+                - image
+                - video
+              unique: true
+              rename: true
+              media: projects-assets
+              path: gallery
+          - name: related_projects
+            label: Projets référençables
+            type: reference
+            options:
+              collection: projects
+              multiple: true
+              value: '{id}'
+      - name: project-categories
+        label: Catégories
+        type: collection
+        format: json
+        path: src/data/content/projects/categories
+        filename: '{id}.json'
+        view:
+          primary: title
+          fields:
+            - title
+          sort:
+            - title
+          search:
+            - title
+            - description
+        fields:
+          - name: id
+            component: uuid
+          - name: title
+            label: Titre
+            type: string
+            required: true
+          - name: description
+            label: Description
+            required: false
   - name: settings
     label: Paramètres
     type: group
@@ -269,149 +415,3 @@ content:
             label: Mentions légales
             type: rich-text
             required: true
-  - name: projects-wrapper
-    type: group
-    label: Projets
-    items:
-      - name: project-categories
-        label: Catégories
-        type: collection
-        format: json
-        path: src/data/content/projects/categories
-        filename: '{id}.json'
-        view:
-          primary: title
-          fields:
-            - title
-          sort:
-            - title
-          search:
-            - title
-            - description
-        fields:
-          - name: id
-            component: uuid
-          - name: title
-            label: Titre
-            type: string
-            required: true
-          - name: description
-            label: Description
-            required: false
-      - name: projects
-        label: Liste des projets
-        path: src/data/content/projects/list
-        type: collection
-        filename: '{slug}.md'
-        view:
-          primary: overview.name
-          fields:
-            - overview.name
-            - overview.description
-            - overview.category
-          search:
-            - overview.name
-            - overview.tags
-            - overview.category
-          sort:
-            - overview.date
-            - overview.name
-        fields:
-          - name: id
-            component: uuid
-          - name: overview
-            label: Informations du projet
-            type: object
-            fields:
-              - name: cover
-                label: Image de couverture
-                type: image
-                required: true
-                options:
-                  rename: true
-                  media: projects-assets
-              - name: slug
-                type: string
-                required: true
-                label: Slug
-              - name: name
-                type: string
-                required: true
-                label: Nom
-              - name: description
-                type: string
-                required: true
-                label: Description
-              - name: date
-                type: date
-                label: Date de la réalisation
-                required: false
-                options:
-                  format: yyyy-MM-dd
-              - name: category
-                type: reference
-                required: true
-                label: Catégorie
-                options:
-                  collection: project-categories
-                  search: title
-                  label: '{title}'
-                  value: '{id}'
-              - name: tags
-                label: Tags
-                type: string
-                required: true
-                list: true
-                options:
-                  minlength: 3
-                  maxlength: 18
-          - name: presentation
-            label: Présentation
-            type: object
-            description: >
-              Chaque champ ci-dessous permet de redéfinir l'élément du projet
-              présent dans ses informations sur sa page détail. 
-
-              Si non définie, l'information sera pris depuis la section
-              "Information du projet".
-            fields:
-              - name: title
-                label: Titre
-                description: >-
-                  Titre long du projet (si non défini, le nom du projet sera
-                  utilisé)
-                type: string
-              - name: subtitle
-                label: Sous-titre
-                description: >-
-                  Sous-titre/description du projet (si non défini, la
-                  description du projet sera utilisé)
-                type: text
-          - name: body
-            label: Détails
-            type: rich-text
-            required: true
-            options:
-              format: markdown
-              path: body
-              rename: true
-              media: projects-assets
-          - name: gallery
-            label: Gallerie
-            type: file
-            options:
-              multiple: true
-              categories:
-                - image
-                - video
-              unique: true
-              rename: true
-              media: projects-assets
-              path: gallery
-          - name: related_projects
-            label: Projets référençables
-            type: reference
-            options:
-              collection: projects
-              multiple: true
-              value: '{id}'
