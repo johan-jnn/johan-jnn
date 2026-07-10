@@ -17,7 +17,7 @@ env:
 jobs:
   builder:
     name: Builder
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:

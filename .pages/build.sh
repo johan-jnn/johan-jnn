@@ -15,6 +15,4 @@ then
   FILENAME=$1
 fi
 
-tree $DIRNAME
-
 bunx --bun --silent -p yaml-import yimp $DIRNAME/.pages.yml -o $DIRNAME/../$FILENAME
