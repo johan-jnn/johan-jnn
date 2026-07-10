@@ -325,6 +325,9 @@ content:
                       collection: projects-list
                       value: '{id}'
                       max: 5
+          - name: contact
+            label: CTA de contact
+            component: contactCta
       - name: contact
         label: Contact
         type: file
@@ -355,6 +358,9 @@ content:
               - name: link
                 label: Lien
                 component: link
+          - name: form
+            label: CTA de contact
+            component: contactCta
       - name: mentions
         label: Mentions légales
         type: file
@@ -415,3 +421,5 @@ content:
       - name: color
         label: Couleur primaire
         type: string
+settings:
+  hide: true
