@@ -28,3 +28,6 @@ fields:
       - name: link
         label: Lien
         component: link
+  - name: form
+    label: CTA de contact
+    component: contactCta

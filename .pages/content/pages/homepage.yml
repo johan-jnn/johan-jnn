@@ -78,3 +78,6 @@ fields:
               collection: projects-list
               value: "{id}"
               max: 5
+  - name: contact
+    label: CTA de contact
+    component: contactCta

@@ -15,6 +15,10 @@ export const components = {
     subtitle: z.string().optional(),
     important: z.boolean(),
   }),
+  contactCta: z.object({
+    title: z.string(),
+    subtitle: z.string().optional(),
+  }),
 };
 
 export const collections = {
@@ -116,6 +120,7 @@ export const collections = {
           projects: z.array(reference("projects")).optional(),
         }),
       }),
+      contact: components.contactCta,
     }),
   }),
   contact: defineCollection({
@@ -135,6 +140,7 @@ export const collections = {
           }),
         )
         .optional(),
+      form: components.contactCta,
     }),
   }),
   mentions: defineCollection({
