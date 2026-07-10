@@ -12,7 +12,7 @@ on:
   # When pushing to dev AND package.json's version are different
   workflow_run:
     workflows:
-      - ./update-pages-conf.yml
+      - Update .pages.yml
     types:
       - completed
     branches:

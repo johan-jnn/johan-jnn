@@ -108,7 +108,7 @@
     text-white dark:text-black font-heading uppercase
     cursor-pointer
     neo-shadow neo-shadow--push neo-shadow-black dark:neo-shadow-white has-checked:neo-shadow-0
-    transition-[shadow_transform_background] w-full text-center
+    transition-[shadow_transform_background] w-full h-fit text-center
   `,
     classes?.label,
   )}
