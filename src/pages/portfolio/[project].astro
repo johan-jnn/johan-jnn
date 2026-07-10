@@ -1,11 +1,11 @@
 ---
-import "@splidejs/svelte-splide/css/splide.min.css";
+import "@splidejs/splide/dist/css/splide.min.css";
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 
 import Article from "$layouts/pages/article.astro";
 import Share from "$src/components/svelte/sections/share.svelte";
-import { Splide, SplideSlide } from "@splidejs/svelte-splide";
+import { Splide, SplideSlide } from "astro-splide";
 import { getEntry, render } from "astro:content";
 
 export const getStaticPaths = (async () => {
@@ -44,19 +44,36 @@ const rendered = await render(await getEntry("projects", project.id)!);
     </li>
   </ul>
 
-  <Fragment slot="footer">
-    {
-      project.gallery?.length && (
-        <Splide>
+  {
+    project.gallery?.length && (
+      <Fragment slot="after">
+        <br class="block mt-10" />
+        <Splide
+          options={{
+            arrows: false,
+            autoWidth: true,
+            pagination: false,
+            autoplay: true,
+            interval: 5000,
+            gap: "1rem",
+            rewind: true,
+          }}
+        >
           {project.gallery.map((url) => (
             <SplideSlide>
-              <img src={url} />
+              <img
+                class="h-120"
+                src={url}
+                alt={url.match(/[^\/]+(?=\.\w+)/)?.toString()}
+              />
             </SplideSlide>
           ))}
         </Splide>
-      )
-    }
+      </Fragment>
+    )
+  }
 
+  <Fragment slot="footer">
     <hr />
 
     <div class="pb-12">
