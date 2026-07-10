@@ -10,6 +10,9 @@ import rehypeSlug from "rehype-slug";
 
 // https://astro.build/config
 export default defineConfig({
+  // todo -> change this to johan-janin.com after final deployement
+  site: "https://johan-jnn.netlify.app",
+
   adapter: netlify(),
 
   integrations: [
