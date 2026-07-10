@@ -1,12 +1,12 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import netlify from "@astrojs/netlify";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings, {
   type Options as AutoLinkHeadingsOptions,
 } from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
-import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({

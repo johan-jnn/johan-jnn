@@ -1,9 +1,11 @@
 ---
+import "@splidejs/svelte-splide/css/splide.min.css";
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 
 import Article from "$layouts/pages/article.astro";
 import Share from "$src/components/svelte/sections/share.svelte";
+import { Splide, SplideSlide } from "@splidejs/svelte-splide";
 import { getEntry, render } from "astro:content";
 
 export const getStaticPaths = (async () => {
@@ -43,6 +45,18 @@ const rendered = await render(await getEntry("projects", project.id)!);
   </ul>
 
   <Fragment slot="footer">
+    {
+      project.gallery?.length && (
+        <Splide>
+          {project.gallery.map((url) => (
+            <SplideSlide>
+              <img src={url} />
+            </SplideSlide>
+          ))}
+        </Splide>
+      )
+    }
+
     <hr />
 
     <div class="pb-12">

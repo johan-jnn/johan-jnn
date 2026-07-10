@@ -76,7 +76,7 @@
       </div>
     </section>
 
-    <section class="grid gap-2">
+    <section class="grid gap-2 max-md:hidden">
       <p class="uppercase fond-heading font-bold">Tags</p>
       <div class="grid sm:grid-cols-2 gap-4 text-sm">
         {#each allowed_tags as tag (tag)}
@@ -96,11 +96,11 @@
 
   <ul
     class="
-      grid sm:grid-cols-2 xl:grid-cols-3 gap-4
+      grid sm:grid-cols-2 xl:grid-cols-2 gap-4
       "
   >
     {#each displayed_projects as project}
-      <li class="aspect-7.5/10">
+      <li class="aspect-8/10">
         <Project {...project} name_h={2} />
       </li>
     {/each}
