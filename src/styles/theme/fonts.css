@@ -9,10 +9,10 @@
 @layer base {
   :root {
     /*
-    * MIN. : 1097px -> 12px;
+    * MIN. : <BASE>
     * BASE : 1280px -> 14px;
     * MAX. : 2560px -> 28px;
     */
-    font-size: clamp(0.75rem, 0.0002rem + 1.0936vw, 1.75rem);
+    font-size: clamp(0.875rem, 0rem + 1.0938vw, 1.75rem);
   }
 }
