@@ -11,5 +11,9 @@
         "target": "_blank"
       }
     }
-  ]
+  ],
+  "form": {
+    "title": "Contact_me",
+    "subtitle": "Renseignez votre mail afin que je puisse vous recontacter"
+  }
 }
