@@ -1,7 +1,7 @@
 ---
 id: c4419443-013a-46c4-9da5-844255a14be8
 overview:
-  cover: /content/projects/image-2.png
+  cover: /content/projects/ctrlmaj/page-listing.png
   slug: ctrlmaj
   name: CtrlMaj
   description: CMS sur-mesure Laravel & Filament pour l'agence Adb-Léon
@@ -16,8 +16,8 @@ overview:
 presentation:
   title: CtrlMaj - Le CMS de l'agence Adb-Léon
 gallery:
-  - /content/projects/pasted-image.png
-  - /content/projects/pasted-image-2.png
+  - /content/projects/ctrlmaj/routing-system.png
+  - /content/projects/ctrlmaj/request-workflow.png
 ---
 ## Description
 
@@ -25,7 +25,7 @@ CtrlMaj est le CMS interne de l'agence web **[Adb-Léon](https://adbleon.fr)**, 
 
 Le CMS existait avant mon arrivée sous une première version conçue par [Mathias Bouvier](https://www.linkedin.com/in/mathias-bouvier-6025a893/). Après avoir mené des entretiens avec les développeurs, intégrateurs et chefs de projet de l'agence, ainsi qu'un audit complet de l'ancien CMS (20+ tables, 47 fonctionnalités à conserver, 32 problèmes identifiés), j'ai rédigé un cahier des charges de 15 pages puis **entièrement recréé CtrlMaj à partir de zéro**, seul, de la conception à la mise en production, dans le cadre de mon alternance.
 
-![Tableau de bord de CtrlMaj listant les pages d'un site](/content/projects/image.png)
+![Tableau de bord](/content/projects/ctrlmaj/dashboard.png)
 
 ## L'agence Adb-Léon
 
@@ -43,9 +43,9 @@ Chaque page du site est représentée par une entrée générique (métadonnées
 - **Duplicables** : pages multiples au contenu variable (ex : "Actualités", "Réalisations").
 - **Catégories** : pages conteneurs regroupant d'autres pages (ex : un "Blog" contenant des articles).
 
-![Liste de pages duplicables](/content/projects/image-2.png)
+![Liste des projets](/content/projects/ctrlmaj/page-listing.png)
 
-![Edition d'un projet](/content/projects/image-1.png)
+![Edition d'un projet](/content/projects/ctrlmaj/page-edition.png)
 
 ## Fonctionnalités principales
 
@@ -55,9 +55,9 @@ Chaque page du site est représentée par une entrée générique (métadonnées
 - **Intégration Vite** : compilation moderne des assets front-end (TypeScript, SCSS) directement liée à Laravel.
 - **Déploiement outillé** : le projet embarque sa propre configuration de déploiement (Deployer) et ses workflows GitHub Actions.
 
-![Commandes pour créer des pages](/content/projects/image-4.png)
+![Commandes pour créer des pages](/content/projects/ctrlmaj/content-commands.png)
 
-![Modification des paramètres de page](/content/projects/image-3.png)
+![Configuration de la homepage](/content/projects/ctrlmaj/page-configurations.png)
 
 ## Outils utilisés
 
