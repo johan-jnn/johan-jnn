@@ -5,10 +5,6 @@
 
 name: Update .pages.yml
 
-concurrency:
-  queue: max
-  group: structure
-
 on:
   push:
     branches:
