@@ -6,6 +6,12 @@ actions:
     cancelable: false
     confirm: false
 media:
+  - name: background-musics
+    label: Musiques d'ambiance
+    input: public/content/audio/background
+    output: /content/audio/background
+    categories:
+      - audio
   - name: projects-assets
     label: Media des projets
     input: public/content/projects
@@ -17,12 +23,6 @@ media:
     rename: safe
     categories:
       - image
-  - name: background-musics
-    label: Musiques d'ambiance
-    input: public/content/audio/background
-    output: /content/audio/background
-    categories:
-      - audio
 components:
   link:
     type: object
@@ -71,52 +71,6 @@ components:
     options:
       editable: false
 content:
-  - name: technos
-    label: Technos
-    description: Liste des technos maîtrisées
-    type: collection
-    format: json
-    path: src/data/content/technos
-    filename: '{id}.json'
-    view:
-      primary: name
-      fields:
-        - name
-        - description
-        - website
-      search:
-        - name
-        - website
-      sort:
-        - name
-        - used_since
-    fields:
-      - name: id
-        component: uuid
-      - name: name
-        type: string
-        label: Nom
-        required: true
-      - name: description
-        label: Description
-        required: true
-      - name: icon
-        label: Iconne
-        required: true
-        type: string
-        description: |
-          Nom de l'icônne basé sur https://devicon.dev/.
-          Mettre le nom de l'icônne sans le préfix "devicon-".
-          Ex: "devicon-svelte-plain" -> "svelte-plain"
-      - name: used_since
-        label: Date de début d'utilisation
-        type: date
-      - name: website
-        label: Site internet
-        type: string
-      - name: color
-        label: Couleur primaire
-        type: string
   - name: projects-wrapper
     type: group
     label: Projets
@@ -263,55 +217,33 @@ content:
           - name: description
             label: Description
             required: false
+  - name: settings
+    label: Paramètres
+    type: group
+    items:
+      - name: nav
+        path: src/data/content/settings/navigation.json
+        label: Navigation
+        type: file
+        format: json
+        fields:
+          - name: header
+            type: object
+            label: Header
+            fields:
+              - name: title
+                label: Titre
+                type: string
+                required: true
+              - name: nav
+                label: Navigations
+                component: link
+                list: true
   - name: pages
     label: Pages
     description: Contenu des différentes pages du site
     type: group
     items:
-      - name: contact
-        label: Contact
-        type: file
-        format: json
-        path: src/data/content/pages/contact.json
-        fields:
-          - name: title
-            type: string
-            label: Titre de la page
-            required: true
-          - name: description
-            label: Description
-            type: text
-            required: true
-          - name: links
-            label: Points de contact
-            type: object
-            list: true
-            fields:
-              - name: id
-                component: uuid
-              - name: icon
-                label: Icônne
-                required: true
-                type: image
-                options:
-                  media: icons
-              - name: link
-                label: Lien
-                component: link
-      - name: mentions
-        label: Mentions légales
-        type: file
-        format: yaml-frontmatter
-        path: src/data/content/pages/mentions.md
-        fields:
-          - name: title
-            label: Titre
-            type: string
-            required: true
-          - name: body
-            label: Mentions légales
-            type: rich-text
-            required: true
       - name: homepage
         label: Page d'accueil
         type: file
@@ -393,25 +325,93 @@ content:
                       collection: projects-list
                       value: '{id}'
                       max: 5
-  - name: settings
-    label: Paramètres
-    type: group
-    items:
-      - name: nav
-        path: src/data/content/settings/navigation.json
-        label: Navigation
+      - name: contact
+        label: Contact
         type: file
         format: json
+        path: src/data/content/pages/contact.json
         fields:
-          - name: header
+          - name: title
+            type: string
+            label: Titre de la page
+            required: true
+          - name: description
+            label: Description
+            type: text
+            required: true
+          - name: links
+            label: Points de contact
             type: object
-            label: Header
+            list: true
             fields:
-              - name: title
-                label: Titre
-                type: string
+              - name: id
+                component: uuid
+              - name: icon
+                label: Icônne
                 required: true
-              - name: nav
-                label: Navigations
+                type: image
+                options:
+                  media: icons
+              - name: link
+                label: Lien
                 component: link
-                list: true
+      - name: mentions
+        label: Mentions légales
+        type: file
+        format: yaml-frontmatter
+        path: src/data/content/pages/mentions.md
+        fields:
+          - name: title
+            label: Titre
+            type: string
+            required: true
+          - name: body
+            label: Mentions légales
+            type: rich-text
+            required: true
+  - name: technos
+    label: Technos
+    description: Liste des technos maîtrisées
+    type: collection
+    format: json
+    path: src/data/content/technos
+    filename: '{id}.json'
+    view:
+      primary: name
+      fields:
+        - name
+        - description
+        - website
+      search:
+        - name
+        - website
+      sort:
+        - name
+        - used_since
+    fields:
+      - name: id
+        component: uuid
+      - name: name
+        type: string
+        label: Nom
+        required: true
+      - name: description
+        label: Description
+        required: true
+      - name: icon
+        label: Iconne
+        required: true
+        type: string
+        description: |
+          Nom de l'icônne basé sur https://devicon.dev/.
+          Mettre le nom de l'icônne sans le préfix "devicon-".
+          Ex: "devicon-svelte-plain" -> "svelte-plain"
+      - name: used_since
+        label: Date de début d'utilisation
+        type: date
+      - name: website
+        label: Site internet
+        type: string
+      - name: color
+        label: Couleur primaire
+        type: string
