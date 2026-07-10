@@ -75,7 +75,7 @@ fields:
             type: reference
             options:
               multiple: true
-              collection: projects-list
+              collection: projects
               value: "{id}"
               max: 5
   - name: contact
