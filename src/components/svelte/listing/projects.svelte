@@ -31,7 +31,7 @@
   $effect(() => {
     /**
      * If no projects is shown, it means either that :
-     *  1. There is no projects (in the case we do nothing)
+     *  1. There is no projects (in this case we do nothing)
      *  2. The tags are too restrictive, and so we need to remove some of them
      */
     if (displayed_projects.length || !projects.length) return;
