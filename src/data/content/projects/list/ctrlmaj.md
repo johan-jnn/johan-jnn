@@ -29,7 +29,7 @@ Le CMS existait avant mon arrivée sous une première version conçue par [Mathi
 
 ## L'agence Adb-Léon
 
-**[Adb-Léon](https://adbleon.fr)** est l'agence web qui m'a accueilli en stage puis en alternance. Elle conçoit des sites vitrines pour ses clients, et utilisait jusque-là un CMS propriétaire vieillissant pour les produire : code legacy difficile à maintenir, expérience développeur médiocre, performances limitées (scores Lighthouse parfois inférieurs à 70) et absence de standardisation entre les projets. C'est ce constat qui a motivé la refonte complète du CMS que je leur ai livrée avec CtrlMaj.
+**[Adb-Léon](https://adb-leon.fr)** est l'agence web qui m'a accueilli en stage puis en alternance. Elle conçoit des sites vitrines pour ses clients, et utilisait jusque-là un CMS propriétaire vieillissant pour les produire : code legacy difficile à maintenir, expérience développeur médiocre, performances limitées (scores Lighthouse parfois inférieurs à 70) et absence de standardisation entre les projets. C'est ce constat qui a motivé la refonte complète du CMS que je leur ai livrée avec CtrlMaj.
 
 ## Principes clés
 
