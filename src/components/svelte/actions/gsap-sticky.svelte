@@ -10,7 +10,6 @@
     node,
     data,
   ) => {
-    let animation: ScrollTrigger | undefined;
     /**
      * As we're using astro, it can have some astro-island elements that are here for debug purpose only.
      */
@@ -19,59 +18,71 @@
       return;
     }
 
-    function reloadAnimation() {
-      animation?.kill();
-      if (data.onlyIfScrollSmoother && !isSmoothed()) {
-        return;
-      }
+    const animation = ScrollTrigger.create({
+      pin: true,
+      pinSpacing: false,
+      pinReparent: false,
 
-      const { position, top, height } = getComputedStyle(node);
-      if (position !== "sticky") {
-        return;
-      }
+      trigger: node,
+      endTrigger: parent,
 
-      const { paddingBottom } = getComputedStyle(parent!);
-      const pinnedBottom = [top, height]
-        .map((cssValue) => /\d+(?:[.,]\d+)?/.exec(cssValue)?.[0] ?? "0")
-        .reduce((agg, num) => agg + parseFloat(num), 0);
+      start: () => `top ${getComputedStyle(node).top}`,
+      end: () => {
+        const { paddingBottom } = getComputedStyle(parent);
+        const { top, height } = getComputedStyle(node);
 
-      // To avoid weird inset, we reset the "absolute" position of this element
-      node.style.inset = "0";
+        const pinnedBottom = [top, height]
+          .map((cssValue) => /\d+(?:[.,]\d+)?/.exec(cssValue)?.[0] ?? "0")
+          .reduce((agg, num) => agg + parseFloat(num), 0);
+
+        return `bottom-=${paddingBottom} ${pinnedBottom}px`;
+      },
+      onRefresh(self) {
+        /**
+         * Idk why but gsap adds extra inset (top) on the spacer element
+         * and this shifts animation down.
+         */
+        if ("spacer" in self && self.spacer instanceof HTMLElement) {
+          self.spacer.style.top = "0px";
+        }
+      },
+    });
+
+    function autoToggleAnimation(refresh = false) {
       node.style.removeProperty("position");
-      animation = ScrollTrigger.create({
-        pin: true,
-        pinSpacing: false,
-        pinReparent: false,
 
-        trigger: node,
-        endTrigger: parent,
-        start: `top ${top}`,
-        end: `bottom-=${paddingBottom} ${pinnedBottom}px`,
-        onKill() {
-          // We remove the fake-inset added by gsap to properly find the `top` value
-          node.style.removeProperty("inset");
-        },
-      });
+      if (
+        (data.onlyIfScrollSmoother && !isSmoothed()) ||
+        getComputedStyle(node).position !== "sticky"
+      ) {
+        animation.disable();
+      } else {
+        animation.enable();
+      }
+
+      if (refresh) {
+        animation.refresh();
+      }
     }
 
-    reloadAnimation();
+    autoToggleAnimation();
 
     // If the parent's height changes, then we need to reload the animation to recalculate everything
     const initialParentScroll = parent.scrollHeight;
     const observer = new ResizeObserver((changes) => {
       if (initialParentScroll !== changes[0].target.scrollHeight) {
-        reloadAnimation();
+        autoToggleAnimation(true);
       }
     });
     observer.observe(parent);
 
     return {
       destroy() {
-        animation?.kill();
+        animation.kill();
         observer.disconnect();
       },
       update() {
-        reloadAnimation();
+        autoToggleAnimation(true);
       },
     };
   };

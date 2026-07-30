@@ -6,16 +6,16 @@ actions:
     cancelable: false
     confirm: false
 media:
+  - name: projects-assets
+    label: Media des projets
+    input: public/content/projects
+    output: /content/projects
   - name: background-musics
     label: Musiques d'ambiance
     input: public/content/audio/background
     output: /content/audio/background
     categories:
       - audio
-  - name: projects-assets
-    label: Media des projets
-    input: public/content/projects
-    output: /content/projects
   - name: icons
     label: Icônes
     input: public/content/icons
@@ -24,18 +24,6 @@ media:
     categories:
       - image
 components:
-  contactCta:
-    type: object
-    label: CTA email
-    fields:
-      - name: title
-        type: string
-        required: true
-        label: Titre
-      - name: subtitle
-        type: string
-        required: false
-        label: Sous-titre
   link:
     type: object
     fields:
@@ -59,6 +47,13 @@ components:
               value: _blank
             - name: Plus haut contexte de navigation
               value: _top
+  uuid:
+    name: id
+    type: uuid
+    hidden: true
+    required: true
+    options:
+      editable: false
   simpleSectionMeta:
     type: object
     name: section_metadata
@@ -75,13 +70,18 @@ components:
         label: Section à mettre en avant
         type: boolean
         default: false
-  uuid:
-    name: id
-    type: uuid
-    hidden: true
-    required: true
-    options:
-      editable: false
+  contactCta:
+    type: object
+    label: CTA email
+    fields:
+      - name: title
+        type: string
+        required: true
+        label: Titre
+      - name: subtitle
+        type: string
+        required: false
+        label: Sous-titre
 content:
   - name: projects-wrapper
     type: group
@@ -229,33 +229,58 @@ content:
           - name: description
             label: Description
             required: false
-  - name: settings
-    label: Paramètres
-    type: group
-    items:
-      - name: nav
-        path: src/data/content/settings/navigation.json
-        label: Navigation
-        type: file
-        format: json
-        fields:
-          - name: header
-            type: object
-            label: Header
-            fields:
-              - name: title
-                label: Titre
-                type: string
-                required: true
-              - name: nav
-                label: Navigations
-                component: link
-                list: true
   - name: pages
     label: Pages
     description: Contenu des différentes pages du site
     type: group
     items:
+      - name: mentions
+        label: Mentions légales
+        type: file
+        format: yaml-frontmatter
+        path: src/data/content/pages/mentions.md
+        fields:
+          - name: title
+            label: Titre
+            type: string
+            required: true
+          - name: body
+            label: Mentions légales
+            type: rich-text
+            required: true
+      - name: contact
+        label: Contact
+        type: file
+        format: json
+        path: src/data/content/pages/contact.json
+        fields:
+          - name: title
+            type: string
+            label: Titre de la page
+            required: true
+          - name: description
+            label: Description
+            type: text
+            required: true
+          - name: links
+            label: Points de contact
+            type: object
+            list: true
+            fields:
+              - name: id
+                component: uuid
+              - name: icon
+                label: Icônne
+                required: true
+                type: image
+                options:
+                  media: icons
+              - name: link
+                label: Lien
+                component: link
+          - name: form
+            label: CTA de contact
+            component: contactCta
       - name: homepage
         label: Page d'accueil
         type: file
@@ -340,53 +365,28 @@ content:
           - name: contact
             label: CTA de contact
             component: contactCta
-      - name: contact
-        label: Contact
+  - name: settings
+    label: Paramètres
+    type: group
+    items:
+      - name: nav
+        path: src/data/content/settings/navigation.json
+        label: Navigation
         type: file
         format: json
-        path: src/data/content/pages/contact.json
         fields:
-          - name: title
-            type: string
-            label: Titre de la page
-            required: true
-          - name: description
-            label: Description
-            type: text
-            required: true
-          - name: links
-            label: Points de contact
+          - name: header
             type: object
-            list: true
+            label: Header
             fields:
-              - name: id
-                component: uuid
-              - name: icon
-                label: Icônne
+              - name: title
+                label: Titre
+                type: string
                 required: true
-                type: image
-                options:
-                  media: icons
-              - name: link
-                label: Lien
+              - name: nav
+                label: Navigations
                 component: link
-          - name: form
-            label: CTA de contact
-            component: contactCta
-      - name: mentions
-        label: Mentions légales
-        type: file
-        format: yaml-frontmatter
-        path: src/data/content/pages/mentions.md
-        fields:
-          - name: title
-            label: Titre
-            type: string
-            required: true
-          - name: body
-            label: Mentions légales
-            type: rich-text
-            required: true
+                list: true
   - name: technos
     label: Technos
     description: Liste des technos maîtrisées

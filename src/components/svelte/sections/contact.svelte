@@ -47,6 +47,8 @@
   <main>
     <form
       method="post"
+      data-netlify="true"
+      name="emails"
       class={[
         "flex group items-stretch w-fit mx-auto my-12",
         "*:px-6 *:py-4 *:transition-[shadow_translate] *:neo-shadow-black dark:*:neo-shadow-white",
