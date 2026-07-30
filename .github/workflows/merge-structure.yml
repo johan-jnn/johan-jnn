@@ -8,6 +8,10 @@
 
 name: Structure merger
 
+concurrency:
+  group: merge-structure
+  cancel-in-progress: true
+
 on:
   # When pushing to dev AND package.json's version are different
   workflow_run:
