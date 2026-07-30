@@ -150,9 +150,9 @@
   </g>
   <g>
     <circle
-      cx="29.998"
-      cy="29.997"
-      r="22.793"
+      cx="30"
+      cy="30"
+      r="22.8"
       style="fill:none;stroke-dasharray:1.15, 1.2;stroke-width:.4"
       class="stroke-black dark:stroke-white"
       bind:this={circleRef}
@@ -160,26 +160,21 @@
     <circle
       cx="30"
       cy="30"
-      r="29.739"
-      style="fill:none;stroke-width:.5219;"
+      r="29"
+      style="fill:none;stroke-width:0.5;"
       class="stroke-black dark:stroke-white"
     />
     <circle
       cx="30"
       cy="30"
-      r="13.975"
-      style="fill:none;stroke-width:1.7626"
+      r="15"
+      style="fill:none;stroke-width:1.5"
       class="stroke-primary"
     />
   </g>
   <g bind:this={radarRef}>
     <g transform="matrix(1.1593 0 0 1.1593 -4.7777 -4.7788)">
-      <circle
-        cx="30"
-        cy="30"
-        r="1.2209"
-        class="fill-black dark:fill-secondary"
-      />
+      <circle cx="30" cy="30" r="1.2" class="fill-black dark:fill-secondary" />
       <g
         transform="matrix(.71835 0 0 .71835 8.4474 8.4494)"
         style="fill-opacity:0;stroke-width:1.0324;stroke:url(#linearGradient8)"
