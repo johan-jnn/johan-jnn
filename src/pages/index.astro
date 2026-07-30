@@ -9,6 +9,8 @@ import FillingBar from "$src/components/svelte/animations/loaders/filling-bar.sv
 import Contact from "$svelte/sections/contact.svelte";
 import Section from "$svelte/sections/simple.svelte";
 
+import StackButton from "$svelte/units/homepage/stackButton.svelte";
+
 import { getSingleton } from "$src/utils/content/singleton";
 import { getEntries, getEntry } from "astro:content";
 const { data: Homepage } = await getSingleton("home")!;
@@ -66,16 +68,8 @@ const projects = await getEntries(Homepage.sections.projects.projects ?? []);
               );
             })}
           </ul>
-          <Button
-            action={{
-              url: "/stack",
-            }}
-            level="neutral"
-            boxingClass="mt-8 block w-fit mx-auto"
-            stylingClass="w-fit"
-          >
-            Voir toute ma boite à outils
-          </Button>
+
+          <StackButton client:visible />
         </Section>
       )
     }
