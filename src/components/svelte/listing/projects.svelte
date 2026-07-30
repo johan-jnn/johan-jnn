@@ -55,7 +55,7 @@
     method="dialog"
     class="
       px-8 overflow-visible bg-white dark:bg-black
-      py-2 md:sticky top-25 h-fit grid gap-4
+      py-2 md:sticky top-25 h-fit grid gap-4 content-start
     "
     use:gsapSticky={{ onlyIfScrollSmoother: true }}
   >
