@@ -4,8 +4,7 @@ overview:
   cover: /content/projects/desker/cover.jpg
   slug: desker
   name: Desker
-  description: Extension de navigateur pour sauvegarder et synchroniser ses
-    groupes d'onglets, avant l'arrivée des espaces de travail natifs
+  description: Extension de sauvegarder et synchronisation de groupes d'onglets
   date: 2024-10-06
   category: d0ebc84c-d7cc-4b06-8c31-106cd0e82a36
   tags:
@@ -13,6 +12,9 @@ overview:
     - saas
     - typescript
     - svelte
+presentation:
+  subtitle: Extension de navigateur pour sauvegarder et synchroniser ses groupes
+    d'onglets, avant l'arrivée des espaces de travail natifs
 ---
 ## Fonctionnalités principales
 
