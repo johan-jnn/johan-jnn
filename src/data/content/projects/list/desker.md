@@ -24,7 +24,7 @@ Chaque desk regroupe un ensemble d'onglets ouverts au moment de sa création. Il
 
 Appliquer un desk rouvre l'ensemble de ses onglets tel qu'il a été sauvegardé, permettant de basculer rapidement d'un contexte de navigation à un autre.
 
-### Synchronisation multi-appareils sans compte obligatoire
+### Synchronisation multi-appareils
 
 Le point différenciant de Desker : les desks se synchronisent sur tous les appareils de l'utilisateur, tout en pouvant être essayé **sans création de compte**. Un compte (et un abonnement, via les pages CGV du site) n'était nécessaire que pour débloquer la synchronisation complète.
 
