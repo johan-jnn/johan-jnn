@@ -34,6 +34,10 @@ Le point différenciant de Desker : les desks se synchronisent sur tous les appa
 
 Le site met en avant une interface volontairement simple, pensée pour la productivité plutôt que pour la richesse fonctionnelle.
 
+<video loop muted autoplay playsinline>
+  <source src="/content/projects/desker/presentation.webm" type="video/webm">
+</video>
+
 ## Outils utilisés
 
 
