@@ -13,8 +13,6 @@ overview:
     - saas
     - typescript
     - svelte
-presentation:
-  title: "Desker : extension de synchronisation et groupement d'onglets"
 ---
 ## Fonctionnalités principales
 
