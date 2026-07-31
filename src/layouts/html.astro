@@ -5,8 +5,12 @@ import { ClientRouter } from "astro:transitions";
 
 interface Props {
   lang?: string;
+  favicon?: string;
 }
-const { lang = "fr" } = Astro.props;
+const {
+  lang = "fr",
+  favicon = "/api/logo/random?background=var(--primary)&with-shield=no&with-gap=yes&no-redirect",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -14,6 +18,7 @@ const { lang = "fr" } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href={favicon} type="image/svg+xml" />
     <slot name="head" />
 
     <ClientRouter />
