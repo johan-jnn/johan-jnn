@@ -21,7 +21,7 @@ gallery:
 ---
 ## Description
 
-CtrlMaj est le CMS interne de l'agence web **[Adb-Léon](https://adbleon.fr)**, où j'ai été accueilli en tant que stagiaire puis alternant. Basé sur **Laravel 12** et **Filament 4**, il est pensé pour accélérer la création de sites vitrines multi-langues tout en restant assez flexible pour des projets plus complexes.
+CtrlMaj est le CMS interne de l'agence web **[Adb-Léon](https://adb-leon.fr)**, où j'ai été accueilli en tant que stagiaire puis alternant. Basé sur **Laravel 12** et **Filament 4**, il est pensé pour accélérer la création de sites vitrines multi-langues tout en restant assez flexible pour des projets plus complexes.
 
 Le CMS existait avant mon arrivée sous une première version conçue par [Mathias Bouvier](https://www.linkedin.com/in/mathias-bouvier-6025a893/). Après avoir mené des entretiens avec les développeurs, intégrateurs et chefs de projet de l'agence, ainsi qu'un audit complet de l'ancien CMS (20+ tables, 47 fonctionnalités à conserver, 32 problèmes identifiés), j'ai rédigé un cahier des charges de 15 pages puis **entièrement recréé CtrlMaj à partir de zéro**, seul, de la conception à la mise en production, dans le cadre de mon alternance.
 
@@ -73,11 +73,7 @@ Chaque page du site est représentée par une entrée générique (métadonnées
 ## Chiffres clés
 
 - **~20 semaines** de développement (conception, cœur du CMS, générateurs de code, snapshots, optimisations, documentation, formation de l'équipe)
-- **150+ fichiers PHP** et **30+ tables** en base de données
 - **10+ commandes Artisan** dédiées à la génération de code
-- **20+ sites** de l'agence en production sur CtrlMaj
-- **Scores Lighthouse 95+** en moyenne sur les sites livrés
-- **80 à 95 % de réduction** du temps de développement d'un site par rapport à l'ancien CMS
 
 ## Perspectives futures
 
