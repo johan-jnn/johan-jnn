@@ -56,11 +56,26 @@ const rendered = await render(await getEntry("projects", project.id)!);
             autoplay: true,
             interval: 5000,
             gap: "1rem",
-            rewind: true,
+            rewind: false,
+            pauseOnHover: true,
           }}
+          class="nth-last-[-n-2]:m-0!"
         >
-          {project.gallery.map((url) => (
-            <SplideSlide>
+          {/* 
+            ? Note :
+            
+            To prevent the last slide to be locked in the left side of the device on mobile,
+            we add an extra slide.
+            And, to prevent this slide to create an extra space (as splide uses margin to gap the slides),
+            we remove those margins for the 2 last slides (including the fake one).
+          */}
+
+          {project.gallery.map((url, index, { length }) => (
+            <SplideSlide
+              class:list={{
+                "m-0!": index === length - 1,
+              }}
+            >
               <img
                 class="h-120"
                 src={url}
@@ -68,6 +83,8 @@ const rendered = await render(await getEntry("projects", project.id)!);
               />
             </SplideSlide>
           ))}
+
+          <SplideSlide aria-hidden class="m-0!" />
         </Splide>
       </Fragment>
     )
