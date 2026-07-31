@@ -10,6 +10,15 @@
         "url": "https://johan-janin.com",
         "target": "_blank"
       }
+    },
+    {
+      "id": "186c56b8-f058-4bc7-ae99-436282b418d8",
+      "icon": "/content/icons/linkedin.svg",
+      "link": {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/johan-janin/",
+        "target": "_blank"
+      }
     }
   ],
   "form": {
