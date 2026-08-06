@@ -16,6 +16,8 @@ presentation:
   title: Flylang
   subtitle: Mon propre langage de programmation, d'abord interprété en NodeJS,
     aujourd'hui réécrit en Rust
+related_projects:
+  - c4419443-013a-46c4-9da5-844255a14be8
 ---
 Depuis que je code, j'ai toujours voulu créer mon propre langage de programmation. **Flylang** est le résultat de cette envie : un langage haut niveau, avec ses propres types, fonctions, classes et structures de contrôle, dont le tout premier interpréteur a été écrit... en NodeJS (pas le choix le plus orthodoxe pour créer un langage, mais assumé).
 
