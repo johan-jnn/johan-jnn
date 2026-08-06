@@ -18,6 +18,7 @@ const { title, description, cover, content } = Astro.props;
 
 const header = new AstroSlot(Astro.slots, "header");
 const footer = new AstroSlot(Astro.slots, "footer");
+const pageFooter = new AstroSlot(Astro.slots, "page-footer");
 ---
 
 <Page {title} {description}>
@@ -97,4 +98,12 @@ const footer = new AstroSlot(Astro.slots, "footer");
       }
     </main>
   </main>
+
+  {
+    pageFooter.exists && (
+      <footer>
+        <slot name="page-footer" />
+      </footer>
+    )
+  }
 </Page>

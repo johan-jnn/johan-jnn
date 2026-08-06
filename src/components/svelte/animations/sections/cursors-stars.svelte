@@ -25,11 +25,12 @@
 
       wrapper &&
         gsap.to(wrapper, {
-          "--bg-y-shift": window.innerHeight + wrapper.scrollHeight + "px",
+          "--bg-y-shift": () =>
+            window.innerHeight + wrapper!.scrollHeight + "px",
           ease: "none",
           scrollTrigger: {
-            start: "top bottom",
-            end: "bottom top",
+            start: () => "top bottom",
+            end: () => "bottom top",
             scrub: 0,
             trigger: wrapper,
           },

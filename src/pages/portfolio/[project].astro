@@ -5,8 +5,12 @@ import { getCollection } from "astro:content";
 
 import Article from "$layouts/pages/article.astro";
 import Share from "$src/components/svelte/sections/share.svelte";
+import Project from "$svelte/cards/project.svelte";
+import Contact from "$svelte/sections/contact.svelte";
+
+import type { ProjectOverview } from "$src/utils/content/types/projectOverview";
 import { Splide, SplideSlide } from "astro-splide";
-import { getEntry, render } from "astro:content";
+import { getEntries, getEntry, render } from "astro:content";
 
 export const getStaticPaths = (async () => {
   const projects = await getCollection("projects");
@@ -23,6 +27,18 @@ const title = project.presentation?.title ?? project.overview.name;
 const description =
   project.presentation?.subtitle ?? project.overview.description;
 const category = await getEntry(project.overview.category);
+
+const related = project.related_projects?.length
+  ? ((await getEntries(project.related_projects).then(async (entries) =>
+      Promise.all(
+        entries.map(async ({ data }) => ({
+          ...data.overview,
+          id: data.id,
+          category: (await getEntry(data.overview.category)).data,
+        })),
+      ),
+    )) as ProjectOverview[])
+  : undefined;
 
 const rendered = await render(await getEntry("projects", project.id)!);
 ---
@@ -100,6 +116,38 @@ const rendered = await render(await getEntry("projects", project.id)!);
         url={Astro.url.toString()}
         client:visible
       />
+    </div>
+  </Fragment>
+
+  <Fragment slot="page-footer">
+    <div class="px-4 py-8">
+      <hr class="my-0" />
+
+      <Contact
+        title="Convaincu ?"
+        subtitle="Mon prochain projet pourrait être le vôtre !"
+        client:visible
+      />
+
+      {
+        related?.length && (
+          <div class="px-2 mt-4">
+            <h2 class="font-heading text-2xl uppercase mt-8 mb-2">
+              Super ! Il existe {related.length} projet
+              {related.length > 1 ? "s" : ""} similaire
+              {related.length > 1 ? "s" : ""} :
+            </h2>
+
+            <ul class="flex justify-center items-start flex-wrap gap-4">
+              {related.map((overview) => (
+                <li class="aspect-8/10">
+                  <Project {...overview} name_h={3} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
     </div>
   </Fragment>
 </Article>

@@ -68,10 +68,11 @@
     autoToggleAnimation();
 
     // If the parent's height changes, then we need to reload the animation to recalculate everything
-    const initialParentScroll = parent.scrollHeight;
+    let savedParentScroll = parent.scrollHeight;
     const observer = new ResizeObserver((changes) => {
-      if (initialParentScroll !== changes[0].target.scrollHeight) {
+      if (savedParentScroll !== changes[0].target.scrollHeight) {
         autoToggleAnimation(true);
+        savedParentScroll = parent.scrollHeight;
       }
     });
     observer.observe(parent);

@@ -68,7 +68,9 @@
       px-8 overflow-visible bg-white dark:bg-black
       py-2 md:sticky top-25 h-fit grid gap-4 content-start
     "
-    use:gsapSticky={{ onlyIfScrollSmoother: true }}
+    use:gsapSticky={{
+      onlyIfScrollSmoother: true,
+    }}
   >
     <section class="grid gap-2">
       <p class="uppercase font-heading font-bold">Catégories</p>
