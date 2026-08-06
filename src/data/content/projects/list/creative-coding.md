@@ -18,6 +18,8 @@ presentation:
   subtitle: Explorations en creative coding — recréations personnelles
     d'interactions de studios web et réalisations professionnelles aux
     animations complexes (alternance chez adb-léon)
+related_projects:
+  - c4419443-013a-46c4-9da5-844255a14be8
 ---
 Cette page regroupe mes explorations autour du **creative coding** et des animations web complexes, sous deux formes différentes : des recréations personnelles d'interactions repérées sur des sites de studios créatifs, et des réalisations professionnelles menées durant mon alternance chez **adb-léon**, où le designer avec qui je travaillais ne manquait jamais d'imagination côté animations.
 
