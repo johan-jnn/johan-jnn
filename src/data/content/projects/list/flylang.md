@@ -64,8 +64,8 @@ La version originale incluait également un système de modules natifs (`maths`,
 
 
 | Outil | Rôle |
-| -------------------- | ------------------------------------------------------- |
-| Node.js / TypeScript | Implémentation de l'interpréteur, du lexer et du parser |
+| -------------------- | --------------------------------------------------------------------------------------- |
+| Node.js / TypeScript | Implémentation de l'interpréteur, du lexer et du parser via des expressions régulières. |
 
 
 ## Réécriture en Rust
