@@ -17,6 +17,9 @@ presentation:
   title: Site Web Tech-Paf - Site du BDE de mon école
   subtitle: Site full-stack du BDE Tech-Paf (My Digital School Lyon) — connexion
     Google, inscription aux événements, paiement en ligne...
+related_projects:
+  - 9a3972ba-675c-4c44-8748-f8ffd4ed3e0e
+  - b6f8acd8-b2ce-4413-b0af-898196181421
 ---
 **Tech-Paf** est l'ancien BDE (Bureau des Étudiants) de **My Digital School Lyon**. En tant que membre du bureau et responsable du site web, j'ai conçu et développé de A à Z la plateforme officielle destinée à centraliser la vie étudiante du campus : actualités, événements et inscriptions.
 
