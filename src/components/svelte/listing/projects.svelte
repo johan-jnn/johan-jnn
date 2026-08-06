@@ -44,7 +44,18 @@
     });
   });
 
-  const allowed_categories = $derived(new Set(projects.map((p) => p.category)));
+  const allowed_categories = $derived(
+    Object.values(
+      projects.reduce(
+        (set, p) => {
+          // Avoid aving duplicated categories
+          set[p.category.id] = p.category;
+          return set;
+        },
+        {} as { [key: string]: ProjectOverview["category"] },
+      ),
+    ),
+  );
   const allowed_tags = $derived(
     new Set(displayed_projects.flatMap((p) => p.tags)),
   );
