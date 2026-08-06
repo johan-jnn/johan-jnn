@@ -15,14 +15,14 @@ presentation:
   title: Jemibou - Robot Discord multi-fonctions
   subtitle: Robot Discord multi-fonctions avec sa propre base de données JSON et
     son dashboard web, configurable serveur par serveur
+related_projects:
+  - 1b35a217-2bf9-42c6-a165-76684cd1bce6
 ---
 **Jemibou** est l'un des robots Discord les plus avancés que j'ai développés. Il embarque sa propre base de données interne (basée sur du JSON ou les message d'un salon discord défini) et un site web relié directement à son comportement, permettant de personnaliser le robot indépendamment pour chaque serveur Discord sur lequel il est installé.
 
 Le robot n'est plus actif aujourd'hui, mais reste consultable en vidéo ci-dessous.
 
-<video loop muted autoplay playsinline>
-  <source src="/content/projects/jemibou/presentation.webm" type="video/webm">
-</video>
+
 
 ## Un salon Discord comme premier dashboard
 
@@ -76,9 +76,7 @@ La liste des serveurs affichée dépend ensuite de trois cas : serveur non acces
 
 Seconde vidéo de présentation, centrée sur le dashboard :
 
-<video loop muted autoplay playsinline>
-  <source src="/content/projects/jemibou/presentation_2.webm" type="video/webm">
-</video>
+
 
 ## Outils utilisés
 
