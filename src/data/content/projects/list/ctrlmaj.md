@@ -18,6 +18,9 @@ presentation:
 gallery:
   - /content/projects/ctrlmaj/routing-system.png
   - /content/projects/ctrlmaj/request-workflow.png
+related_projects:
+  - b488bea1-0fdf-47a0-8e11-7699e597134c
+  - b6f8acd8-b2ce-4413-b0af-898196181421
 ---
 ## Description
 
