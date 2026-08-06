@@ -56,9 +56,24 @@
       ),
     ),
   );
-  const allowed_tags = $derived(
-    new Set(displayed_projects.flatMap((p) => p.tags)),
-  );
+
+  // Bellow we allow only 16 tags to be displayed to avoid screen overflow
+  // we, before this, sort them by the amount of times they are used
+  // -> The first ones will select more projects than the last ones.
+  const allowed_tags = $derived.by(() => {
+    const tagsCount: { [key: string]: number } = {};
+    for (const { tags } of displayed_projects) {
+      for (const tag of tags) {
+        if (!(tag in tagsCount)) tagsCount[tag] = 0;
+
+        tagsCount[tag]++;
+      }
+    }
+
+    return Object.keys(tagsCount)
+      .sort((a, b) => tagsCount[b] - tagsCount[a])
+      .slice(0, 16);
+  });
 </script>
 
 <CursorsStars class="grid md:grid-cols-[auto_1fr] gap-8 p-8">
