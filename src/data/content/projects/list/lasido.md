@@ -14,6 +14,8 @@ overview:
     - bdd
 presentation:
   title: Lasido - Mon robot musical
+related_projects:
+  - 5f793341-9359-43c8-adb2-d2e466095865
 ---
 ## Description
 
