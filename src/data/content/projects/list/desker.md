@@ -15,6 +15,9 @@ overview:
 presentation:
   subtitle: Extension de navigateur pour sauvegarder et synchroniser ses groupes
     d'onglets, avant l'arrivée des espaces de travail natifs
+related_projects:
+  - b87f4336-1059-491c-9e33-ed1ac02e3bdf
+  - b679f1e5-daee-452b-84f7-af61f60911c0
 ---
 ## Fonctionnalités principales
 
@@ -34,9 +37,7 @@ Le point différenciant de Desker : les desks se synchronisent sur tous les appa
 
 Le site met en avant une interface volontairement simple, pensée pour la productivité plutôt que pour la richesse fonctionnelle.
 
-<video loop muted autoplay playsinline>
-  <source src="/content/projects/desker/presentation.webm" type="video/webm">
-</video>
+
 
 ## Outils utilisés
 
