@@ -5,6 +5,13 @@
       {
         "lines": [
           "Johan JANIN //",
+          "Développeur",
+          "Full-Stack"
+        ]
+      },
+      {
+        "lines": [
+          "Johan JANIN //",
           "Architecte",
           "Digital"
         ]
@@ -12,8 +19,8 @@
       {
         "lines": [
           "Johan JANIN //",
-          "Développeur",
-          "Full-Stack"
+          "Very bad",
+          "RL player"
         ]
       }
     ],
@@ -48,7 +55,8 @@
         "important": true
       },
       "projects": [
-        "1b35a217-2bf9-42c6-a165-76684cd1bce6"
+        "1b35a217-2bf9-42c6-a165-76684cd1bce6",
+        "c4419443-013a-46c4-9da5-844255a14be8"
       ]
     }
   },
