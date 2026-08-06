@@ -15,6 +15,9 @@ presentation:
   title: TEER - Messagerie instantanée
   subtitle: Application de messagerie instantanée façon Discord, développée sans
     framework avec Node.js et Socket.IO
+related_projects:
+  - b679f1e5-daee-452b-84f7-af61f60911c0
+  - 5f793341-9359-43c8-adb2-d2e466095865
 ---
 **TEER** est une plateforme de messagerie instantanée, dans l'esprit de Discord, permettant d'échanger en temps réel au sein de groupes ou en messages privés. Le projet a volontairement été développé **sans aucun framework**, ni côté front-end ni côté back-end, dans le but de comprendre en profondeur le fonctionnement interne de chaque brique (protocole temps réel, gestion des connexions, persistance des données...).
 
