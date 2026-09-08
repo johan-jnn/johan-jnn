@@ -6,16 +6,6 @@ actions:
     cancelable: false
     confirm: false
 media:
-  - name: projects-assets
-    label: Media des projets
-    input: public/content/projects
-    output: /content/projects
-  - name: background-musics
-    label: Musiques d'ambiance
-    input: public/content/audio/background
-    output: /content/audio/background
-    categories:
-      - audio
   - name: icons
     label: Icônes
     input: public/content/icons
@@ -23,7 +13,52 @@ media:
     rename: safe
     categories:
       - image
+  - name: background-musics
+    label: Musiques d'ambiance
+    input: public/content/audio/background
+    output: /content/audio/background
+    categories:
+      - audio
+  - name: projects-assets
+    label: Media des projets
+    input: public/content/projects
+    output: /content/projects
 components:
+  contactCta:
+    type: object
+    label: CTA email
+    fields:
+      - name: title
+        type: string
+        required: true
+        label: Titre
+      - name: subtitle
+        type: string
+        required: false
+        label: Sous-titre
+  simpleSectionMeta:
+    type: object
+    name: section_metadata
+    label: Section
+    fields:
+      - name: title
+        label: Titre de la section
+        required: true
+        type: string
+      - name: subtitle
+        label: Contexte de la section
+        type: string
+      - name: important
+        label: Section à mettre en avant
+        type: boolean
+        default: false
+  uuid:
+    name: id
+    type: uuid
+    hidden: true
+    required: true
+    options:
+      editable: false
   link:
     type: object
     fields:
@@ -47,42 +82,29 @@ components:
               value: _blank
             - name: Plus haut contexte de navigation
               value: _top
-  uuid:
-    name: id
-    type: uuid
-    hidden: true
-    required: true
-    options:
-      editable: false
-  simpleSectionMeta:
-    type: object
-    name: section_metadata
-    label: Section
-    fields:
-      - name: title
-        label: Titre de la section
-        required: true
-        type: string
-      - name: subtitle
-        label: Contexte de la section
-        type: string
-      - name: important
-        label: Section à mettre en avant
-        type: boolean
-        default: false
-  contactCta:
-    type: object
-    label: CTA email
-    fields:
-      - name: title
-        type: string
-        required: true
-        label: Titre
-      - name: subtitle
-        type: string
-        required: false
-        label: Sous-titre
 content:
+  - name: settings
+    label: Paramètres
+    type: group
+    items:
+      - name: nav
+        path: src/data/content/settings/navigation.json
+        label: Navigation
+        type: file
+        format: json
+        fields:
+          - name: header
+            type: object
+            label: Header
+            fields:
+              - name: title
+                label: Titre
+                type: string
+                required: true
+              - name: nav
+                label: Navigations
+                component: link
+                list: true
   - name: projects-wrapper
     type: group
     label: Projets
@@ -248,39 +270,6 @@ content:
             label: Mentions légales
             type: rich-text
             required: true
-      - name: contact
-        label: Contact
-        type: file
-        format: json
-        path: src/data/content/pages/contact.json
-        fields:
-          - name: title
-            type: string
-            label: Titre de la page
-            required: true
-          - name: description
-            label: Description
-            type: text
-            required: true
-          - name: links
-            label: Points de contact
-            type: object
-            list: true
-            fields:
-              - name: id
-                component: uuid
-              - name: icon
-                label: Icônne
-                required: true
-                type: image
-                options:
-                  media: icons
-              - name: link
-                label: Lien
-                component: link
-          - name: form
-            label: CTA de contact
-            component: contactCta
       - name: homepage
         label: Page d'accueil
         type: file
@@ -365,28 +354,39 @@ content:
           - name: contact
             label: CTA de contact
             component: contactCta
-  - name: settings
-    label: Paramètres
-    type: group
-    items:
-      - name: nav
-        path: src/data/content/settings/navigation.json
-        label: Navigation
+      - name: contact
+        label: Contact
         type: file
         format: json
+        path: src/data/content/pages/contact.json
         fields:
-          - name: header
+          - name: title
+            type: string
+            label: Titre de la page
+            required: true
+          - name: description
+            label: Description
+            type: text
+            required: true
+          - name: links
+            label: Points de contact
             type: object
-            label: Header
+            list: true
             fields:
-              - name: title
-                label: Titre
-                type: string
+              - name: id
+                component: uuid
+              - name: icon
+                label: Icônne
                 required: true
-              - name: nav
-                label: Navigations
+                type: image
+                options:
+                  media: icons
+              - name: link
+                label: Lien
                 component: link
-                list: true
+          - name: form
+            label: CTA de contact
+            component: contactCta
   - name: technos
     label: Technos
     description: Liste des technos maîtrisées
