@@ -1,0 +1,4 @@
+name: uploads
+label: Uncategorized uploads
+input: public/uploads/
+output: /uploads
