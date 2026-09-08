@@ -1,6 +1,8 @@
 <script module lang="ts">
   export const NETLIFY_FORM_NAME = "emails";
   export const SUBMITED_STORAGE_KEY = "Did you contacted me ?";
+  // In case bots check for field's name, we use a regular one instead of the netlify's one
+  export const BOTFIELD_NAME = "message";
 </script>
 
 <script lang="ts">
@@ -68,7 +70,13 @@
     // #region Data sender
     const form = e.currentTarget;
     const data = new FormData(e.currentTarget);
+    /**
+     * @see https://docs.netlify.com/manage/forms/spam-filters/#honeypot-field
+     */
+    data.set("bot-field", data.get(BOTFIELD_NAME)!);
+    data.delete(BOTFIELD_NAME);
     data.set("form-name", NETLIFY_FORM_NAME);
+
     // ? https://docs.netlify.com/manage/forms/setup/#submit-html-forms-with-ajax
     const connexion = fetch("/", {
       method: "POST",
@@ -185,8 +193,6 @@
       <form
         method="post"
         data-netlify="true"
-        // @ts-ignore Based on the netlify's documentation - stripped at build time
-        netlify-honeypot="bot-field"
         name={NETLIFY_FORM_NAME}
         class={[
           "flex group items-stretch w-fit mx-auto my-12",
@@ -200,7 +206,7 @@
         <div class="overflow-hidden border-none p-0!" aria-hidden="true">
           <input
             class="absolute translate-[calc(1px*infinity)]"
-            name="bot-field"
+            name={BOTFIELD_NAME}
             type="text"
           />
         </div>
