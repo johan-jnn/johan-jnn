@@ -23,6 +23,10 @@ media:
     label: Media des projets
     input: public/content/projects
     output: /content/projects
+  - name: uploads
+    label: Uncategorized uploads
+    input: public/uploads/
+    output: /uploads
 components:
   contactCta:
     type: object
