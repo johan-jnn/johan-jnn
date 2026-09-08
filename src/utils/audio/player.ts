@@ -62,7 +62,16 @@ export class AudioPlayer {
   get analyser(): AudioAnalyser {
     return (
       this.audio_analyser ??
-      (this.audio_analyser = new AudioAnalyser(this.audio))
+      (this.audio_analyser = new AudioAnalyser(this.audio, {
+        /**
+         * Here we take only a 20hz-6000hz range
+         * as played music will rarely go higher in frequency
+         */
+        range: {
+          min: 20,
+          max: 6000,
+        },
+      }))
     );
   }
 }
