@@ -27,13 +27,13 @@ const contact = await getSingleton("contact")!;
                   href={link.url}
                   target={link.target}
                   class:list={[
-                    "p-2 flex flex-col gap-2 aspect-square w-full",
+                    "p-2 flex flex-col gap-4 items-center justify-center aspect-square w-full",
                     "neo-shadow neo-shadow--push neo-shadow-(--theme) neo-shadow-0 border-(--theme) border-2",
                     "transition-[transform_shadow] hover:neo-shadow-2",
                   ]}
                 >
                   <img
-                    class="h-50/100 grow"
+                    class="h-50/100"
                     src={icon}
                     alt={`Icon of ${link.url}`}
                   />
