@@ -4,7 +4,7 @@
   "links": [
     {
       "id": "5eac0b16-cae8-4143-9eea-b39f422890fa",
-      "icon": "/content/icons/localhost.svg",
+      "icon": "/content/icons/logo.svg",
       "link": {
         "label": "Mon site web",
         "url": "https://johan-janin.com",
@@ -17,6 +17,24 @@
       "link": {
         "label": "LinkedIn",
         "url": "https://www.linkedin.com/in/johan-janin/",
+        "target": "_blank"
+      }
+    },
+    {
+      "id": "6d3eba50-0e07-445a-8683-1d988ff220c6",
+      "icon": "/content/icons/githubinvertocatblack.svg",
+      "link": {
+        "label": "Github",
+        "url": "https://github.com/johan-jnn",
+        "target": "_blank"
+      }
+    },
+    {
+      "id": "59592a5e-1ee0-418a-8ea3-c8a7c4f00238",
+      "icon": "/content/icons/github.svg",
+      "link": {
+        "label": "Github (alt)",
+        "url": "https://github.com/Flymeth",
         "target": "_blank"
       }
     }
