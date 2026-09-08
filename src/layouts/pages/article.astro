@@ -35,21 +35,28 @@ const pageFooter = new AstroSlot(Astro.slots, "page-footer");
       import { gsap } from "gsap";
       import { ScrollTrigger } from "gsap/ScrollTrigger";
       gsap.registerPlugin(ScrollTrigger);
-
-      const header = document.getElementById("article-header")!;
       const shift = "100%";
-      gsap.to(header, {
-        opacity: 0,
-        translateY: shift,
-        ease: "none",
-        scrollTrigger: {
-          start: "0",
-          trigger: header,
-          end: `bottom+=${shift} top`,
-          scrub: 0,
-          toggleActions: "play complete reverse reset",
+
+      document.addEventListener(
+        "astro:page-load",
+        function (this: Window & { animation?: gsap.core.Tween }) {
+          this.animation?.kill();
+
+          const header = document.getElementById("article-header")!;
+          this.animation = gsap.to(header, {
+            opacity: 0,
+            translateY: shift,
+            ease: "none",
+            scrollTrigger: {
+              start: "0",
+              trigger: header,
+              end: `bottom+=${shift} top`,
+              scrub: 0,
+              toggleActions: "play complete reverse reset",
+            },
+          });
         },
-      });
+      );
     </script>
   </header>
   <main
