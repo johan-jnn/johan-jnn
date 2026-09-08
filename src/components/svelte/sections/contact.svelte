@@ -185,6 +185,8 @@
       <form
         method="post"
         data-netlify="true"
+        // @ts-ignore Based on the netlify's documentation - stripped at build time
+        netlify-honeypot="bot-field"
         name={NETLIFY_FORM_NAME}
         class={[
           "flex group items-stretch w-fit mx-auto my-12",
@@ -195,6 +197,14 @@
         ]}
         {onsubmit}
       >
+        <div class="overflow-hidden border-none p-0!" aria-hidden="true">
+          <input
+            class="absolute translate-[calc(1px*infinity)]"
+            name="bot-field"
+            type="text"
+          />
+        </div>
+
         <input
           oninput={typed}
           type="email"
