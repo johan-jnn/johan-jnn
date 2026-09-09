@@ -6,7 +6,11 @@ export const AMBIANCE_LIBRAIRY = writable<string[]>([]);
 export const AMBIANCE_PLAYER = writable<AudioPlayer | undefined>();
 
 export const FREQUENCIES_CHECK_INTERVAL = writable(0);
-export const FREQUENCIES_RANGE = writable<[number, number]>([20, 20e3]);
+/**
+ * Here we take only a 20hz-6000hz range
+ * as played music will rarely go higher in frequency
+ */
+export const FREQUENCIES_RANGE = writable<[number, number]>([20, 6e3]);
 
 export const AMBIANCE_FREQUENCIES = derived(
   [AMBIANCE_PLAYER, FREQUENCIES_CHECK_INTERVAL, FREQUENCIES_RANGE],
@@ -16,20 +20,15 @@ export const AMBIANCE_FREQUENCIES = derived(
     }
 
     const { analyser } = player;
-    function analyse() {
-      const {
-        context: { sampleRate },
-        frequencyBinCount,
-      } = analyser.node;
-      const hzRange = [0, sampleRate / 2];
-      const hzRangeSize = hzRange[1] - hzRange[0];
-      const frequenciesRange = range.map(
-        (bound) => frequencyBinCount * (bound / hzRangeSize),
-      );
+    analyser.options = {
+      range: {
+        min: range[0],
+        max: range[1],
+      },
+    };
 
-      const frequencies = analyser.frequencies.slice(
-        ...frequenciesRange,
-      ) as AudioFrequencies;
+    function analyse() {
+      const { frequencies } = analyser;
 
       // Convert time domains from [0; 255] to [0; 100]
       frequencies.forEach((f, i) => {
@@ -50,7 +49,9 @@ export const AMBIANCE_FREQUENCIES = derived(
     analyser.audio.addEventListener("play", enable);
     analyser.audio.addEventListener("pause", disable);
 
-    () => {};
+    () => {
+      disable();
+    };
   },
   new AudioFrequencies(),
 );

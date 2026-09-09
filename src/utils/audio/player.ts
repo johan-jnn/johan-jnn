@@ -97,31 +97,20 @@ export class AudioPlayer {
   get analyser(): AudioAnalyser {
     return (
       this.audio_analyser ??
-      (this.audio_analyser = new AudioAnalyser(this.audio, {
-        /**
-         * Here we take only a 20hz-6000hz range
-         * as played music will rarely go higher in frequency
-         */
-        range: {
-          min: 20,
-          max: 6000,
-        },
-      }))
+      (this.audio_analyser = new AudioAnalyser(this.audio))
     );
   }
 
   async metadata() {
-    const audio = await fetch(this.audio.src);
+    if (this.audio_metadata) return this.audio_metadata;
 
+    const audio = await fetch(this.src);
     const length = audio.headers.get("Content-Length");
     const type = audio.headers.get("Content-Type");
 
-    return (
-      this.audio_metadata ??
-      (this.audio_metadata = await parseWebStream(audio.body!, {
-        mimeType: type ?? undefined,
-        size: length ? parseInt(length) : undefined,
-      }))
-    );
+    return (this.audio_metadata = await parseWebStream(audio.body!, {
+      mimeType: type ?? undefined,
+      size: length ? parseInt(length) : undefined,
+    }));
   }
 }
