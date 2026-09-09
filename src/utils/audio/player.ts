@@ -7,8 +7,16 @@ export class AudioPlayer {
   private update_audio: () => void;
   private update_volume: () => void;
   private update_time: () => void;
+  /**
+   * We allow the change of the player's audio only trough its `src` setter
+   */
+  public readonly audio: Omit<HTMLAudioElement, "src"> & {
+    readonly src: string;
+  };
 
-  constructor(readonly audio: HTMLAudioElement) {
+  constructor(audio: HTMLAudioElement) {
+    this.audio = audio;
+
     this.update_audio = createSubscriber((update) => {
       const off_onplay = on(audio, "play", update);
       const off_onpause = on(audio, "pause", update);
@@ -34,6 +42,20 @@ export class AudioPlayer {
         off();
       };
     });
+  }
+
+  /**
+   * Change the audio's source/element.
+   * This resets the cached analyser.
+   */
+  set src(audio: string | HTMLAudioElement) {
+    if (typeof audio === "string") {
+      audio = new Audio(audio);
+    }
+
+    //@ts-ignore
+    this.audio = audio;
+    this.audio_analyser = undefined;
   }
 
   get active() {

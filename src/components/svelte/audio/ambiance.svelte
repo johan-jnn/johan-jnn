@@ -14,13 +14,10 @@
     const music = library[music_index];
     let player = get(AMBIANCE_PLAYER);
     if (player) {
-      player.audio.src = music;
+      player.src = music;
     } else {
       player = new AudioPlayer(new Audio(music));
       player.volume = 0.5;
-      player.audio.addEventListener("ended", () => {
-        enable(music_index + 1);
-      });
 
       CLOCK_CPS.subscribe((speed) => {
         if (!player) return;
@@ -31,6 +28,13 @@
     }
 
     player.audio.currentTime = 0;
+    player.audio.addEventListener(
+      "ended",
+      () => {
+        enable(music_index + 1);
+      },
+      { once: true },
+    );
     player.audio.play();
   }
   export function stop() {
