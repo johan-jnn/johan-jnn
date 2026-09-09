@@ -47,7 +47,7 @@
     <div
       class="
         absolute right-0 bottom-0 pl-10 pr-12 py-4 text-primary dark:text-secondary
-        bg-white-900/5 dark:bg-black-100/10 border-l-4 border-primary dark:border-secondary
+        bg-white dark:bg-black border-l-4 border-primary dark:border-secondary
         uppercase font-heading text-sm
 
         empty:hidden

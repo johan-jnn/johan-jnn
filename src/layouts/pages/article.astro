@@ -5,23 +5,86 @@ import Prose from "$src/components/svelte/prose.svelte";
 import { AstroSlot } from "$src/utils/astro/slots";
 import Hero from "$svelte/heros/simple.svelte";
 import { type RenderResult } from "astro:content";
-import Page from "./default.astro";
+import Page, { type Props as PageProps } from "./default.astro";
+import merge from "lodash.merge";
 
-interface Props {
-  title: string;
-  description: string;
+interface Props extends Omit<PageProps, "without_defaults"> {
   cover: string;
+  author?:
+    | string
+    | {
+        first_name: string;
+        last_name: string;
+        username: string;
+        gender: "male" | "female";
+      };
+  category?: string;
+  tags?: string[];
+  published_at?: Date;
+  modified_at?: Date;
+  expires_at?: Date;
+
   content?: RenderResult;
 }
 
-const { title, description, cover, content } = Astro.props;
+const {
+  title,
+  description,
+
+  cover,
+  author,
+  category,
+  expires_at,
+  modified_at,
+  published_at,
+  tags,
+  content,
+
+  seo = {},
+  ...parent
+} = Astro.props;
+
+merge(seo, {
+  titleTemplate: "%s | Johan JANIN's portfolio",
+  openGraph: {
+    basic: {
+      title,
+      image: cover,
+      type: "article",
+    },
+    article: {
+      tags,
+      section: category,
+      expirationTime: expires_at?.toISOString(),
+      modifiedTime: modified_at?.toISOString(),
+      publishedTime: published_at?.toISOString(),
+    },
+  },
+} satisfies typeof seo);
+
+if (author) {
+  seo.openGraph!.article!.authors = [
+    typeof author === "string" ? author : author.username,
+  ];
+
+  if (typeof author === "object") {
+    merge(seo, {
+      extend: {
+        meta: Object.entries(author).map(([key, content]) => ({
+          name: `profile:${key}`,
+          content,
+        })),
+      },
+    } satisfies typeof seo);
+  }
+}
 
 const header = new AstroSlot(Astro.slots, "header");
 const footer = new AstroSlot(Astro.slots, "footer");
 const pageFooter = new AstroSlot(Astro.slots, "page-footer");
 ---
 
-<Page {title} {description}>
+<Page {title} {description} {seo} {...parent}>
   <header id="article-header" class="relative py-8 grid min-h-[70svh]">
     <img
       class="absolute top-0 left-0 size-full object-cover object-center opacity-10"

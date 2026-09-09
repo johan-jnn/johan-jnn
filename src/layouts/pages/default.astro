@@ -5,11 +5,24 @@ import Smoother from "$src/components/svelte/animations/scroll/smoother.svelte";
 import Footer from "$src/components/svelte/footer.svelte";
 import Style from "$src/styles/style.astro";
 import { AstroSlot } from "$src/utils/astro/slots";
+import merge from "lodash.merge";
+import type { Props as HTMLProps } from "../html.astro";
 
-interface Props {
+export interface Props extends HTMLProps {
   title: string;
   description: string;
   lang?: string;
+  /**
+   * The theme color of the page
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/theme-color
+   * @default {dark: "#ffb466", light: "#ff7f11"}
+   */
+  theme?:
+    | string
+    | {
+        dark: string;
+        light: string;
+      };
 
   without_defaults?: {
     header?: boolean;
@@ -18,48 +31,94 @@ interface Props {
   };
 }
 
-const { lang, title, description, without_defaults } = Astro.props;
+const {
+  title,
+  description,
+  without_defaults,
+  theme = { dark: "#ffb466", light: "#ff7f11" },
+  seo = {},
+  ...parent
+} = Astro.props;
+
+seo.title ??= title;
+seo.description ??= description;
+seo.titleTemplate ??= Astro.url.pathname !== "/" ? "%s | Johan JANIN" : undefined;
+seo.openGraph ??= {
+  basic: {
+    title,
+    image: "/api/logo/random?no-redirect",
+    type: 'website'
+  },
+}
+seo.openGraph.basic.url ??= Astro.url.toString();
+seo.openGraph.optional ??= {};
+seo.openGraph.optional.siteName ??= Astro.site?.host ?? "Johan JANIN";
 ---
 
-<Html {lang}>
+<Html {...parent} {seo}>
   <Fragment slot="head">
-    {!without_defaults?.head && (
-      <Style />
-      <title>{title}</title>
-      <meta name="description" content={description} />
-    )}
+    {
+      !without_defaults?.head && (
+        <Fragment>
+          <Style />
+          {
+            typeof theme === "object" ? (
+              <meta
+                name="theme-color"
+                content={theme.dark}
+                media="(prefers-color-scheme: dark)" 
+              />
+              <meta
+                name="theme-color"
+                content={theme.light}
+                media="(prefers-color-scheme: light)" 
+              />
+            ) : <meta name="theme-color" content={theme} />
+          }
+        </Fragment>
+      )
+    }
     <slot name="head" />
   </Fragment>
 
   <Fragment slot="body-top">
     {
-      without_defaults?.header
-      ? <slot name="header"/>
-      : (
-      <Header>
-        <slot name="header-nav" slot={new AstroSlot(Astro.slots, "header-nav").existTernary("nav")} />
-        <slot name="header-extra" slot={new AstroSlot(Astro.slots, "header-extra").existTernary("default")} />
-      </Header>
+      without_defaults?.header ? (
+        <slot name="header" />
+      ) : (
+        <Header>
+          <slot
+            name="header-nav"
+            slot={new AstroSlot(Astro.slots, "header-nav").existTernary("nav")}
+          />
+          <slot
+            name="header-extra"
+            slot={new AstroSlot(Astro.slots, "header-extra").existTernary(
+              "default",
+            )}
+          />
+        </Header>
       )
     }
     <slot name="body-top" />
   </Fragment>
 
   <Smoother
-  dom={{
-    wrapper: {
-      element: 'main',
-      class: 'relative z-1 pointer-events-none'
-    },
-    content: {
-      class: 'sm:pt-15 pb-(--footer-height)'
-    },
-  }} 
-  vars={{
-    // smooth: false,
-    effects: "[data-speed], [data-lag]"
-  }}
-  client:load>
+    dom={{
+      wrapper: {
+        element: "main",
+        class: "relative z-1 pointer-events-none",
+      },
+      content: {
+        class: "sm:pt-15 pb-(--footer-height)",
+      },
+    }}
+    vars={{
+      // smooth: false,
+      effects: "[data-speed], [data-lag]",
+    }}
+    client:load
+  >
     <div
       id="content"
       class="app-background border-b-2 border-black dark:border-white pointer-events-auto min-h-screen"
@@ -72,11 +131,6 @@ const { lang, title, description, without_defaults } = Astro.props;
 
   <Fragment slot="body-bottom">
     <slot name="body-bottom" />
-    {
-      without_defaults?.footer
-      ? <slot name="footer" />
-      : <Footer client:load />
-    }
+    {without_defaults?.footer ? <slot name="footer" /> : <Footer client:load />}
   </Fragment>
-
 </Html>
