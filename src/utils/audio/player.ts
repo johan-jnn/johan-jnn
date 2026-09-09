@@ -1,34 +1,45 @@
+import { parseWebStream, type IAudioMetadata } from "music-metadata";
 import { on } from "svelte/events";
 import { createSubscriber } from "svelte/reactivity";
 import { AudioAnalyser } from "./analyser";
 
 export class AudioPlayer {
   private audio_analyser: AudioAnalyser | undefined = undefined;
-  private update_audio: () => void;
-  private update_volume: () => void;
-  private update_time: () => void;
+  private audio_metadata: IAudioMetadata | undefined = undefined;
+  private depends_on_playstate: () => void = () => void 0;
+  private depends_on_volume: () => void = () => void 0;
+  private depends_on_time: () => void = () => void 0;
 
-  constructor(readonly audio: HTMLAudioElement) {
-    this.update_audio = createSubscriber((update) => {
-      const off_onplay = on(audio, "play", update);
-      const off_onpause = on(audio, "pause", update);
+  /**
+   * We allow the change of the player's audio only trough its `src` setter
+   */
+  public readonly audio: Omit<HTMLAudioElement, "src"> & {
+    readonly src: string;
+  };
+
+  constructor(audio: HTMLAudioElement) {
+    this.audio = audio;
+    this.setupSubscribeDependencies();
+  }
+  private setupSubscribeDependencies() {
+    this.depends_on_playstate = createSubscriber((update) => {
+      const off_onplay = on(this.audio, "play", update);
+      const off_onpause = on(this.audio, "pause", update);
 
       return () => {
-        off_onpause();
         off_onplay();
+        off_onpause();
       };
     });
-
-    this.update_volume = createSubscriber((update) => {
-      const off = on(audio, "volumechange", update);
+    this.depends_on_volume = createSubscriber((update) => {
+      const off = on(this.audio, "volumechange", update);
 
       return () => {
         off();
       };
     });
-
-    this.update_time = createSubscriber((update) => {
-      const off = on(audio, "timeupdate", update);
+    this.depends_on_time = createSubscriber((update) => {
+      const off = on(this.audio, "timeupdate", update);
 
       return () => {
         off();
@@ -36,13 +47,37 @@ export class AudioPlayer {
     });
   }
 
+  /**
+   * Change the audio's source/element.
+   * This resets the cached analyser.
+   */
+  set src(audio: string | HTMLAudioElement) {
+    if (typeof audio === "string") {
+      audio = new Audio(audio);
+    }
+    this.audio.pause();
+    audio.volume = this.audio.volume;
+
+    //@ts-ignore
+    this.audio = audio;
+    this.audio_analyser = undefined;
+    this.audio_metadata = undefined;
+    this.setupSubscribeDependencies();
+  }
+  /**
+   * A wrapper for the `audio.src` property
+   */
+  get src(): string {
+    return this.audio.src;
+  }
+
   get active() {
-    this.update_audio();
+    this.depends_on_playstate();
     return !this.audio.paused;
   }
 
   get volume() {
-    this.update_volume();
+    this.depends_on_volume();
     return this.audio.volume;
   }
   set volume(target: number) {
@@ -50,7 +85,7 @@ export class AudioPlayer {
   }
 
   get time() {
-    this.update_time();
+    this.depends_on_time();
 
     return {
       seconds: this.audio.currentTime,
@@ -62,16 +97,20 @@ export class AudioPlayer {
   get analyser(): AudioAnalyser {
     return (
       this.audio_analyser ??
-      (this.audio_analyser = new AudioAnalyser(this.audio, {
-        /**
-         * Here we take only a 20hz-6000hz range
-         * as played music will rarely go higher in frequency
-         */
-        range: {
-          min: 20,
-          max: 6000,
-        },
-      }))
+      (this.audio_analyser = new AudioAnalyser(this.audio))
     );
+  }
+
+  async metadata() {
+    if (this.audio_metadata) return this.audio_metadata;
+
+    const audio = await fetch(this.audio.src);
+    const length = audio.headers.get("Content-Length");
+    const type = audio.headers.get("Content-Type");
+
+    return (this.audio_metadata = await parseWebStream(audio.body!, {
+      mimeType: type ?? undefined,
+      size: length ? parseInt(length) : undefined,
+    }));
   }
 }

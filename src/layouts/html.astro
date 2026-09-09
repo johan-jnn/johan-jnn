@@ -1,6 +1,7 @@
 ---
 import Ambiance from "$src/components/astro/audio/ambiance.astro";
 import Console from "$src/components/astro/console.astro";
+import Toaster from "$svelte/toaster.svelte";
 import { ClientRouter } from "astro:transitions";
 
 interface Props {
@@ -31,5 +32,6 @@ const {
     <slot name="body-bottom" />
 
     <Ambiance transition:persist="ambiance-controller" />
+    <Toaster client:load />
   </body>
 </html>

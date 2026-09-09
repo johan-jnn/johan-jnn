@@ -33,6 +33,14 @@
       {#if $AMBIANCE_PLAYER}
         {#if $AMBIANCE_PLAYER.active}
           Connected
+          {#await $AMBIANCE_PLAYER.metadata() then { common: { title, artist } }}
+            {#if title}
+              - {title}
+              {#if artist}
+                (by {artist})
+              {/if}
+            {/if}
+          {/await}
         {:else}
           Buffering
         {/if}

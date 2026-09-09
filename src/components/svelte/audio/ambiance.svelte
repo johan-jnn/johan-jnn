@@ -14,31 +14,46 @@
     const music = library[music_index];
     let player = get(AMBIANCE_PLAYER);
     if (player) {
-      player.audio.src = music;
+      player.src = music;
     } else {
       player = new AudioPlayer(new Audio(music));
-      player.volume = 0.5;
-      player.audio.addEventListener("ended", () => {
-        enable(music_index + 1);
-      });
+      player.audio.volume = 0.5;
 
       CLOCK_CPS.subscribe((speed) => {
         if (!player) return;
         player.audio.playbackRate = speed / 100;
       });
-
-      AMBIANCE_PLAYER.set(player);
     }
 
     player.audio.currentTime = 0;
+    player.audio.addEventListener(
+      "ended",
+      () => {
+        enable(music_index + 1);
+      },
+      { once: true },
+    );
     player.audio.play();
+    player.metadata().then(({ common: { title, artist } }) => {
+      if (!title) return;
+      artist ??= "unknown artist";
+
+      toast(`Now playing ${title} by ${artist}`, {
+        icon: "🎷",
+      });
+    });
+
+    /**
+     * Even if the player object may have been reused, we update the store
+     * to update all the components that depends on it.
+     */
+    AMBIANCE_PLAYER.set(player);
   }
   export function stop() {
     const player = get(AMBIANCE_PLAYER);
     if (!player) return;
 
     player.audio.pause();
-    player.audio.remove();
     AMBIANCE_PLAYER.set(undefined);
   }
 </script>
@@ -46,6 +61,7 @@
 <script lang="ts">
   import { CLOCK_CPS, CLOCK_CPS_LIMITS } from "$src/stores/clock";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import toast from "svelte-french-toast";
   import { slide } from "svelte/transition";
 
   const {
@@ -156,6 +172,22 @@
           }}
         >
           Stop
+        </Button>
+        <Button
+          level="neutral"
+          action={{
+            type: "button",
+            onclick: () => {
+              const pattern = new URLPattern($AMBIANCE_PLAYER.src);
+              const index = $AMBIANCE_LIBRAIRY.findIndex((url) => {
+                return pattern.test(url, location.origin);
+              });
+
+              enable(index + 1);
+            },
+          }}
+        >
+          Next
         </Button>
       </div>
     </div>

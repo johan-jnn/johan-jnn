@@ -75,7 +75,7 @@ export class AudioAnalyser {
   get frequencies() {
     return AudioFrequencies.fromNode(this.node).slice(
       ...this.frequenciesBounds,
-    );
+    ) as AudioFrequencies;
   }
 
   private updateAnalysingRange(minFrequency: number, maxFrequency: number) {
