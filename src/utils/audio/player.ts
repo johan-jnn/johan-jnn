@@ -6,9 +6,10 @@ import { AudioAnalyser } from "./analyser";
 export class AudioPlayer {
   private audio_analyser: AudioAnalyser | undefined = undefined;
   private audio_metadata: IAudioMetadata | undefined = undefined;
-  private update_audio: () => void;
-  private update_volume: () => void;
-  private update_time: () => void;
+  private depends_on_playstate: () => void = () => void 0;
+  private depends_on_volume: () => void = () => void 0;
+  private depends_on_time: () => void = () => void 0;
+
   /**
    * We allow the change of the player's audio only trough its `src` setter
    */
@@ -18,29 +19,27 @@ export class AudioPlayer {
 
   constructor(audio: HTMLAudioElement) {
     this.audio = audio;
-
-    this.update_audio = createSubscriber((update) => {
-      const off_onplay = on(audio, "play", update);
-      const off_onpause = on(audio, "pause", update);
-      // const off_onloadstarts = on(audio, "loadstart", update);
+    this.setupSubscribeDependencies();
+  }
+  private setupSubscribeDependencies() {
+    this.depends_on_playstate = createSubscriber((update) => {
+      const off_onplay = on(this.audio, "play", update);
+      const off_onpause = on(this.audio, "pause", update);
 
       return () => {
-        off_onpause();
         off_onplay();
-        // off_onloadstarts();
+        off_onpause();
       };
     });
-
-    this.update_volume = createSubscriber((update) => {
-      const off = on(audio, "volumechange", update);
+    this.depends_on_volume = createSubscriber((update) => {
+      const off = on(this.audio, "volumechange", update);
 
       return () => {
         off();
       };
     });
-
-    this.update_time = createSubscriber((update) => {
-      const off = on(audio, "timeupdate", update);
+    this.depends_on_time = createSubscriber((update) => {
+      const off = on(this.audio, "timeupdate", update);
 
       return () => {
         off();
@@ -57,12 +56,13 @@ export class AudioPlayer {
       audio = new Audio(audio);
     }
     this.audio.pause();
+    audio.volume = this.audio.volume;
 
     //@ts-ignore
     this.audio = audio;
     this.audio_analyser = undefined;
     this.audio_metadata = undefined;
-    this.update_audio();
+    this.setupSubscribeDependencies();
   }
   /**
    * A wrapper for the `audio.src` property
@@ -72,12 +72,12 @@ export class AudioPlayer {
   }
 
   get active() {
-    this.update_audio();
+    this.depends_on_playstate();
     return !this.audio.paused;
   }
 
   get volume() {
-    this.update_volume();
+    this.depends_on_volume();
     return this.audio.volume;
   }
   set volume(target: number) {
@@ -85,7 +85,7 @@ export class AudioPlayer {
   }
 
   get time() {
-    this.update_time();
+    this.depends_on_time();
 
     return {
       seconds: this.audio.currentTime,
@@ -104,7 +104,7 @@ export class AudioPlayer {
   async metadata() {
     if (this.audio_metadata) return this.audio_metadata;
 
-    const audio = await fetch(this.src);
+    const audio = await fetch(this.audio.src);
     const length = audio.headers.get("Content-Length");
     const type = audio.headers.get("Content-Type");
 

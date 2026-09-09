@@ -17,14 +17,12 @@
       player.src = music;
     } else {
       player = new AudioPlayer(new Audio(music));
-      player.volume = 0.5;
+      player.audio.volume = 0.5;
 
       CLOCK_CPS.subscribe((speed) => {
         if (!player) return;
         player.audio.playbackRate = speed / 100;
       });
-
-      AMBIANCE_PLAYER.set(player);
     }
 
     player.audio.currentTime = 0;
@@ -44,6 +42,12 @@
         icon: "🎷",
       });
     });
+
+    /**
+     * Even if the player object may have been reused, we update the store
+     * to update all the components that depends on it.
+     */
+    AMBIANCE_PLAYER.set(player);
   }
   export function stop() {
     const player = get(AMBIANCE_PLAYER);
@@ -168,6 +172,22 @@
           }}
         >
           Stop
+        </Button>
+        <Button
+          level="neutral"
+          action={{
+            type: "button",
+            onclick: () => {
+              const pattern = new URLPattern($AMBIANCE_PLAYER.src);
+              const index = $AMBIANCE_LIBRAIRY.findIndex((url) => {
+                return pattern.test(url, location.origin);
+              });
+
+              enable(index + 1);
+            },
+          }}
+        >
+          Next
         </Button>
       </div>
     </div>
