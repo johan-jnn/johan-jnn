@@ -48,6 +48,14 @@ const rendered = await render(await getEntry("projects", project.id)!);
   {description}
   cover={project.overview.cover}
   content={rendered}
+  author={{
+    first_name: "Johan",
+    last_name: "JANIN",
+    username: "Johan JANIN",
+    gender: "male",
+  }}
+  tags={project.overview.tags}
+  category={category.data.title}
 >
   <ul slot="header-extra">
     <li>

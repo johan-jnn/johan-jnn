@@ -2,28 +2,47 @@
 import Ambiance from "$src/components/astro/audio/ambiance.astro";
 import Console from "$src/components/astro/console.astro";
 import Toaster from "$svelte/toaster.svelte";
+import { type SEOProps, SEO } from "astro-seo";
 import { ClientRouter } from "astro:transitions";
+import merge from "lodash.merge";
 
-interface Props {
+export interface Props {
   lang?: string;
   favicon?: string;
+  seo?: Omit<SEOProps, "charset">;
 }
 const {
   lang = "fr",
   favicon = "/api/logo/random?background=var(--primary)&with-shield=no&with-gap=yes&no-redirect",
+  seo = {},
 } = Astro.props;
+
+merge(seo, {
+  charset: "UTF-8",
+  extend: {
+    link: [
+      {
+        rel: "shortcut icon",
+        href: favicon,
+      },
+    ],
+    meta: [
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1.0",
+      },
+    ],
+  },
+} satisfies SEOProps);
 ---
 
 <!doctype html>
 <html {lang}>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href={favicon} type="image/svg+xml" />
+    <SEO titleDefault="Johan JANIN's portfolio" {...seo} />
     <slot name="head" />
 
     <ClientRouter />
-
     <Console />
   </head>
   <body class="app-background">
