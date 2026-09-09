@@ -205,7 +205,7 @@
       >
         <div class="overflow-hidden border-none p-0!" aria-hidden="true">
           <input
-            class="absolute translate-[calc(1px*infinity)]"
+            class="absolute translate-[calc(-1px*infinity)]"
             name={BOTFIELD_NAME}
             type="text"
           />
