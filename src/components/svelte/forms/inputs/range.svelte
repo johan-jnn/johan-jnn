@@ -6,6 +6,7 @@
 
     name?: string;
     id?: string;
+    title?: string;
   }
 </script>
 
@@ -18,6 +19,7 @@
     steps = 1,
     name,
     id,
+    title,
   }: RangeProps = $props();
 
   const rate = $derived((value - bounds[0]) / (bounds[1] - bounds[0]));
@@ -57,6 +59,7 @@
     type="range"
     {name}
     {id}
+    {title}
     step={steps}
     min={bounds[0]}
     max={bounds[1]}

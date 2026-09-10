@@ -97,6 +97,7 @@
             value={category.id}
             type="resetable-radio"
             bind:group={selected_category}
+            title={category.description}
           >
             {category.title}
           </Toggler>

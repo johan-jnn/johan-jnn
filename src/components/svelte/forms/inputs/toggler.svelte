@@ -10,6 +10,7 @@
 
     value?: Value;
     id?: string;
+    title?: string;
 
     group: Type extends "checkbox" ? Value[] : Value | null;
     active?: boolean;
@@ -32,6 +33,7 @@
     children,
     name,
     id: maybe_id,
+    title,
     type,
     value,
     classes,
@@ -79,11 +81,12 @@
 </script>
 
 {#snippet checkbox()}
-  <input type="checkbox" bind:checked={active} {...input_attributes} />
+  <input {title} type="checkbox" bind:checked={active} {...input_attributes} />
 {/snippet}
 {#snippet radio()}
   <input
     type="radio"
+    {title}
     bind:group
     onclick={type === "resetable-radio"
       ? ({ currentTarget }) => {
