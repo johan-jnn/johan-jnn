@@ -29,7 +29,7 @@
   style="--rate:{rate}"
   class={[
     "[--background:transparent] [--borders:var(--color-white-800)]",
-    "dark:[--borders:var(--color-black-200)]",
+    "dark:[--borders:var(--color-black-200)] h-8 aspect-5/1",
 
     "bg-(--background) relative inline-flex border-10 border-(--background)",
     "outline-2 outline-(--borders)",
@@ -64,6 +64,6 @@
     min={bounds[0]}
     max={bounds[1]}
     bind:value
-    class="opacity-0 z-1 cursor-col-resize"
+    class="opacity-0 z-1 cursor-col-resize size-full"
   />
 </span>

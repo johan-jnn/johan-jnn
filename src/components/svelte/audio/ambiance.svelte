@@ -124,16 +124,17 @@
         duration: anim_duration,
       }}
       bind:this={playerElement}
-      class="
-        absolute bottom-(--shift,0) right-0 backdrop-blur-md
-        bg-white/50 dark:bg-black/50 p-3 transition-bounce z-1 pointer-events-auto
-        flex items-center gap-8 rounded-l-full
+      class={[
+        "[--height:--spacing(20)]",
+        "absolute bottom-(--shift,0) right-0 backdrop-blur-md",
+        "bg-white/50 dark:bg-black/50 p-3 transition-bounce z-1 pointer-events-auto",
+        "flex items-center gap-8 rounded-l-full h-(--height)",
 
-        transition-transform ease-in-out duration-300
-        not-hover:translate-x-90/100
-      "
+        "transition-transform ease-in-out duration-300",
+        "not-hover:translate-x-[calc(100%-var(--height))]",
+      ]}
     >
-      <div class="h-14 aspect-square">
+      <div class="h-full aspect-square">
         <Music animation="sync" levels={20} />
       </div>
 
