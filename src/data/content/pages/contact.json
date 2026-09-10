@@ -3,15 +3,6 @@
   "description": "Je serai heureux de vous répondre dans les plus bref délais !",
   "links": [
     {
-      "id": "5eac0b16-cae8-4143-9eea-b39f422890fa",
-      "icon": "/content/icons/logo.svg",
-      "link": {
-        "label": "Mon site web",
-        "url": "https://johan-janin.com",
-        "target": "_blank"
-      }
-    },
-    {
       "id": "186c56b8-f058-4bc7-ae99-436282b418d8",
       "icon": "/content/icons/linkedin.svg",
       "link": {
@@ -35,6 +26,15 @@
       "link": {
         "label": "Github (alt)",
         "url": "https://github.com/Flymeth",
+        "target": "_blank"
+      }
+    },
+    {
+      "id": "5eac0b16-cae8-4143-9eea-b39f422890fa",
+      "icon": "/content/icons/logo.svg",
+      "link": {
+        "label": "Ancien site web",
+        "url": "https://johan-janin-v1.netlify.app",
         "target": "_blank"
       }
     }
