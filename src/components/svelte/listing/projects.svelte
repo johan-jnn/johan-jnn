@@ -97,6 +97,8 @@
             value={category.id}
             type="resetable-radio"
             bind:group={selected_category}
+            title={category.description}
+            _animateUsingGSAP
           >
             {category.title}
           </Toggler>
@@ -114,6 +116,7 @@
             value={tag}
             type="checkbox"
             bind:group={selected_tags}
+            _animateUsingGSAP
           >
             {tag}
           </Toggler>
