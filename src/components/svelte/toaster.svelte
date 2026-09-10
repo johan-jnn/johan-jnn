@@ -5,4 +5,10 @@
   const props: ComponentProps<LibToaster> = $props();
 </script>
 
-<LibToaster position="top-right" {...props} />
+<LibToaster
+  position="top-right"
+  toastOptions={{
+    className: "gap-1 text-sm max-w-80!",
+  }}
+  {...props}
+/>
