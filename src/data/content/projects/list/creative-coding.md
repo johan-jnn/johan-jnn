@@ -37,7 +37,7 @@ Pour rester fidèle aux technologies du site d'origine, j'ai utilisé **Vue.js**
 
 - Code source : [github.com/johan-jnn/horizontal-scroll](https://github.com/johan-jnn/horizontal-scroll)
 - Démo : [h3ccd9-5173.csb.app](https://h3ccd9-5173.csb.app/)
-- Article détaillé : [johan-janin.com/blog/recode-design-2-akaru-studio](https://johan-janin.com/blog/recode-design-2-akaru-studio)
+- Article détaillé : [johan-janin-v1.netlify.app/blog/recode-design-2-akaru-studio](https://johan-janin-v1.netlify.app/blog/recode-design-2-akaru-studio)
 
 ### Système de cartes déplaçables — inspiré du studio Beaucoup
 
@@ -74,7 +74,7 @@ interface BreakPoint {
 
 - Code source : [github.com/johan-jnn/tiles-grid](https://github.com/johan-jnn/tiles-grid)
 - Démo : [ktgqgn-5173.csb.app](https://ktgqgn-5173.csb.app/)
-- Article détaillé : [johan-janin.com/blog/recode-design-1-beaucoup-studio](https://johan-janin.com/blog/recode-design-1-beaucoup-studio)
+- Article détaillé : [johan-janin-v1.netlify.app/blog/recode-design-1-beaucoup-studio](https://johan-janin-v1.netlify.app/blog/recode-design-1-beaucoup-studio)
 
 ## Animations complexes en clientèle — alternance chez adb-léon
 
