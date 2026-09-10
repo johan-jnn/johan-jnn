@@ -9,11 +9,23 @@ import merge from "lodash.merge";
 export interface Props {
   lang?: string;
   favicon?: string;
+  /**
+   * The theme color of the page
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/theme-color
+   * @default {dark: "#ffb466", light: "#ff7f11"}
+   */
+  theme?:
+    | string
+    | {
+        dark: string;
+        light: string;
+      };
   seo?: Omit<SEOProps, "charset">;
 }
 const {
   lang = "fr",
   favicon = "/api/logo/random?background=var(--primary)&with-shield=no&with-gap=yes&no-redirect",
+  theme = { dark: "#ffb466", light: "#ff7f11" },
   seo = {},
 } = Astro.props;
 
@@ -31,6 +43,18 @@ merge(seo, {
         name: "viewport",
         content: "width=device-width, initial-scale=1.0",
       },
+      ...(typeof theme === "string"
+        ? [
+            {
+              name: "theme-color",
+              content: theme,
+            },
+          ]
+        : Object.entries(theme).map(([scheme, content]) => ({
+            name: "theme-color",
+            content,
+            media: `(prefers-color-scheme:${scheme})`,
+          }))),
     ],
   },
 } satisfies SEOProps);
@@ -40,8 +64,8 @@ merge(seo, {
 <html {lang}>
   <head>
     <SEO titleDefault="Johan JANIN's portfolio" {...seo} />
-    <slot name="head" />
 
+    <slot name="head" />
     <ClientRouter />
     <Console />
   </head>

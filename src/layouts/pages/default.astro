@@ -5,24 +5,12 @@ import Smoother from "$src/components/svelte/animations/scroll/smoother.svelte";
 import Footer from "$src/components/svelte/footer.svelte";
 import Style from "$src/styles/style.astro";
 import { AstroSlot } from "$src/utils/astro/slots";
-import merge from "lodash.merge";
 import type { Props as HTMLProps } from "../html.astro";
 
 export interface Props extends HTMLProps {
   title: string;
   description: string;
   lang?: string;
-  /**
-   * The theme color of the page
-   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/theme-color
-   * @default {dark: "#ffb466", light: "#ff7f11"}
-   */
-  theme?:
-    | string
-    | {
-        dark: string;
-        light: string;
-      };
 
   without_defaults?: {
     header?: boolean;
@@ -35,21 +23,21 @@ const {
   title,
   description,
   without_defaults,
-  theme = { dark: "#ffb466", light: "#ff7f11" },
   seo = {},
   ...parent
 } = Astro.props;
 
 seo.title ??= title;
 seo.description ??= description;
-seo.titleTemplate ??= Astro.url.pathname !== "/" ? "%s | Johan JANIN" : undefined;
+seo.titleTemplate ??=
+  Astro.url.pathname !== "/" ? "%s | Johan JANIN" : undefined;
 seo.openGraph ??= {
   basic: {
     title,
     image: "/api/logo/random?no-redirect",
-    type: 'website'
+    type: "website",
   },
-}
+};
 seo.openGraph.basic.url ??= Astro.url.toString();
 seo.openGraph.optional ??= {};
 seo.openGraph.optional.siteName ??= Astro.site?.host ?? "Johan JANIN";
@@ -57,27 +45,7 @@ seo.openGraph.optional.siteName ??= Astro.site?.host ?? "Johan JANIN";
 
 <Html {...parent} {seo}>
   <Fragment slot="head">
-    {
-      !without_defaults?.head && (
-        <Fragment>
-          <Style />
-          {
-            typeof theme === "object" ? (
-              <meta
-                name="theme-color"
-                content={theme.dark}
-                media="(prefers-color-scheme: dark)" 
-              />
-              <meta
-                name="theme-color"
-                content={theme.light}
-                media="(prefers-color-scheme: light)" 
-              />
-            ) : <meta name="theme-color" content={theme} />
-          }
-        </Fragment>
-      )
-    }
+    {!without_defaults?.head && <Style />}
     <slot name="head" />
   </Fragment>
 
