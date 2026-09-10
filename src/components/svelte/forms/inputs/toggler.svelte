@@ -19,6 +19,12 @@
       label?: SvelteClassAttribute;
       input?: SvelteClassAttribute;
     };
+
+    /**
+     * In very particular cases, we want to toggle animation to be animated by gsap rather that css native transitions.
+     * Note that this will only affect translate-related animations (not colors).
+     */
+    _animateUsingGSAP?: boolean;
   }
 </script>
 
@@ -27,6 +33,7 @@
     merge_classes,
     type SvelteClassAttribute,
   } from "$src/utils/svelte/classes";
+  import { gsap } from "gsap";
   import { onDestroy, type Snippet } from "svelte";
 
   let {
@@ -40,19 +47,21 @@
 
     group = $bindable(),
     active = $bindable(),
+    _animateUsingGSAP = false,
   }:
     | TogglerProps<"checkbox">
     | TogglerProps<"radio">
     | TogglerProps<"resetable-radio"> = $props();
 
   const id = $derived(maybe_id ?? `toggler-${name}`);
-
   const input_attributes = $derived({
     name,
     id,
     value,
     class: merge_classes("hidden", classes?.input),
   });
+
+  let label: HTMLLabelElement;
 
   /**
    * We simulate the bind:group attribute as it works only if all `bind:group` are in the same svelte component
@@ -68,6 +77,19 @@
       }
     } else {
       active = group === value;
+    }
+  });
+
+  $effect(() => {
+    if (_animateUsingGSAP) {
+      const isFirstAnimation =
+        !label.style.getPropertyValue("--neo-shadow-size");
+      const animationDuration = isFirstAnimation ? 0 : 150;
+
+      gsap.to(label, {
+        "--neo-shadow-size": +!active,
+        duration: animationDuration / 1e3,
+      });
     }
   });
 
@@ -102,17 +124,22 @@
 
 <label
   for={id}
+  bind:this={label}
   class={merge_classes(
-    `
-    px-5 py-1 bg-black-400 dark:bg-white-600
-    border-black dark:border-white font-bold
-    border-2 has-checked:bg-primary-400
-    dark:has-checked:bg-secondary-400
-    text-white dark:text-black font-heading uppercase
-    cursor-pointer
-    neo-shadow neo-shadow--push neo-shadow-black dark:neo-shadow-white has-checked:neo-shadow-0
-    transition-[shadow_transform_background] w-full h-fit text-center
-  `,
+    [
+      "px-5 py-1 bg-black-400 dark:bg-white-600",
+      "border-black dark:border-white font-bold",
+      "border-2 has-checked:bg-primary-400",
+      "dark:has-checked:bg-secondary-400",
+      "text-white dark:text-black font-heading uppercase",
+      "cursor-pointer",
+      "neo-shadow neo-shadow--push neo-shadow-black dark:neo-shadow-white",
+      "w-full h-fit text-center",
+    ],
+    {
+      "has-checked:neo-shadow-0 transition-[shadow_transform_background]":
+        !_animateUsingGSAP,
+    },
     classes?.label,
   )}
 >
