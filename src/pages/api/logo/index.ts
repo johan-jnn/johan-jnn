@@ -14,6 +14,14 @@ const viewBoxes = {
   },
 } as const;
 
+const colorVariables: Record<string, string> = {
+  primary: "#ff7f11",
+  secondary: "#00eefc",
+  tercary: "#00adf8",
+  black: "#080808",
+  white: "#fcfcfc",
+};
+
 const variablesPrefix = "$$";
 
 export const GET: APIRoute = async ({ url }) => {
@@ -22,31 +30,53 @@ export const GET: APIRoute = async ({ url }) => {
     ? "shieldless"
     : "shielded";
 
-  const primary =
+  const letter =
+    url.searchParams.get("letter") ??
     url.searchParams.get("primary") ??
     (shieldType === "shielded" ? "--white" : "--primary");
-  const secondary = url.searchParams.get("secondary") ?? "--black";
+  const dot =
+    url.searchParams.get("dot") ??
+    url.searchParams.get("secondary") ??
+    "--black";
+
   const background = url.searchParams.get("background") ?? "transparent";
   const shield =
     shieldType === "shielded"
       ? (url.searchParams.get("shield") ?? "--primary")
       : "transparent";
 
+  const vb = viewBoxes[shieldType][borderType].trim();
+  const [x, y, w, h] = vb.split(" ");
   const variables: { [key: string]: string } = {
     vb: viewBoxes[shieldType][borderType],
-    j: primary,
-    dot: secondary,
+    j: letter,
     bg: background,
+    dot,
     shield,
+    x,
+    y,
+    w,
+    h,
   };
 
   let editedLogo = logo;
   for (const variable in variables) {
-    const value = variables[variable];
-    editedLogo = editedLogo.replace(
-      variablesPrefix + variable,
-      value.startsWith("--") ? `var(${value})` : value,
-    );
+    let value = variables[variable];
+    if (value.startsWith("--")) {
+      const variable = value.slice(2);
+      if (!(variable in colorVariables)) {
+        return new Response(
+          `Invalid variable '${value}'. Possible values are ${Object.keys(colorVariables).map((v) => `--${v}`)}`,
+          {
+            status: 400,
+          },
+        );
+      }
+
+      value = colorVariables[variable];
+    }
+
+    editedLogo = editedLogo.replaceAll(variablesPrefix + variable, value);
   }
 
   return new Response(editedLogo, {

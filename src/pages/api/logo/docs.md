@@ -18,22 +18,19 @@ Retourne le logo au format `image/svg+xml`, prêt à être affiché directement
 
 Tous les paramètres sont optionnels et se passent en query string.
 
-| Paramètre    | Type            | Défaut                                           | Description                                                                |
-| ------------ | --------------- | ------------------------------------------------ | -------------------------------------------------------------------------- |
-| `no-shield`  | flag (présence) | absent                                           | Si présent, retire le bouclier derrière le logo.                           |
-| `no-gap`     | flag (présence) | absent                                           | Si présent, retire la marge/l'espace autour du logo (viewBox plus serrée). |
-| `primary`    | couleur         | `--white` si bouclier affiché, sinon `--primary` | Couleur principale du logo.                                                |
-| `secondary`  | couleur         | `--black`                                        | Couleur secondaire (le point / détail) du logo.                            |
-| `background` | couleur         | `transparent`                                    | Couleur de fond du SVG.                                                    |
-| `shield`     | couleur         | `--primary`                                      | Couleur du bouclier. Ignoré si `no-shield` est présent.                    |
+| Paramètre             | Type            | Défaut                                           | Description                                                                |
+| --------------------- | --------------- | ------------------------------------------------ | -------------------------------------------------------------------------- |
+| `no-shield`           | flag (présence) | absent                                           | Si présent, retire le bouclier derrière le logo.                           |
+| `no-gap`              | flag (présence) | absent                                           | Si présent, retire la marge/l'espace autour du logo (viewBox plus serrée). |
+| `primary` ou `letter` | couleur         | `--white` si bouclier affiché, sinon `--primary` | Couleur de la lettre "J".                                                  |
+| `secondary` ou `dot`  | couleur         | `--black`                                        | Couleur du petit point finissant le "J" (en haut à gauche).                |
+| `background`          | couleur         | `transparent`                                    | Couleur de fond du SVG.                                                    |
+| `shield`              | couleur         | `--primary`                                      | Couleur du bouclier. Ignoré si `no-shield` est présent.                    |
 
 Une couleur peut être :
 
 - une valeur CSS classique (`#ff0000`, `red`, `rgb(0 0 0)`, ...) ;
-- le nom d'une variable CSS préfixé par `--` (ex. `--primary`), auquel cas
-  elle sera injectée dans le SVG sous la forme `var(--primary)`. C'est ce
-  que font les valeurs par défaut, afin que le logo suive automatiquement le
-  thème (clair/sombre) du site sur lequel il est affiché.
+- le nom d'une variable CSS préfixé par `--` (ex. `--primary`).
 
 #### Variables CSS disponibles
 
