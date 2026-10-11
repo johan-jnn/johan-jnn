@@ -88,7 +88,7 @@
 
 ###
 
-<p align="left">Currently, I'm working on the <a href="https://github.com/johan-jnn/flylang/">v2 of my programming language : Flylang</a>.<br>I already created one partialy-full featured version, but using NodeJS. So the perfomances where not that great.<br>Recently I learned Rust and I though it was a really good opportunity to recreate my dream programming language.<br><br>More information about the language <a href="https://johan-janin.com/portfolio?open=flylang">on my portfolio</a> !</p>
+<p align="left">Currently, I'm working on the <a href="https://github.com/johan-jnn/flylang/">v2 of my programming language : Flylang</a>.<br>I already created one partialy-full featured version, but using NodeJS. So the perfomances where not that great.<br>Recently I learned Rust and I though it was a really good opportunity to recreate my dream programming language.<br><br>More information about the language <a href="https://johan-janin.com/portfolio/flylang">on my portfolio</a> !</p>
 
 ###
 
