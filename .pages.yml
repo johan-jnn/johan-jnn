@@ -6,6 +6,10 @@ actions:
     cancelable: false
     confirm: false
 media:
+  - name: projects-assets
+    label: Media des projets
+    input: public/content/projects
+    output: /content/projects
   - name: icons
     label: Icônes
     input: public/content/icons
@@ -19,27 +23,11 @@ media:
     output: /content/audio/background
     categories:
       - audio
-  - name: projects-assets
-    label: Media des projets
-    input: public/content/projects
-    output: /content/projects
   - name: uploads
     label: Uncategorized uploads
     input: public/uploads/
     output: /uploads
 components:
-  contactCta:
-    type: object
-    label: CTA email
-    fields:
-      - name: title
-        type: string
-        required: true
-        label: Titre
-      - name: subtitle
-        type: string
-        required: false
-        label: Sous-titre
   simpleSectionMeta:
     type: object
     name: section_metadata
@@ -56,13 +44,6 @@ components:
         label: Section à mettre en avant
         type: boolean
         default: false
-  uuid:
-    name: id
-    type: uuid
-    hidden: true
-    required: true
-    options:
-      editable: false
   link:
     type: object
     fields:
@@ -86,29 +67,26 @@ components:
               value: _blank
             - name: Plus haut contexte de navigation
               value: _top
+  contactCta:
+    type: object
+    label: CTA email
+    fields:
+      - name: title
+        type: string
+        required: true
+        label: Titre
+      - name: subtitle
+        type: string
+        required: false
+        label: Sous-titre
+  uuid:
+    name: id
+    type: uuid
+    hidden: true
+    required: true
+    options:
+      editable: false
 content:
-  - name: settings
-    label: Paramètres
-    type: group
-    items:
-      - name: nav
-        path: src/data/content/settings/navigation.json
-        label: Navigation
-        type: file
-        format: json
-        fields:
-          - name: header
-            type: object
-            label: Header
-            fields:
-              - name: title
-                label: Titre
-                type: string
-                required: true
-              - name: nav
-                label: Navigations
-                component: link
-                list: true
   - name: projects-wrapper
     type: group
     label: Projets
@@ -255,25 +233,79 @@ content:
           - name: description
             label: Description
             required: false
+  - name: settings
+    label: Paramètres
+    type: group
+    items:
+      - name: nav
+        path: src/data/content/settings/navigation.json
+        label: Navigation
+        type: file
+        format: json
+        fields:
+          - name: header
+            type: object
+            label: Header
+            fields:
+              - name: title
+                label: Titre
+                type: string
+                required: true
+              - name: nav
+                label: Navigations
+                component: link
+                list: true
+  - name: technos
+    label: Technos
+    description: Liste des technos maîtrisées
+    type: collection
+    format: json
+    path: src/data/content/technos
+    filename: '{id}.json'
+    view:
+      primary: name
+      fields:
+        - name
+        - description
+        - website
+      search:
+        - name
+        - website
+      sort:
+        - name
+        - used_since
+    fields:
+      - name: id
+        component: uuid
+      - name: name
+        type: string
+        label: Nom
+        required: true
+      - name: description
+        label: Description
+        required: true
+      - name: icon
+        label: Iconne
+        required: true
+        type: string
+        description: |
+          Nom de l'icônne basé sur https://devicon.dev/.
+          Mettre le nom de l'icônne sans le préfix "devicon-".
+          Ex: "devicon-svelte-plain" -> "svelte-plain"
+      - name: used_since
+        label: Date de début d'utilisation
+        type: date
+      - name: website
+        label: Site internet
+        type: string
+      - name: color
+        label: Couleur primaire
+        type: string
   - name: pages
     label: Pages
     description: Contenu des différentes pages du site
     type: group
     items:
-      - name: mentions
-        label: Mentions légales
-        type: file
-        format: yaml-frontmatter
-        path: src/data/content/pages/mentions.md
-        fields:
-          - name: title
-            label: Titre
-            type: string
-            required: true
-          - name: body
-            label: Mentions légales
-            type: rich-text
-            required: true
       - name: homepage
         label: Page d'accueil
         type: file
@@ -358,6 +390,20 @@ content:
           - name: contact
             label: CTA de contact
             component: contactCta
+      - name: mentions
+        label: Mentions légales
+        type: file
+        format: yaml-frontmatter
+        path: src/data/content/pages/mentions.md
+        fields:
+          - name: title
+            label: Titre
+            type: string
+            required: true
+          - name: body
+            label: Mentions légales
+            type: rich-text
+            required: true
       - name: contact
         label: Contact
         type: file
@@ -391,51 +437,5 @@ content:
           - name: form
             label: CTA de contact
             component: contactCta
-  - name: technos
-    label: Technos
-    description: Liste des technos maîtrisées
-    type: collection
-    format: json
-    path: src/data/content/technos
-    filename: '{id}.json'
-    view:
-      primary: name
-      fields:
-        - name
-        - description
-        - website
-      search:
-        - name
-        - website
-      sort:
-        - name
-        - used_since
-    fields:
-      - name: id
-        component: uuid
-      - name: name
-        type: string
-        label: Nom
-        required: true
-      - name: description
-        label: Description
-        required: true
-      - name: icon
-        label: Iconne
-        required: true
-        type: string
-        description: |
-          Nom de l'icônne basé sur https://devicon.dev/.
-          Mettre le nom de l'icônne sans le préfix "devicon-".
-          Ex: "devicon-svelte-plain" -> "svelte-plain"
-      - name: used_since
-        label: Date de début d'utilisation
-        type: date
-      - name: website
-        label: Site internet
-        type: string
-      - name: color
-        label: Couleur primaire
-        type: string
 settings:
   hide: true
