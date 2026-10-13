@@ -33,7 +33,7 @@ Afin de pouvoir rechercher une musique/playlist/artiste sur les principales plat
 
 
 
-![Commande /search en action](https://johan-janin.com/cdn/projects/lasido/search_command.png)
+![Commande /search en action](https://johan-janin-v1.netlify.app/cdn/projects/lasido/search_command.png)
 
 ### /lyrics
 
@@ -41,7 +41,7 @@ Vous souhaitez chanter votre musique préféré pour montrer votre magnifique vo
 
 
 
-![Commande /lyrics en action](https://johan-janin.com/cdn/projects/lasido/lyrics_command.png)
+![Commande /lyrics en action](https://johan-janin-v1.netlify.app/cdn/projects/lasido/lyrics_command.png)
 
 ### /player
 
@@ -52,7 +52,7 @@ Cette commande est ma préféré. Afin d'avoir un player entierement fonctionnel
 
 
 
-![Commande /player en action](https://johan-janin.com/cdn/projects/lasido/player_command.png)
+![Commande /player en action](https://johan-janin-v1.netlify.app/cdn/projects/lasido/player_command.png)
 
 ## Fonctionnalités Principales
 
